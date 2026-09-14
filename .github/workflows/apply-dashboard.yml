@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/apply-dashboard.yml'
+      - 'patch_dashboard.py'
 
 permissions:
   contents: write
@@ -25,5 +26,5 @@ jobs:
             exit 0
           fi
           git add index.html
-          git commit -m "Apply interactive dashboard redesign"
+          git commit -m "Match dashboard to reference video"
           git push

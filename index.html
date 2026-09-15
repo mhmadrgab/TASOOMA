@@ -374,6 +374,9 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
 @media(max-width:1200px){.kpi-row.pro{grid-template-columns:repeat(3,1fr)}.insight-grid{grid-template-columns:1fr 1fr}.insight-grid>.panel:first-child{grid-column:1/-1}}
 @media(max-width:900px){.executive-hero{grid-template-columns:1fr;padding:17px}.site-thumb{display:none}.kpi-row.pro{grid-template-columns:repeat(2,1fr)}.insight-grid{grid-template-columns:1fr}.insight-grid>.panel:first-child{grid-column:auto}.global-filters .search-box{min-width:130px;flex:1}.filter-reset{margin-inline-start:0}}
 </style><style id="inventory360-style">.inventory-kpis{grid-template-columns:repeat(4,1fr)!important;margin-bottom:14px}.inventory-grid{grid-template-columns:.9fr 1.1fr}.item360-empty{min-height:185px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px;padding:18px}.item360-card{display:grid;gap:8px}.item360-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding-bottom:9px;border-bottom:1px solid var(--border)}.branch-stock-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;max-height:235px;overflow:auto}.branch-stock{padding:8px 9px;border:1px solid var(--border);border-radius:9px;background:#0d152d;display:flex;justify-content:space-between;gap:8px}.stock-out{color:#ff718d}.stock-low{color:#ffc234}.stock-ok{color:#5cead7}.transfer-hero{background:linear-gradient(135deg,rgba(22,217,189,.08),rgba(139,92,246,.1))}.priority-high{color:#ff718d;font-weight:800}.priority-mid{color:#ffc234;font-weight:800}@media(max-width:850px){.inventory-kpis{grid-template-columns:repeat(2,1fr)!important}.inventory-grid{grid-template-columns:1fr}.branch-stock-grid{grid-template-columns:1fr}}</style>
+<style id="management360-style">
+.management-kpis{grid-template-columns:repeat(5,1fr)!important}.management-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.branch360-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0}.branch360-metric{padding:12px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(145deg,#111a35,#0c142b)}.branch360-metric small{display:block;color:var(--muted);font-size:9px;margin-bottom:6px}.branch360-metric b{font-size:18px}.quality-list{display:grid;gap:8px}.quality-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;border:1px solid var(--border);border-radius:10px;background:#0d152d}.quality-badge{padding:4px 8px;border-radius:99px;font-size:9px;font-weight:800}.q-good{background:rgba(22,217,189,.1);color:#5cead7}.q-warn{background:rgba(255,194,52,.1);color:#ffc234}.q-bad{background:rgba(255,62,145,.1);color:#ff718d}.rank-duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rank-list{display:grid;gap:6px}.rank-item{display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;padding:8px;border-bottom:1px solid rgba(255,255,255,.05)}.rank-num{width:23px;height:23px;border-radius:7px;display:grid;place-items:center;background:#182344;font-size:9px}.progress-track{height:6px;background:#182342;border-radius:99px;overflow:hidden;margin-top:5px}.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--purple));border-radius:99px}.target-input{width:110px!important;text-align:center}.management-note{padding:10px 12px;border:1px solid rgba(139,108,249,.22);background:rgba(139,108,249,.07);border-radius:10px;color:#aeb8d7;font-size:10px}@media(max-width:1050px){.management-kpis{grid-template-columns:repeat(3,1fr)!important}.management-grid,.rank-duo{grid-template-columns:1fr}.branch360-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.management-kpis{grid-template-columns:repeat(2,1fr)!important}.branch360-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -409,6 +412,7 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
         <svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
         رفع تقرير
       </button>
+      <button class="nav-item" data-view="management"><svg viewBox="0 0 24 24"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-8"/><path d="M22 19V3"/><path d="M3 21h19"/></svg>مركز الإدارة</button>
       <button class="nav-item" data-view="inventory"><svg viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/></svg>المخزون 360</button>
       <button class="nav-item" data-view="transfers"><svg viewBox="0 0 24 24"><path d="M5 7h12"/><path d="M14 4l3 3-3 3"/><path d="M19 17H7"/><path d="M10 14l-3 3 3 3"/></svg>التحويلات</button>
       <button class="nav-item" data-view="deadstock">
@@ -560,6 +564,23 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
         </div>
       </div>
 
+      <!-- ===== مركز الإدارة ===== -->
+      <div class="view" id="view-management">
+        <div class="kpi-row pro management-kpis">
+          <div class="kpi" style="--accent:#16d9bd"><div class="label">مبيعات الشهر الحالي</div><div class="value mono" id="mgmtMtdSales">—</div><div class="delta" id="mgmtGrowth">مقارنة بالشهر السابق</div></div>
+          <div class="kpi" style="--accent:#8b5cf6"><div class="label">أفضل فرع</div><div class="value" id="mgmtBestBranch">—</div><div class="delta">حسب المبيعات</div></div>
+          <div class="kpi" style="--accent:#ffc234"><div class="label">متوسط الإنجاز</div><div class="value mono" id="mgmtAchievement">—</div><div class="delta">مقابل الأهداف</div></div>
+          <div class="kpi" style="--accent:#ff3e91"><div class="label">حالات نفاد المخزون</div><div class="value mono" id="mgmtStockouts">—</div><div class="delta">تحتاج تدخل</div></div>
+          <div class="kpi" style="--accent:#4ba3ff"><div class="label">جودة البيانات</div><div class="value mono" id="mgmtQuality">—</div><div class="delta">تغطية تقارير الفروع</div></div>
+        </div>
+        <div class="panel"><div class="controls"><select class="select-box" id="branch360Select"></select><input class="target-input" type="number" id="branchTargetInput" min="0" step="1000" placeholder="هدف الشهر"><button class="btn-sm" id="saveBranchTarget">حفظ الهدف</button></div><div id="branch360Content"></div></div>
+        <div class="management-grid">
+          <div class="panel"><h3>Top / Bottom 10 <span>ترتيب الفروع حسب الشهر الحالي</span></h3><div class="rank-duo"><div><div class="data-note">الأعلى أداءً</div><div id="topBranches" class="rank-list"></div></div><div><div class="data-note">الأقل أداءً</div><div id="bottomBranches" class="rank-list"></div></div></div></div>
+          <div class="panel"><h3>مركز جودة البيانات <span>Data Quality</span></h3><div id="dataQualityList" class="quality-list"></div></div>
+        </div>
+        <div class="panel"><h3>لوحة الأهداف والإنجاز <span>Targets</span></h3><div class="management-note">حدد هدفاً شهرياً لكل فرع من Branch 360. الأهداف محفوظة على هذا المتصفح حالياً، بينما المبيعات والمخزون تأتي من Firebase.</div><div class="preview-scroll" style="max-height:430px;margin-top:10px"><table><thead><tr><th>الفرع</th><th>هدف الشهر</th><th>المبيعات الحالية</th><th>الإنجاز</th><th>الحالة</th></tr></thead><tbody id="targetsTable"></tbody></table></div></div>
+      </div>
+
       <!-- ===== المخزون 360 ===== -->
       <div class="view" id="view-inventory">
         <div class="kpi-row pro inventory-kpis">
@@ -697,14 +718,35 @@ async function removeReport(id){
   await deleteDoc(doc(db, 'reports', id));
 }
 
+
+function monthKey(d){return String(d||'').slice(0,7)}
+function currentMonthKey(){return new Date().toISOString().slice(0,7)}
+function previousMonthKey(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return d.toISOString().slice(0,7)}
+function getTargets(){try{return JSON.parse(localStorage.getItem('branchTargets')||'{}')}catch(e){return {}}}
+function monthBranchStats(key){return branches.map(branch=>{const rs=reports.filter(r=>r.branch===branch&&monthKey(r.date)===key),items=rs.flatMap(r=>r.items||[]);return {branch,reports:rs.length,sales:items.reduce((a,x)=>a+Number(x.sales||0),0),qty:items.reduce((a,x)=>a+Number(x.qty||0),0),items:new Set(items.map(x=>x.code||x.name)).size,last:rs.map(r=>r.date).sort().reverse()[0]||''}})}
+function renderManagement(){
+ const cur=currentMonthKey(),prev=previousMonthKey(),cs=monthBranchStats(cur),ps=monthBranchStats(prev),total=cs.reduce((a,x)=>a+x.sales,0),prevTotal=ps.reduce((a,x)=>a+x.sales,0),growth=prevTotal?((total-prevTotal)/prevTotal*100):0,sorted=[...cs].sort((a,b)=>b.sales-a.sales),targets=getTargets();
+ $('mgmtMtdSales').textContent=money(total);$('mgmtGrowth').textContent=(growth>=0?'▲ ':'▼ ')+Math.abs(growth).toFixed(1)+'% مقابل الشهر السابق';$('mgmtBestBranch').textContent=sorted[0]?.sales?sorted[0].branch:'—';$('mgmtStockouts').textContent=fmt(inventoryRows.filter(x=>Number(x.qty||0)<=0).length);
+ const withTargets=cs.filter(x=>Number(targets[x.branch])>0),ach=withTargets.length?withTargets.reduce((a,x)=>a+Math.min(200,x.sales/Number(targets[x.branch])*100),0)/withTargets.length:0;$('mgmtAchievement').textContent=withTargets.length?ach.toFixed(1)+'%':'—';
+ const reported=cs.filter(x=>x.reports>0).length,quality=Math.round(reported/branches.length*100);$('mgmtQuality').textContent=quality+'%';
+ const rank=(arr)=>arr.map((x,i)=>`<div class="rank-item"><span class="rank-num">${i+1}</span><div><b>${x.branch}</b><div class="progress-track"><div class="progress-fill" style="width:${total?Math.max(3,x.sales/(sorted[0]?.sales||1)*100):0}%"></div></div></div><span class="mono">${money(x.sales)}</span></div>`).join('');
+ $('topBranches').innerHTML=rank(sorted.filter(x=>x.sales>0).slice(0,10))||'<div class="data-note">لا توجد مبيعات للشهر الحالي.</div>';$('bottomBranches').innerHTML=rank([...sorted].reverse().slice(0,10));
+ $('dataQualityList').innerHTML=cs.map(x=>{const inv=inventoryRows.some(r=>r.branch===x.branch),cls=x.reports&&inv?'q-good':x.reports||inv?'q-warn':'q-bad',txt=x.reports&&inv?'مكتمل':x.reports?'مبيعات فقط':inv?'مخزون فقط':'لا بيانات';return `<div class="quality-row"><span>${x.branch}<small class="data-note">${x.last?'آخر تقرير '+x.last:'لا يوجد تقرير هذا الشهر'}</small></span><span class="quality-badge ${cls}">${txt}</span></div>`}).join('');
+ $('targetsTable').innerHTML=cs.map(x=>{const t=Number(targets[x.branch]||0),pct=t?x.sales/t*100:0,status=!t?'بدون هدف':pct>=100?'محقق':pct>=75?'قريب':'أقل من الهدف',cl=!t?'q-warn':pct>=100?'q-good':pct>=75?'q-warn':'q-bad';return `<tr><td><b>${x.branch}</b></td><td>${t?money(t):'—'}</td><td>${money(x.sales)}</td><td>${t?pct.toFixed(1)+'%':'—'}${t?`<div class="progress-track"><div class="progress-fill" style="width:${Math.min(100,pct)}%"></div></div>`:''}</td><td><span class="quality-badge ${cl}">${status}</span></td></tr>`}).join('');
+ renderBranch360();
+}
+function renderBranch360(){const b=$('branch360Select')?.value||branches[0],cur=currentMonthKey(),prev=previousMonthKey(),c=monthBranchStats(cur).find(x=>x.branch===b),p=monthBranchStats(prev).find(x=>x.branch===b),inv=inventoryRows.filter(x=>x.branch===b),stock=inv.reduce((a,x)=>a+Number(x.qty||0),0),outs=inv.filter(x=>Number(x.qty||0)<=0).length,dead=allItems().filter(x=>x.branch===b&&Number(x.qty||0)<=2).length,target=Number(getTargets()[b]||0),pct=target?c.sales/target*100:0,g=p?.sales?((c.sales-p.sales)/p.sales*100):0;$('branchTargetInput').value=target||'';$('branch360Content').innerHTML=`<div class="branch360-grid"><div class="branch360-metric"><small>مبيعات الشهر</small><b>${money(c.sales)}</b></div><div class="branch360-metric"><small>النمو الشهري</small><b class="${g>=0?'stock-ok':'stock-out'}">${g>=0?'+':''}${g.toFixed(1)}%</b></div><div class="branch360-metric"><small>إجمالي المخزون</small><b>${fmt(stock)}</b></div><div class="branch360-metric"><small>نفاد المخزون</small><b class="stock-out">${fmt(outs)}</b></div><div class="branch360-metric"><small>الأصناف المباعة</small><b>${fmt(c.items)}</b></div><div class="branch360-metric"><small>تقارير الشهر</small><b>${fmt(c.reports)}</b></div><div class="branch360-metric"><small>الهدف</small><b>${target?money(target):'غير محدد'}</b></div><div class="branch360-metric"><small>نسبة الإنجاز</small><b>${target?pct.toFixed(1)+'%':'—'}</b></div></div><div class="management-note">Branch 360 يجمع المبيعات والمخزون والهدف في شاشة واحدة. عدد سجلات الحركة المنخفضة تاريخياً: ${fmt(dead)}.</div>`}
+function saveCurrentTarget(){const b=$('branch360Select').value,v=Math.max(0,Number($('branchTargetInput').value||0)),t=getTargets();t[b]=v;localStorage.setItem('branchTargets',JSON.stringify(t));renderManagement()}
+
 function show(view){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el=$('view-'+view); if(el) el.classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',inventory:'المخزون 360',transfers:'التحويلات الذكية',deadstock:'الأصناف الراكدة'};
+  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',management:'مركز الإدارة و Branch 360',inventory:'المخزون 360',transfers:'التحويلات الذكية',deadstock:'الأصناف الراكدة'};
   $('pageTitle').textContent=titles[view]||'منصة تقارير الفروع';
   $('pageSub').textContent='آخر تحديث: '+new Date().toLocaleString('ar-SA');
   if(view==='overview') renderOverview();
+  if(view==='management') renderManagement();
   if(view==='branches') renderBranches();
   if(view==='deadstock') renderDead();
   if(view==='inventory') renderInventory();
@@ -904,6 +946,7 @@ async function loadPdf(file){
 async function refreshAll(){
   await Promise.all([loadReports(),loadInventory()]);
   renderOverview();
+  if($('branch360Select')) renderManagement();
 }
 
 $('loginBtn').onclick=async()=>{
@@ -959,6 +1002,7 @@ $('branchListSearch').oninput=renderBranches;
 $('deadSearch').oninput=renderDead;
 $('deadBranchFilter').onchange=renderDead;
 document.querySelectorAll('[data-dead]').forEach(b=>b.onclick=renderDead);
+if($('branch360Select')){$('branch360Select').innerHTML=branches.map(b=>`<option value="${b}">${b}</option>`).join('');$('branch360Select').addEventListener('change',renderBranch360);$('saveBranchTarget').addEventListener('click',saveCurrentTarget);}
 if($('invDefaultBranch')){$('invDefaultBranch').innerHTML=branches.map(b=>`<option value="${b}">${b}</option>`).join('');$('invBranchFilter').innerHTML='<option value="">كل الفروع</option>'+branches.map(b=>`<option value="${b}">${b}</option>`).join('');$('invSnapshotDate').value=new Date().toISOString().slice(0,10);}
 $('invSearch')?.addEventListener('input',renderInventoryTable);$('invBranchFilter')?.addEventListener('change',renderInventoryTable);$('invStatusFilter')?.addEventListener('change',renderInventoryTable);$('item360Search')?.addEventListener('input',renderItem360);$('transferSearch')?.addEventListener('input',renderTransfers);
 $('inventoryDropzone')?.addEventListener('click',()=> $('inventoryFile').click());$('inventoryFile')?.addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;const st=$('inventoryUploadStatus');st.textContent='جاري تحليل ملف المخزون...';try{const data=await file.arrayBuffer(),wb=XLSX.read(data),ws=wb.Sheets[wb.SheetNames[0]],rows=XLSX.utils.sheet_to_json(ws,{defval:''});if(!rows.length)throw new Error('الملف فارغ');const keys=Object.keys(rows[0]),find=(ps)=>keys.find(k=>ps.some(p=>k.toLowerCase().includes(p))),kBranch=find(['فرع','branch']),kCode=find(['كود','code','sku','رقم الصنف']),kName=find(['اسم','صنف','item','product','name']),kQty=find(['رصيد','متاح','كمية','stock','on hand','qty','quantity']);if(!kQty||(!kCode&&!kName))throw new Error('لم أتعرف على عمود الرصيد أو الصنف');const def=$('invDefaultBranch').value,date=$('invSnapshotDate').value||new Date().toISOString().slice(0,10),items=rows.map(r=>({branch:String(kBranch?r[kBranch]:def).trim()||def,code:kCode?String(r[kCode]).trim():'',name:kName?String(r[kName]).trim():'',qty:Number(String(r[kQty]).replace(/,/g,''))||0})).filter(x=>x.code||x.name);await saveInventorySnapshot({branch:def,date,sourceFile:file.name,items});st.textContent=`✅ تم حفظ ${items.length} رصيد بنجاح`;await loadInventory();renderInventory();}catch(err){st.textContent='❌ '+err.message;}e.target.value='';});

@@ -757,6 +757,75 @@ function loadWorkbook(file){
   reader.readAsArrayBuffer(file);
 }
 
+let pdfjsReady=null;
+function ensurePdfJs(){
+  if(pdfjsReady) return pdfjsReady;
+  pdfjsReady=new Promise((resolve,reject)=>{
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload=()=>{
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve();
+    };
+    s.onerror=()=>reject(new Error('تعذر تحميل مكتبة قراءة PDF'));
+    document.head.appendChild(s);
+  });
+  return pdfjsReady;
+}
+
+async function loadPdf(file){
+  const status=$('uploadStatus'); status.textContent='جاري تحميل مكتبة قراءة PDF...';
+  try{
+    await ensurePdfJs();
+    status.textContent='جاري قراءة الملف...';
+    const buf=await file.arrayBuffer();
+    const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+    let lines=[];
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      const content=await page.getTextContent();
+      let currentLine=[], lastY=null;
+      content.items.forEach(item=>{
+        if(lastY!==null && Math.abs(item.transform[5]-lastY)>2){ lines.push(currentLine.join(' ').trim()); currentLine=[]; }
+        currentLine.push(item.str); lastY=item.transform[5];
+      });
+      if(currentLine.length) lines.push(currentLine.join(' ').trim());
+    }
+    lines=lines.filter(l=>l.trim()!=='');
+
+    // نمط أودو الشائع: [كود] اسم الصنف .... كمية
+    const bracketPattern=/^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
+    const bracketRows=[];
+    lines.forEach(line=>{ const m=line.match(bracketPattern); if(m) bracketRows.push([m[1],m[2].trim(),m[3].replace(/,/g,'')]); });
+
+    let headers, dataRows;
+    if(bracketRows.length>=Math.max(3,lines.length*0.3)){
+      headers=['الكود','اسم الصنف','الكمية'];
+      dataRows=bracketRows;
+    } else {
+      dataRows=lines.map(l=>l.split(/\s{2,}/).map(c=>c.trim()).filter(c=>c!=='')).filter(r=>r.length>1);
+      const maxCols=Math.max(...dataRows.map(r=>r.length),1);
+      headers=Array.from({length:maxCols},(_,i)=>'عمود '+(i+1));
+    }
+    if(!dataRows.length) throw new Error('لم يتم العثور على بيانات في الملف');
+
+    uploadRows=[headers,...dataRows];
+    const find=(patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
+    map.name=Math.max(0,find(['اسم','صنف','product','item','name']));
+    map.code=Math.max(0,find(['كود','code','sku']));
+    map.qty=Math.max(0,find(['كمية','qty','quantity']));
+    map.sales=find(['مبيعات','sales','value','قيمة']);
+    const opts=headers.map((h,i)=>`<option value="${i}">${h||'عمود '+(i+1)}</option>`).join('');
+    ['mapName','mapCode','mapQty','mapSales'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts);
+    $('mapName').value=map.name; $('mapCode').value=map.code; $('mapQty').value=map.qty; $('mapSales').value=map.sales;
+    $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+dataRows.slice(0,8).map(r=>'<tr>'+headers.map((_,i)=>`<td>${r[i]??''}</td>`).join('')+'</tr>').join('')+'</tbody>';
+    status.textContent=(bracketRows.length>=Math.max(3,lines.length*0.3))
+      ? `✅ تم التعرف تلقائياً على نمط تقرير أودو — ${dataRows.length} صف`
+      : `تمت قراءة ${dataRows.length} صف من الملف`;
+    setStep(2);
+  }catch(err){ status.textContent='تعذر قراءة ملف PDF: '+err.message; }
+}
+
 async function refreshAll(){
   await loadReports();
   renderOverview();
@@ -810,7 +879,13 @@ $('deadSearch').oninput=renderDead;
 $('deadBranchFilter').onchange=renderDead;
 document.querySelectorAll('[data-dead]').forEach(b=>b.onclick=renderDead);
 $('dropzone').onclick=()=>$('fileInput').click();
-$('fileInput').onchange=e=>e.target.files[0]&&loadWorkbook(e.target.files[0]);
+$('fileInput').onchange=e=>{
+  const file=e.target.files[0];
+  if(!file) return;
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(ext==='pdf') loadPdf(file);
+  else loadWorkbook(file);
+};
 $('backToStep1').onclick=()=>setStep(1);
 $('backToStep2').onclick=()=>setStep(2);
 

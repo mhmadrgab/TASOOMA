@@ -265,6 +265,7 @@ button,input,select{font-family:'Tajawal',sans-serif;}
 #view-app{display:none;}
 #view-app>.app{direction:ltr;}
 .main{min-width:0;direction:rtl;}
+canvas{direction:ltr;}
 .sidebar{direction:rtl;}
 .sidebar .brand .dot{display:block;margin:auto;}
 .nav-item.logout{margin-top:auto;color:#e96f91;}
@@ -348,25 +349,6 @@ button,input,select{font-family:'Tajawal',sans-serif;}
   .login-card{padding:20px;}
 }
 
-
-/* Clean data-display fixes: Latin digits, mixed RTL/LTR product names, meaningful movement levels */
-.product-name-cell{direction:rtl;text-align:right;unicode-bidi:plaintext}
-.product-name-cell [dir="auto"], .product-name-cell b[dir="auto"]{unicode-bidi:isolate;direction:auto}
-.mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
-.status-pill.high{color:#5cead7;border-color:rgba(22,217,189,.28);background:rgba(22,217,189,.10)}
-.status-pill.high:before{background:#20dfc4;box-shadow:0 0 8px #20dfc4}
-.status-pill.medium{color:#ffd166;border-color:rgba(255,194,52,.28);background:rgba(255,194,52,.10)}
-.status-pill.medium:before{background:#ffc234;box-shadow:0 0 8px #ffc234}
-.status-pill.low{color:#ff7ba8;border-color:rgba(255,62,145,.28);background:rgba(255,62,145,.10)}
-.status-pill.low:before{background:#ff3e91;box-shadow:0 0 8px #ff3e91}
-.metric-bar-fill.high{background:linear-gradient(90deg,var(--teal),#5fe1ff)}
-.metric-bar-fill.medium{background:linear-gradient(90deg,var(--amber),#ff9f43)}
-.metric-bar-fill.low{background:linear-gradient(90deg,var(--pink),#ff6b75)}
-#view-overview .video-bar-wrap{height:220px}
-#view-overview .dashboard-visual-grid h3{font-size:12px}
-
-/* ===== مستودع: لوحة مستقلة ===== */
-.warehouse-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.warehouse-grid .kpi{min-height:86px}.warehouse-two{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.warehouse-upload{margin-top:14px}.warehouse-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.warehouse-file{display:none}.warehouse-note{font-size:11.5px;color:var(--muted);margin-top:8px}.warehouse-table-name{direction:auto;unicode-bidi:plaintext;text-align:right}.warehouse-status{font-size:12px;color:var(--teal);margin-top:9px}.warehouse-chart{height:300px;position:relative}@media(max-width:900px){.warehouse-grid{grid-template-columns:repeat(2,1fr)}.warehouse-two{grid-template-columns:1fr}}
 </style>
 <style>
 #view-overview{--dash-glow:rgba(139,108,249,.16)}
@@ -378,7 +360,7 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
 .app{max-width:1240px;grid-template-columns:86px 1fr;gap:16px}.sidebar{border-radius:18px;background:linear-gradient(180deg,#111a35,#0e1730);box-shadow:0 18px 50px rgba(0,0,0,.22);padding:14px 7px}.nav-item{border-radius:12px;min-height:57px}.nav-item.active{background:linear-gradient(145deg,rgba(139,92,246,.28),rgba(255,62,145,.14));box-shadow:inset 0 0 0 1px rgba(139,92,246,.14)}
 .top-bar{padding:10px 14px;border-radius:13px;background:linear-gradient(180deg,rgba(18,28,58,.96),rgba(15,23,48,.96));box-shadow:0 12px 34px rgba(0,0,0,.16)}.top-bar h1{font-size:14px}.top-bar .sub{font-size:9.5px}.select-box{height:32px;padding:0 10px;font-size:10px;border-radius:8px}
 #view-overview .kpi-row{grid-template-columns:repeat(4,1fr);gap:10px;margin-top:0}#view-overview .kpi{min-height:64px;padding:11px 13px;border-radius:11px;background:linear-gradient(160deg,#151f40,#101831);box-shadow:0 12px 28px rgba(0,0,0,.17);border-color:#29365a}#view-overview .kpi::before{width:3px}#view-overview .kpi .label{font-size:9.5px;color:#8894b7;margin-bottom:6px}#view-overview .kpi .value{font-size:19px;line-height:1.15;font-weight:800}
-#view-overview .dashboard-visual-grid{grid-template-columns:1fr 1.18fr 1fr;gap:10px;margin-top:10px}#view-overview .dashboard-visual-grid .panel,#view-overview .dashboard-table-panel{border-radius:12px;padding:12px 13px;background:linear-gradient(165deg,#131d3b,#0f1730);border-color:#283456;box-shadow:0 12px 30px rgba(0,0,0,.16)}#view-overview .dashboard-visual-grid h3,#view-overview .dashboard-table-panel h3{font-size:11px;margin-bottom:4px;color:#f0f3ff}#view-overview .dashboard-visual-grid h3 span,#view-overview .dashboard-table-panel h3 span{font-size:8px}#view-overview .donut-wrap,#view-overview .video-bar-wrap{height:190px}#view-overview .donut-wrap canvas{max-height:180px}#view-overview .chart-center b{font-size:16px}#view-overview .chart-center small{font-size:8px}#view-overview .dashboard-table-panel{margin-top:10px}#view-overview .controls{margin:7px 0 8px}.search-box{height:30px;font-size:10px}.mini-share{font-size:8px;padding:3px 7px}#view-overview table{font-size:10px}#view-overview th{font-size:9px;padding:8px 7px}#view-overview td{padding:8px 7px}.metric-bar{display:flex;align-items:center;gap:7px}.metric-bar-track{width:74px;height:5px;border-radius:99px;background:#182342;overflow:hidden}.metric-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--purple));box-shadow:0 0 10px rgba(22,217,189,.35)}.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:99px;border:1px solid rgba(22,217,189,.2);background:rgba(22,217,189,.08);color:#5cead7;font-size:8px}.status-pill:before{content:'';width:5px;height:5px;border-radius:50%;background:#20dfc4;box-shadow:0 0 8px #20dfc4}
+#view-overview .dashboard-visual-grid{grid-template-columns:1fr 1.18fr 1fr;gap:10px;margin-top:10px}#view-overview .dashboard-visual-grid .panel,#view-overview .dashboard-table-panel{border-radius:12px;padding:12px 13px;background:linear-gradient(165deg,#131d3b,#0f1730);border-color:#283456;box-shadow:0 12px 30px rgba(0,0,0,.16)}#view-overview .dashboard-visual-grid h3,#view-overview .dashboard-table-panel h3{font-size:11px;margin-bottom:4px;color:#f0f3ff}#view-overview .dashboard-visual-grid h3 span,#view-overview .dashboard-table-panel h3 span{font-size:8px}#view-overview .donut-wrap,#view-overview .video-bar-wrap{height:190px}#view-overview .donut-wrap canvas{max-height:180px}#view-overview .chart-center b{font-size:16px}#view-overview .chart-center small{font-size:8px}#view-overview .dashboard-table-panel{margin-top:10px}#view-overview .controls{margin:7px 0 8px}.search-box{height:30px;font-size:10px}.mini-share{font-size:8px;padding:3px 7px}#view-overview table{font-size:10px}#view-overview th{font-size:9px;padding:8px 7px}#view-overview td{padding:8px 7px}.metric-bar{display:flex;align-items:center;gap:7px}.metric-bar-track{width:74px;height:5px;border-radius:99px;background:#182342;overflow:hidden}.metric-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--purple));box-shadow:0 0 10px rgba(22,217,189,.35)}.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border-radius:99px;border:1px solid rgba(22,217,189,.2);background:rgba(22,217,189,.08);color:#5cead7;font-size:8px}.status-pill:before{content:'';width:5px;height:5px;border-radius:50%;background:#20dfc4;box-shadow:0 0 8px #20dfc4}.status-pill.perf-mid{border-color:rgba(255,194,52,.25);background:rgba(255,194,52,.08);color:#ffd76b}.status-pill.perf-mid:before{background:#ffc234;box-shadow:0 0 8px #ffc234}.status-pill.perf-low{border-color:rgba(148,163,196,.25);background:rgba(148,163,196,.08);color:#94a3c4}.status-pill.perf-low:before{background:#94a3c4;box-shadow:none}
 @media(max-width:900px){.app{grid-template-columns:1fr;gap:10px;padding-bottom:10px}.sidebar{position:sticky;top:0;z-index:30;flex-direction:row;border-radius:0 0 16px 16px;padding:7px 8px;justify-content:space-around;background:rgba(12,19,41,.94);backdrop-filter:blur(14px)}.sidebar .brand{display:none}.nav-item{min-width:62px;min-height:48px;padding:7px 5px;font-size:8px}.main{gap:10px}.top-bar{margin:0 6px;padding:10px 12px}#view-overview{padding:0 6px}#view-overview .kpi-row{grid-template-columns:repeat(2,1fr);gap:8px}#view-overview .kpi{min-height:72px;padding:12px}#view-overview .dashboard-visual-grid{grid-template-columns:1fr;gap:8px}#view-overview .dashboard-visual-grid .panel:nth-child(2){grid-column:auto;order:-1}#view-overview .dashboard-visual-grid .panel{min-height:245px}#view-overview .donut-wrap,#view-overview .video-bar-wrap{height:210px}#view-overview table{min-width:620px}}
 @media print{
   body{background:#fff!important;color:#111!important;}
@@ -421,10 +403,6 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
       <button class="nav-item" data-view="branches">
         <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
         الفروع
-      </button>
-      <button class="nav-item" data-view="warehouse" id="navWarehouse">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v11H3z"/><path d="M7 13h10M7 17h10"/></svg>
-        المستودع
       </button>
       <button class="nav-item" data-view="upload" id="navUpload">
         <svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
@@ -506,48 +484,6 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
               <tbody id="branchReportsTable"></tbody>
             </table>
           </div>
-        </div>
-      </div>
-
-      <!-- ===== المستودع ===== -->
-      <div class="view" id="view-warehouse">
-        <div class="warehouse-grid">
-          <div class="kpi" style="--accent:#8b5cf6"><div class="label">عدد الأصناف</div><div class="value mono" id="whKpiItems">—</div></div>
-          <div class="kpi" style="--accent:#16d9bd"><div class="label">إجمالي الكمية</div><div class="value mono" id="whKpiQty">—</div></div>
-          <div class="kpi" style="--accent:#ffc234"><div class="label">أصناف منخفضة</div><div class="value mono" id="whKpiLow">—</div></div>
-          <div class="kpi" style="--accent:#ff3e91"><div class="label">أصناف نافدة</div><div class="value mono" id="whKpiOut">—</div></div>
-        </div>
-        <div class="warehouse-two">
-          <div class="panel"><h3>أعلى الأصناف بالمخزون <span id="whLatestDate"></span></h3><div class="warehouse-chart"><canvas id="chartWarehouseTop"></canvas></div></div>
-          <div class="panel"><h3>حالة المخزون</h3><div class="warehouse-chart"><canvas id="chartWarehouseStatus"></canvas></div></div>
-        </div>
-        <div class="panel warehouse-upload" id="warehouseUploadPanel">
-          <h3>رفع تقرير المستودع <span>يُحفظ منفصلاً عن تقارير الفروع</span></h3>
-          <div class="field-row">
-            <div class="field"><label>تاريخ التقرير</label><input type="date" id="warehouseDate"></div>
-            <div class="field"><label>حد المخزون المنخفض</label><input type="number" id="warehouseLowLimit" value="5" min="0"></div>
-          </div>
-          <div class="dropzone" id="warehouseDropzone">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
-            <div>اضغط لاختيار تقرير المستودع Excel</div><div style="font-size:10.5px;margin-top:6px;">.xlsx / .xls</div>
-            <input class="warehouse-file" type="file" id="warehouseFile" accept=".xlsx,.xls">
-          </div>
-          <div class="warehouse-status" id="warehouseUploadStatus"></div>
-          <div id="warehouseMapping" style="display:none;margin-top:12px">
-            <p style="font-size:12px;color:var(--muted)">حدد أعمدة التقرير:</p>
-            <div class="field-row">
-              <div class="field"><label>اسم الصنف</label><select class="select-box" id="whMapName" style="width:100%"></select></div>
-              <div class="field"><label>الكود</label><select class="select-box" id="whMapCode" style="width:100%"></select></div>
-              <div class="field"><label>الكمية الحالية</label><select class="select-box" id="whMapQty" style="width:100%"></select></div>
-            </div>
-            <div class="preview-scroll" style="max-height:230px"><table id="warehousePreview"></table></div>
-            <div class="warehouse-actions"><button class="btn-primary" style="width:auto;padding:10px 22px" id="saveWarehouseReport">حفظ تقرير المستودع ✓</button></div>
-          </div>
-        </div>
-        <div class="panel" style="margin-top:14px">
-          <h3>تفاصيل مخزون المستودع <span id="whTableCount"></span></h3>
-          <div class="controls"><input type="text" class="search-box" id="warehouseSearch" placeholder="ابحث بالكود أو اسم الصنف..."></div>
-          <div class="preview-scroll" style="max-height:440px"><table><thead><tr><th>الكود</th><th>اسم الصنف</th><th>الكمية</th><th>الحالة</th></tr></thead><tbody id="warehouseTable"></tbody></table></div>
         </div>
       </div>
 
@@ -707,8 +643,6 @@ if (firebaseReady) {
 
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits:2});
-const fmtPct = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits:1});
-const bidiName = s => `\u2068${String(s ?? '')}\u2069`; // isolate mixed Arabic/English product names
 const money = n => fmt(n) + ' ر.س';
 
 const branches = [
@@ -717,7 +651,6 @@ const branches = [
   'القطيف','الأحساء','سكاكا','عرعر','الباحة','رابغ','القنفذة','الرس','وادي الدواسر','بيشة'
 ];
 let reports = [];
-let warehouseReports = [], warehouseRows = [], warehouseChartTop, warehouseChartStatus;
 let selectedBranch = branches[0], chartTop, chartProducts, chartTrend, chartSalesShare, chartReportsShare;
 let uploadRows = [], map = {name:0,code:-1,qty:1,sales:-1};
 
@@ -742,7 +675,6 @@ function computeIsAdmin(email){
 
 function applyPermissionsUI(){
   $('navUpload').style.display = isAdmin ? '' : 'none';
-  const whPanel=$('warehouseUploadPanel'); if(whPanel) whPanel.style.display=isAdmin?'':'none';
   $('navPermissions').style.display = isAdmin ? '' : 'none';
 }
 
@@ -832,58 +764,17 @@ async function removeReport(id){
   await deleteDoc(doc(db, 'reports', id));
 }
 
-async function loadWarehouseReports(){
-  warehouseReports=[];
-  if(!firebaseReady) return;
-  try{
-    const q=query(collection(db,'warehouseReports'),orderBy('date','desc'));
-    const snap=await getDocs(q);
-    warehouseReports=snap.docs.map(d=>({id:d.id,...d.data()}));
-  }catch(e){ console.error('تعذر تحميل تقارير المستودع',e); }
-}
-async function saveWarehouseSnapshot(report){
-  if(!firebaseReady) throw new Error('Firebase غير مُعد بعد.');
-  return await addDoc(collection(db,'warehouseReports'),{...report,createdAt:serverTimestamp(),createdBy:auth.currentUser?.email||''});
-}
-function latestWarehouse(){ return warehouseReports.slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')))[0]||null; }
-function warehouseStatus(qty,limit){ if(qty<=0)return 'نافد'; if(qty<=limit)return 'منخفض'; return 'متوفر'; }
-function renderWarehouse(){
-  const rep=latestWarehouse(), limit=Number(rep?.lowLimit??$('warehouseLowLimit')?.value??5), items=rep?.items||[];
-  const total=items.reduce((a,x)=>a+Number(x.qty||0),0), low=items.filter(x=>Number(x.qty||0)>0&&Number(x.qty||0)<=limit).length, out=items.filter(x=>Number(x.qty||0)<=0).length;
-  $('whKpiItems').textContent=fmt(items.length); $('whKpiQty').textContent=fmt(total); $('whKpiLow').textContent=fmt(low); $('whKpiOut').textContent=fmt(out);
-  $('whLatestDate').textContent=rep?.date?`آخر تقرير: ${rep.date}`:'لا يوجد تقرير مرفوع';
-  const q=($('warehouseSearch')?.value||'').toLowerCase(); const filtered=items.filter(x=>(String(x.name||'')+' '+String(x.code||'')).toLowerCase().includes(q));
-  $('whTableCount').textContent=`(${filtered.length})`;
-  $('warehouseTable').innerHTML=filtered.slice().sort((a,b)=>Number(a.qty||0)-Number(b.qty||0)).map(x=>{const st=warehouseStatus(Number(x.qty||0),limit);return `<tr><td>${x.code||'—'}</td><td class="warehouse-table-name"><span dir="auto">${x.name||'—'}</span></td><td>${fmt(x.qty)}</td><td>${st}</td></tr>`}).join('')||'<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:22px">لا يوجد تقرير مستودع بعد</td></tr>';
-  if(!window.Chart)return; if(warehouseChartTop)warehouseChartTop.destroy(); if(warehouseChartStatus)warehouseChartStatus.destroy();
-  const top=items.slice().sort((a,b)=>Number(b.qty||0)-Number(a.qty||0)).slice(0,8);
-  warehouseChartTop=new Chart($('chartWarehouseTop'),{type:'bar',data:{labels:top.map(x=>bidiName(String(x.name||'').slice(0,26))),datasets:[{data:top.map(x=>Number(x.qty||0)),backgroundColor:'#8b5cf6',borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8995b8'},grid:{color:'rgba(117,137,184,.1)'}},y:{ticks:{color:'#dbe1f5'},grid:{display:false}}}}});
-  const available=Math.max(0,items.length-low-out);
-  warehouseChartStatus=new Chart($('chartWarehouseStatus'),{type:'doughnut',data:{labels:['متوفر','منخفض','نافد'],datasets:[{data:[available,low,out],backgroundColor:['#16d9bd','#ffc234','#ff3e91'],borderColor:'#111a35',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:'#dbe1f5'}}}}});
-}
-function loadWarehouseWorkbook(file){
-  const status=$('warehouseUploadStatus'); status.textContent='جاري قراءة تقرير المستودع...';
-  const reader=new FileReader(); reader.onload=e=>{try{
-    const wb=XLSX.read(e.target.result,{type:'array'}),ws=wb.Sheets[wb.SheetNames[0]]; warehouseRows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
-    if(warehouseRows.length<2)throw new Error('الملف لا يحتوي بيانات كافية'); const headers=warehouseRows[0].map(String); const find=ps=>headers.findIndex(h=>ps.some(p=>h.toLowerCase().includes(p)));
-    const ni=Math.max(0,find(['اسم','صنف','product','item','name'])),ci=find(['كود','code','sku','barcode','باركود']),qi=Math.max(0,find(['كمية','qty','quantity','on hand','المخزون','رصيد']));
-    const opts=headers.map((h,i)=>`<option value="${i}">${h||'عمود '+(i+1)}</option>`).join(''); ['whMapName','whMapCode','whMapQty'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts); $('whMapName').value=ni;$('whMapCode').value=ci;$('whMapQty').value=qi;
-    $('warehousePreview').innerHTML='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+warehouseRows.slice(1,9).map(r=>'<tr>'+headers.map((_,i)=>`<td>${r[i]??''}</td>`).join('')+'</tr>').join('')+'</tbody>'; $('warehouseMapping').style.display='block'; status.textContent=`✓ تمت قراءة ${warehouseRows.length-1} صف`;
-  }catch(err){status.textContent='تعذر قراءة الملف: '+err.message}}; reader.readAsArrayBuffer(file);
-}
-
 function show(view){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el=$('view-'+view); if(el) el.classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',deadstock:'الأصناف الراكدة',permissions:'إدارة الصلاحيات',warehouse:'لوحة المستودع'};
+  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',deadstock:'الأصناف الراكدة',permissions:'إدارة الصلاحيات'};
   $('pageTitle').textContent=titles[view]||'منصة تقارير الفروع';
-  $('pageSub').textContent='آخر تحديث: '+new Date().toLocaleString('ar-SA-u-nu-latn');
+  $('pageSub').textContent='آخر تحديث: '+new Date().toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   if(view==='overview') renderOverview();
   if(view==='branches') renderBranches();
   if(view==='deadstock') renderDead();
   if(view==='permissions') renderPermissions();
-  if(view==='warehouse') renderWarehouse();
 }
 
 function allItems(){
@@ -909,16 +800,18 @@ function renderOverview(){
   items.forEach(x=>{const name=(x.name||'بدون اسم').trim(),branch=x.branch||'غير محدد',qty=Number(x.qty||0);productMap[name]=(productMap[name]||0)+qty;branchMap[branch]=(branchMap[branch]||0)+qty;});
   const products=Object.entries(productMap).map(([name,qty])=>({name,qty})).sort((a,b)=>b.qty-a.qty), branchQty=Object.entries(branchMap).map(([branch,qty])=>({branch,qty})).sort((a,b)=>b.qty-a.qty), totalQty=products.reduce((a,x)=>a+x.qty,0);
   $('kpiTotalSales').textContent=fmt(products.length);$('kpiBestBranch').textContent=fmt(totalQty);$('kpiTopProduct').textContent=fmt(branchQty.filter(x=>x.qty>0).length);$('kpiDeadCount').textContent=fmt(reports.length);$('salesShareCenter').textContent=fmt(products.length);$('reportsShareCenter').textContent=fmt(totalQty);
-  const rows=[];reportsInRange().forEach(r=>(r.items||[]).forEach(x=>rows.push({name:x.name||'بدون اسم',branch:r.branch||'غير محدد',qty:Number(x.qty||0)})));rows.sort((a,b)=>b.qty-a.qty);$('branchTableCount').textContent=`(${rows.length})`;
-  const maxRowQty=Math.max(0,...rows.map(x=>x.qty));
-  const movementLevel=qty=>{const r=maxRowQty?qty/maxRowQty:0;return r>=.60?{label:'عالية',cls:'high'}:r>=.25?{label:'متوسطة',cls:'medium'}:{label:'ضعيفة',cls:'low'};};
-  const renderRows=(q='')=>{const f=rows.filter(x=>!q||x.name.includes(q)||x.branch.includes(q)).slice(0,80);$('branchTable').innerHTML=f.map(x=>{const pct=totalQty?x.qty/totalQty*100:0,mv=movementLevel(x.qty);return `<tr><td class="product-name-cell"><b dir="auto">${x.name}</b></td><td>${x.branch}</td><td class="mono">${fmt(x.qty)}</td><td class="mono">${fmtPct(pct)}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill ${mv.cls}" style="width:${Math.min(100,Math.max(5,maxRowQty?x.qty/maxRowQty*100:0))}%"></div></div><span class="status-pill ${mv.cls}">${mv.label}</span></div></td></tr>`}).join('')};renderRows();$('branchSearch').oninput=e=>renderRows(e.target.value.trim());drawCharts(products,branchQty,totalQty);
+  const rows=[];reportsInRange().forEach(r=>(r.items||[]).forEach(x=>rows.push({name:x.name||'بدون اسم',branch:r.branch||'غير محدد',qty:Number(x.qty||0)})));rows.sort((a,b)=>b.qty-a.qty);
+  const q1Idx=Math.ceil(rows.length*0.25), q3Idx=Math.ceil(rows.length*0.75);
+  rows.forEach((x,i)=>{x.perf = i<q1Idx ? 'high' : (i<q3Idx ? 'mid' : 'low');});
+  $('branchTableCount').textContent = rows.length>80 ? `(أعلى 80 من ${rows.length})` : `(${rows.length})`;
+  const perfLabel={high:'أعلى الأداء',mid:'متوسط',low:'ضعيف'}, perfClass={high:'perf-high',mid:'perf-mid',low:'perf-low'};
+  const renderRows=(q='')=>{const f=rows.filter(x=>!q||x.name.includes(q)||x.branch.includes(q)).slice(0,80);$('branchTable').innerHTML=f.map(x=>{const pct=totalQty?x.qty/totalQty*100:0;return `<tr><td><b>${x.name}</b></td><td>${x.branch}</td><td>${fmt(x.qty)}</td><td>${pct.toLocaleString('en-US',{maximumFractionDigits:1})}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill" style="width:${Math.min(100,Math.max(4,pct*4))}%"></div></div><span class="status-pill ${perfClass[x.perf]}">${perfLabel[x.perf]}</span></div></td></tr>`}).join('')};renderRows();$('branchSearch').oninput=e=>renderRows(e.target.value.trim());drawCharts(products,branchQty,totalQty);
 }
 function drawCharts(products,branchQty,totalQty){
-  if(!window.Chart)return;[chartTop,chartSalesShare,chartReportsShare].forEach(c=>{if(c)c.destroy()});const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff','#ff6b75','#a3ff6b'];const common={responsive:true,maintainAspectRatio:false,animation:{duration:950,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{backgroundColor:'#0b132b',titleColor:'#fff',bodyColor:'#e9edff',borderColor:'#2a3960',borderWidth:1,padding:9,displayColors:true}},layout:{padding:4}};const top=products.slice(0,6);
-  chartTop=new Chart($('chartTopBranches'),{type:'bar',data:{labels:top.map(x=>bidiName(x.name.length>28?x.name.slice(0,28)+'…':x.name)),datasets:[{data:top.map(x=>x.qty),backgroundColor:top.map((_,i)=>palette[i%palette.length]),borderRadius:4,borderSkipped:false,barPercentage:.56,categoryPercentage:.72}]},options:{...common,indexAxis:'y',scales:{x:{grid:{color:'rgba(117,137,184,.10)',drawBorder:false},ticks:{color:'#7f8bad',font:{size:10}}},y:{grid:{display:false},ticks:{color:'#dbe1f5',font:{size:11,weight:'600'},padding:8}}}}});
-  const dp=products.slice(0,5),otherP=products.slice(5).reduce((a,x)=>a+x.qty,0),donutOpts={...common,cutout:'66%',plugins:{...common.plugins,legend:{display:true,position:'bottom',labels:{color:'#8a96b9',usePointStyle:true,pointStyle:'circle',boxWidth:6,boxHeight:6,padding:7,font:{size:9}}}}};
-  chartSalesShare=new Chart($('chartSalesShare'),{type:'doughnut',data:{labels:dp.map(x=>bidiName(x.name.length>20?x.name.slice(0,20)+'…':x.name)).concat(otherP>0?['أخرى']:[]),datasets:[{data:dp.map(x=>x.qty).concat(otherP>0?[otherP]:[]),backgroundColor:palette,borderColor:'#111a35',borderWidth:2,hoverOffset:6}]},options:donutOpts});
+  if(!window.Chart)return;[chartTop,chartSalesShare,chartReportsShare].forEach(c=>{if(c)c.destroy()});const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff','#ff6b75','#a3ff6b'];const common={responsive:true,maintainAspectRatio:false,rtl:false,animation:{duration:950,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{rtl:false,textDirection:'ltr',backgroundColor:'#0b132b',titleColor:'#fff',bodyColor:'#e9edff',borderColor:'#2a3960',borderWidth:1,padding:9,displayColors:true}},layout:{padding:4}};const top=products.slice(0,6);
+  chartTop=new Chart($('chartTopBranches'),{type:'bar',data:{labels:top.map(x=>x.name.length>18?x.name.slice(0,18)+'…':x.name),datasets:[{data:top.map(x=>x.qty),backgroundColor:top.map((_,i)=>palette[i%palette.length]),borderRadius:4,borderSkipped:false,barPercentage:.56,categoryPercentage:.72}]},options:{...common,indexAxis:'y',scales:{x:{grid:{color:'rgba(117,137,184,.10)',drawBorder:false},ticks:{color:'#7f8bad',font:{size:8}}},y:{grid:{display:false},ticks:{color:'#dbe1f5',font:{size:8}}}}}});
+  const dp=products.slice(0,5),otherP=products.slice(5).reduce((a,x)=>a+x.qty,0),donutOpts={...common,cutout:'66%',plugins:{...common.plugins,legend:{display:true,position:'bottom',labels:{color:'#8a96b9',usePointStyle:true,pointStyle:'circle',boxWidth:6,boxHeight:6,padding:7,font:{size:7}}}}};
+  chartSalesShare=new Chart($('chartSalesShare'),{type:'doughnut',data:{labels:dp.map(x=>x.name.length>10?x.name.slice(0,10)+'…':x.name).concat(otherP>0?['أخرى']:[]),datasets:[{data:dp.map(x=>x.qty).concat(otherP>0?[otherP]:[]),backgroundColor:palette,borderColor:'#111a35',borderWidth:2,hoverOffset:6}]},options:donutOpts});
   const db=branchQty.slice(0,5),otherB=branchQty.slice(5).reduce((a,x)=>a+x.qty,0);chartReportsShare=new Chart($('chartReportsShare'),{type:'doughnut',data:{labels:db.map(x=>x.branch).concat(otherB>0?['أخرى']:[]),datasets:[{data:db.map(x=>x.qty).concat(otherB>0?[otherB]:[]),backgroundColor:['#16d9bd','#ff3e91','#ffc234','#8b5cf6','#4d7cff','#5fe1ff'],borderColor:'#111a35',borderWidth:2,hoverOffset:6}]},options:donutOpts});
 }
 function focusOverviewBranch(branch){}
@@ -952,7 +845,7 @@ function renderBranches(){
     chartTrend=new Chart($('chartBranchTrend'),{type:'line',data:{labels:byDate.map(r=>r.date),datasets:[{label:'المبيعات',data:byDate.map(r=>(r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0)),tension:.35,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
   }
   const top={}; items.forEach(x=>top[x.name]=(top[x.name]||0)+Number(x.qty||0));
-  $('branchTopProductsList').innerHTML='<b style="color:var(--text)">أعلى الأصناف</b><br>'+Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,6).map((x,i)=>`${i+1}. <span dir="auto">${x[0]}</span> — ${fmt(x[1])}`).join('<br>');
+  $('branchTopProductsList').innerHTML='<b style="color:var(--text)">أعلى الأصناف</b><br>'+Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,6).map((x,i)=>`<span dir="ltr" style="unicode-bidi:isolate;display:block;text-align:right">${i+1}. ${x[0]} — ${fmt(x[1])}</span>`).join('');
 }
 
 function renderDead(){
@@ -987,7 +880,7 @@ function renderDead(){
   filtered=filtered.filter(x=>(x.name+' '+x.code).toLowerCase().includes(q));
 
   $('deadCountLabel').textContent=`(${filtered.length})`;
-  $('deadStockTable').innerHTML=filtered.sort((a,b)=>a.qty-b.qty).map(x=>`<tr><td>${x.code}</td><td class="product-name-cell"><span dir="auto">${x.name}</span></td><td>${x.branch}</td><td>${fmt(x.qty)}</td><td>${x.status==='out'?'راكد تماماً':'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
+  $('deadStockTable').innerHTML=filtered.sort((a,b)=>a.qty-b.qty).map(x=>`<tr><td>${x.code}</td><td>${x.name}</td><td>${x.branch}</td><td>${fmt(x.qty)}</td><td>${x.status==='out'?'راكد تماماً':'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
 }
 
 function populateBranchSelect(){
@@ -1092,9 +985,8 @@ async function loadPdf(file){
 }
 
 async function refreshAll(){
-  await Promise.all([loadReports(),loadWarehouseReports()]);
+  await loadReports();
   renderOverview();
-  renderWarehouse();
 }
 
 $('loginBtn').onclick=async()=>{
@@ -1220,22 +1112,6 @@ $('saveReportBtn').onclick=async()=>{
     $('saveReportBtn').disabled=false;
   }
 };
-
-
-$('warehouseDropzone').onclick=()=>$('warehouseFile').click();
-$('warehouseFile').onchange=e=>{const f=e.target.files[0];if(f)loadWarehouseWorkbook(f)};
-$('warehouseSearch').oninput=renderWarehouse;
-$('warehouseLowLimit').oninput=renderWarehouse;
-$('saveWarehouseReport').onclick=async()=>{
-  const ni=+$('whMapName').value,ci=+$('whMapCode').value,qi=+$('whMapQty').value;
-  if(ni<0||qi<0){alert('يجب تحديد اسم الصنف والكمية');return}
-  const items=warehouseRows.slice(1).map(r=>({name:String(r[ni]||'').trim(),code:ci>=0?String(r[ci]||'').trim():'',qty:Number(String(r[qi]||0).replace(/,/g,''))||0})).filter(x=>x.name);
-  if(!items.length){alert('لا توجد بيانات صالحة للحفظ');return}
-  const btn=$('saveWarehouseReport');btn.disabled=true;$('warehouseUploadStatus').textContent='جاري حفظ تقرير المستودع على Firebase...';
-  try{await saveWarehouseSnapshot({date:$('warehouseDate').value||new Date().toISOString().slice(0,10),lowLimit:Number($('warehouseLowLimit').value||5),items});$('warehouseUploadStatus').textContent='✓ تم حفظ تقرير المستودع بنجاح';warehouseRows=[];$('warehouseFile').value='';$('warehouseMapping').style.display='none';await loadWarehouseReports();renderWarehouse();}
-  catch(e){$('warehouseUploadStatus').textContent='تعذر الحفظ: '+firebaseErrorMessage(e)}finally{btn.disabled=false}
-};
-$('warehouseDate').value=new Date().toISOString().slice(0,10);
 
 $('reportDate').value=new Date().toISOString().slice(0,10);
 </script>

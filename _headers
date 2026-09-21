@@ -1,0 +1,8 @@
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-76FWgIYxYlFN4LlZXDWY+d5cdYa48s5DyRTw30OkSKE=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'none'
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Cache-Control: no-store
+  Strict-Transport-Security: max-age=31536000

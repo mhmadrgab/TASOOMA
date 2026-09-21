@@ -2,10 +2,12 @@
 <html lang="ar" dir="ltr">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-76FWgIYxYlFN4LlZXDWY+d5cdYa48s5DyRTw30OkSKE=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة تقارير الفروع</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%238b6cf9%22/%3E%3Cstop%20offset%3D%2255%25%22%20stop-color%3D%22%23e8479f%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%232fd6c4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2220%22%20r%3D%226%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Cpath%20d%3D%22M32%2026%20L16%2041%20M32%2026%20L32%2041%20M32%2026%20L48%2041%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha384-bs/nf9FbdNouRbMiFcrcZfLXYPKiPaGVGplVbv7dLGECccEXDW+S3zjqSKR5ZEaD" crossorigin="anonymous"></script>
 <style>
 
 @font-face{
@@ -432,7 +434,7 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
         <div class="login-field"><label for="loginPassword">كلمة المرور</label><input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" dir="ltr" autocomplete="current-password" required><button class="login-toggle" type="button" id="togglePassword" aria-label="إظهار كلمة المرور" aria-controls="loginPassword" aria-pressed="false">إظهار</button></div>
       </div>
       <button class="btn-primary" id="loginBtn" type="submit">تسجيل الدخول</button>
-      <div class="login-error" id="loginError" role="alert" aria-live="polite"></div>
+      <div class="login-error" id="loginError" role="alert" aria-live="polite"></div><button id="verifyOwnerBtn" type="button" class="reset-link" hidden>إرسال رسالة تأكيد ملكية البريد</button>
       <div id="demoBadge" style="display:none;" class="demo-badge">⚡ وضع تجريبي — أي بيانات دخول هتشتغل</div>
     </form>
     <div class="login-help">
@@ -707,18 +709,13 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
       <div class="view" id="view-permissions">
         <div class="panel">
           <h3>إدارة الصلاحيات</h3>
-          <p style="color:var(--muted);font-size:12.5px;line-height:1.9;">
-            الإيميلات هنا هي اللي عندها صلاحية <b>رفع وحذف التقارير</b>. أي حد تاني يسجل دخول (بحساب
-            عملته له في Firebase Authentication) هيقدر بس <b>يشوف</b> كل الشاشات من غير ما يقدر يعدل حاجة.<br>
-            <span style="color:var(--amber);">ملحوظة:</span> اللوحة دي بتتحكم في "مين يقدر يعدّل"، مش "مين يقدر يسجل دخول أصلاً" —
-            عشان حد يقدر يدخل الموقع أساساً، لازم الأول تعمله حساب من Firebase Authentication → Users → Add user.
-          </p>
+          <p style="color:var(--muted);font-size:12.5px;line-height:1.9;">حساب المالك وحده يدير الموظفين ويحذف التقارير. الموظف المعتمد يشاهد التقارير ويرفع تقارير جديدة فقط. بعد إنشاء الحساب في Firebase Authentication، انسخ UID والإيميل واعتمدهما هنا. إيقاف الموظف يمنع قراءة ورفع البيانات الجديدة، ولا يمحو نسخًا سبق له تنزيلها.</p>
 
           <div style="margin:18px 0;">
             <div class="field-row">
               <div class="field" style="flex:2;">
-                <label>إضافة إيميل مدير جديد (صلاحية رفع وحذف)</label>
-                <input type="email" id="newAdminEmail" placeholder="example@company.com">
+                <label>إيميل الموظف (مشاهدة ورفع فقط)</label>
+                <input type="email" id="newAdminEmail" placeholder="example@company.com" required><label for="employeeUid">UID من Firebase Authentication</label><input type="text" id="employeeUid" dir="ltr" placeholder="الصق UID الخاص بالموظف" maxlength="128" required>
               </div>
               <div class="field" style="flex:0 0 auto;align-self:flex-end;">
                 <button class="btn-primary" style="width:auto;padding:11px 22px;" id="addAdminBtn">إضافة</button>
@@ -740,15 +737,15 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import {
-  getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged
+  getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, setPersistence, browserSessionPersistence, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import {
   getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
-  query, orderBy, serverTimestamp, getDoc, setDoc
+  query, orderBy, serverTimestamp, getDoc, setDoc, onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 /* ============================================================
@@ -775,6 +772,9 @@ if (firebaseReady) {
 }
 
 const $ = id => document.getElementById(id);
+const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+document.addEventListener('contextmenu', event => event.preventDefault());
+
 const fmt = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits:2});
 const money = n => fmt(n) + ' ر.س';
 
@@ -787,55 +787,54 @@ let reports = [];
 let selectedBranch = branches[0], chartTop, chartProducts, chartTrend, chartSalesShare, chartReportsShare;
 let uploadRows = [], map = {name:0,code:-1,qty:1,sales:-1};
 
-// ===== الصلاحيات =====
-// إيميل ثابت دايماً عنده صلاحية كاملة، حتى لو انمسحت قائمة المديرين بالغلط من اللوحة
-const FALLBACK_ADMIN_EMAIL = "mohamedrgab20@gmail.com";
-let adminEmails = [];   // بتتحمل من Firestore (settings/roles)
-let isAdmin = false;    // بيتحدد بعد تسجيل الدخول
-
-async function loadRoles(){
-  adminEmails = [];
-  if(!firebaseReady) return;
-  try{
-    const snap = await getDoc(doc(db,'settings','roles'));
-    if(snap.exists()) adminEmails = snap.data().adminEmails || [];
-  }catch(e){ console.error('تعذر تحميل الصلاحيات', e); }
+// Authorization is enforced independently by firestore.rules.
+const OWNER_EMAIL = 'mohamedrgab20@gmail.com';
+let isAdmin = false, canUpload = false, employees = [];
+let stopAccessWatch = null;
+let sessionVersion = 0;
+let persistenceError=null;
+const authPersistenceReady = firebaseReady ? setPersistence(auth, browserSessionPersistence).catch(error=>{persistenceError=error;}) : Promise.resolve();
+function requireOwner(){
+  if(!auth?.currentUser || !isAdmin) throw new Error('هذا الإجراء متاح لمالك النظام فقط.');
 }
-
-function computeIsAdmin(email){
-  return email === FALLBACK_ADMIN_EMAIL || adminEmails.includes(email);
+function requireEmployee(){
+  if(!auth?.currentUser || !canUpload) throw new Error('حسابك غير معتمد للوصول إلى التقارير.');
 }
-
 function applyPermissionsUI(){
-  $('navUpload').style.display = isAdmin ? '' : 'none';
-  $('navPermissions').style.display = isAdmin ? '' : 'none';
-  $('navActivity').style.display = isAdmin ? '' : 'none';
+  $('navUpload').style.display=canUpload?'':'none';
+  $('navPermissions').style.display=isAdmin?'':'none';
+  $('navActivity').style.display=isAdmin?'':'none';
 }
-
-async function saveAdminEmails(newList){
-  await setDoc(doc(db,'settings','roles'), { adminEmails: newList });
-  adminEmails = newList;
+async function initializeAccess(user){
+  const ref=doc(db,'settings','security');
+  let security=await getDoc(ref);
+  if(!security.exists() && user.email===OWNER_EMAIL && user.emailVerified){
+    try{await setDoc(ref,{ownerUid:user.uid,ownerEmail:OWNER_EMAIL,createdAt:serverTimestamp()});}
+    catch(error){const concurrent=await getDoc(ref);if(!concurrent.exists() || concurrent.data().ownerUid!==user.uid)throw error;}
+    security=await getDoc(ref);
+  }
+  const owner=security.exists() && security.data().ownerUid===user.uid && user.email===OWNER_EMAIL && user.emailVerified;
+  if(owner)return {owner:true};
+  const access=await getDoc(doc(db,'employees',user.uid));
+  const allowed=access.exists() && access.data().active===true && access.data().email===user.email;
+  if(!allowed) throw new Error('حسابك غير معتمد. أرسل UID حسابك إلى مسؤول النظام: '+user.uid);
+  return {owner:false};
 }
-
-function renderPermissions(){
-  const rows = [FALLBACK_ADMIN_EMAIL, ...adminEmails.filter(e=>e!==FALLBACK_ADMIN_EMAIL)];
-  $('adminsTable').innerHTML = rows.map(email=>{
-    const isFallback = email===FALLBACK_ADMIN_EMAIL;
-    return `<tr>
-      <td>${email}</td>
-      <td>${isFallback?'مدير أساسي (ثابت)':'مدير'}</td>
-      <td>${isFallback?'':`<button class="btn-sm" data-remove-admin="${email}">إزالة</button>`}</td>
-    </tr>`;
-  }).join('');
-  document.querySelectorAll('[data-remove-admin]').forEach(btn=>{
-    btn.onclick=async()=>{
-      if(!confirm('تأكيد إزالة صلاحية المدير ده؟')) return;
-      const email = btn.dataset.removeAdmin;
-      try{
-        await saveAdminEmails(adminEmails.filter(e=>e!==email));
-        renderPermissions();
-      }catch(e){ alert('تعذر الحفظ: '+e.message); }
-    };
+async function renderPermissions(){
+  requireOwner();
+  const snap=await getDocs(collection(db,'employees'));
+  if(!isAdmin) return;
+  employees=snap.docs.map(d=>({...d.data(),uid:d.id}));
+  $('adminsTable').innerHTML=employees.map(e=>`<tr><td>${escapeHTML(e.email)}<br><small dir="ltr">${escapeHTML(e.uid)}</small></td><td>${e.active?'مشاهدة ورفع فقط':'موقوف'}</td><td><button class="btn-sm" data-employee="${escapeHTML(e.uid)}">${e.active?'إيقاف':'تفعيل'}</button></td></tr>`).join('');
+  document.querySelectorAll('[data-employee]').forEach(button=>button.onclick=async()=>{
+    try{
+      requireOwner();
+      const employee=employees.find(e=>e.uid===button.dataset.employee);
+      if(!employee || !confirm('تأكيد تغيير صلاحية هذا الموظف؟')) return;
+      button.disabled=true;
+      await setDoc(doc(db,'employees',employee.uid),{email:employee.email,active:!employee.active,updatedAt:serverTimestamp()});
+      await renderPermissions();
+    }catch(error){alert(firebaseErrorMessage(error));button.disabled=false;}
   });
 }
 
@@ -854,11 +853,11 @@ function renderActivity(){
     const totalSales = (r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0);
     return `<tr>
       <td class="mono">${uploadedAt}</td>
-      <td>${r.branch||'—'}</td>
-      <td class="mono">${r.date||'—'}</td>
+      <td>${escapeHTML(r.branch||'—')}</td>
+      <td class="mono">${escapeHTML(r.date||'—')}</td>
       <td class="mono">${(r.items||[]).length}</td>
       <td class="mono">${money(totalSales)}</td>
-      <td dir="ltr" style="text-align:right;">${r.createdBy||'—'}</td>
+      <td dir="ltr" style="text-align:right;">${escapeHTML(r.createdBy||'—')}</td>
     </tr>`;
   }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">لا يوجد نشاط بعد</td></tr>';
 }
@@ -892,13 +891,13 @@ function drawCompare(){
     const rs = reports.filter(r=>r.branch===branch);
     const totalQty = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.qty||0),0),0);
     const totalSales = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0),0);
-    const prodMap = {};
+    const prodMap=Object.create(null);
     rs.forEach(r=>(r.items||[]).forEach(x=>{prodMap[x.name]=(prodMap[x.name]||0)+Number(x.qty||0);}));
     const top = Object.entries(prodMap).sort((a,b)=>b[1]-a[1])[0];
     return { branch, totalQty, totalSales, top: top?top[0]:'—' };
   });
   $('compareTable').innerHTML = summary.map(s=>`
-    <tr><td><b>${s.branch}</b></td><td class="mono">${fmt(s.totalQty)}</td><td class="mono">${money(s.totalSales)}</td><td dir="ltr" style="text-align:right;">${s.top}</td></tr>
+    <tr><td><b>${escapeHTML(s.branch)}</b></td><td class="mono">${fmt(s.totalQty)}</td><td class="mono">${money(s.totalSales)}</td><td dir="ltr" style="text-align:right;">${escapeHTML(s.top)}</td></tr>
   `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px;">اختر فرعين أو أكتر فوق</td></tr>';
 
   // شارت خطي: مبيعات كل فرع عبر الوقت
@@ -907,7 +906,7 @@ function drawCompare(){
   const allDates = [...new Set(reports.filter(r=>selected.includes(r.branch)).map(r=>r.date))].sort();
   const datasets = selected.map((branch,i)=>{
     const rs = reports.filter(r=>r.branch===branch);
-    const byDate = {};
+    const byDate=Object.create(null);
     rs.forEach(r=>{byDate[r.date]=(byDate[r.date]||0)+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0);});
     return {
       label: branch,
@@ -930,19 +929,20 @@ function drawCompare(){
 
 
 $('addAdminBtn').onclick=async()=>{
-  const email = $('newAdminEmail').value.trim().toLowerCase();
-  const statusEl = $('permissionsStatus');
-  if(!email || !email.includes('@')){ statusEl.style.color='var(--pink)'; statusEl.textContent='اكتب إيميل صحيح'; return; }
-  if(adminEmails.includes(email) || email===FALLBACK_ADMIN_EMAIL){ statusEl.style.color='var(--amber)'; statusEl.textContent='الإيميل ده عنده صلاحية بالفعل'; return; }
-  statusEl.style.color='var(--teal)'; statusEl.textContent='جاري الحفظ...';
+  const status=$('permissionsStatus');
   try{
-    await saveAdminEmails([...adminEmails, email]);
-    $('newAdminEmail').value='';
-    statusEl.textContent='✅ تمت الإضافة. لو الشخص ده لسه ملوش حساب دخول، اعمله واحد من Firebase Authentication → Users → Add user بنفس الإيميل.';
-    renderPermissions();
-  }catch(e){
-    statusEl.style.color='var(--pink)'; statusEl.textContent='تعذر الحفظ: '+e.message;
-  }
+    requireOwner();
+    const email=$('newAdminEmail').value.trim().toLowerCase();
+    const uid=$('employeeUid').value.trim();
+    if(!/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !$('newAdminEmail').checkValidity() || !email) throw new Error('انسخ UID والإيميل من Firebase Authentication بشكل صحيح.');
+    if(uid===auth.currentUser.uid || email===OWNER_EMAIL) throw new Error('حساب المالك ثابت ولا يضاف كموظف.');
+    $('addAdminBtn').disabled=true;
+    await setDoc(doc(db,'employees',uid),{email,active:true,updatedAt:serverTimestamp()});
+    status.textContent='تم اعتماد الموظف: مشاهدة التقارير ورفع تقارير جديدة فقط.';
+    $('newAdminEmail').value='';$('employeeUid').value='';
+    await renderPermissions();
+  }catch(error){status.textContent=firebaseErrorMessage(error);}
+  finally{$('addAdminBtn').disabled=false;}
 };
 
 function rangeCutoffDate(){
@@ -959,36 +959,61 @@ function reportsInRange(){
 function firebaseErrorMessage(err){
   const code = err?.code || '';
   if(code.includes('invalid-credential')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
-  if(code.includes('user-not-found')) return 'الحساب غير موجود.';
-  if(code.includes('wrong-password')) return 'كلمة المرور غير صحيحة.';
+  if(code.includes('user-not-found')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+  if(code.includes('wrong-password')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+  if(code.includes('permission-denied')) return 'الوصول مرفوض: تأكد من نشر قواعد الأمان واعتماد الحساب لدى مسؤول النظام.';
   if(code.includes('too-many-requests')) return 'تمت محاولات كثيرة. حاول مرة أخرى لاحقاً.';
   if(code.includes('network-request-failed')) return 'تعذر الاتصال بالإنترنت.';
-  return err?.message || 'حدث خطأ غير متوقع.';
+  return code ? 'تعذر إتمام العملية. حاول لاحقًا أو تواصل مع مسؤول النظام.' : (err?.message || 'حدث خطأ غير متوقع.');
 }
 
+const MAX_ITEMS=5000, MAX_FILE_BYTES=10*1024*1024;
+function validateReport(report){
+  if(!report || typeof report.branch!=='string' || !report.branch.trim() || report.branch.length>120) throw new Error('اسم الفرع غير صالح.');
+  if(typeof report.date!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(report.date) || (!Number.isFinite(Date.parse(report.date+'T00:00:00Z')) || new Date(report.date+'T00:00:00Z').toISOString().slice(0,10)!==report.date)) throw new Error('تاريخ التقرير غير صالح.');
+  if(!Array.isArray(report.items) || !report.items.length || report.items.length>MAX_ITEMS) throw new Error('التقرير يجب أن يحتوي من 1 إلى 5000 صنف.');
+  const items=report.items.map(x=>{
+    if(!x || typeof x.name!=='string' || !x.name.trim() || x.name.length>300 || typeof x.code!=='string' || x.code.length>120 || typeof x.qty!=='number' || !Number.isFinite(x.qty) || Math.abs(x.qty)>1e9 || typeof x.sales!=='number' || !Number.isFinite(x.sales) || Math.abs(x.sales)>1e12) throw new Error('يوجد صنف غير صالح أو كمية/قيمة غير رقمية. راجع الملف.');
+    return {name:x.name,code:x.code,qty:x.qty,sales:x.sales};
+  });
+  const safe={branch:report.branch,date:report.date,items};
+  if(new TextEncoder().encode(JSON.stringify(safe)).length>800000) throw new Error('التقرير كبير جدًا. قسّمه إلى تقارير أصغر.');
+  return safe;
+}
+function validateFile(file){
+  if(!file || file.size>MAX_FILE_BYTES || !/\.(xlsx|xls|csv|pdf)$/i.test(file.name)) throw new Error('الملفات المسموحة Excel أو CSV أو PDF بحد أقصى 10 ميجابايت.');
+}
 async function loadReports(){
-  reports = [];
-  if(!firebaseReady) return;
-  const q = query(collection(db, 'reports'), orderBy('date', 'desc'));
-  const snap = await getDocs(q);
-  reports = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+  requireEmployee();
+  const version=sessionVersion;
+  const q=query(collection(db,'reports'),orderBy('date','desc'));
+  const snap=await getDocs(q);
+  if(version!==sessionVersion || !canUpload) return;
+  let invalid=0;
+  reports=snap.docs.flatMap(d=>{
+    try{
+      const raw=d.data(), safe=validateReport(raw);
+      return [{...safe,id:d.id,createdAt:raw.createdAt,createdBy:typeof raw.createdBy==='string'?raw.createdBy:'',createdByUid:typeof raw.createdByUid==='string'?raw.createdByUid:''}];
+    }catch{invalid++;return [];}
+  });
+  if(invalid) $('demoBanner').textContent='تم استبعاد '+invalid+' تقرير غير صالح من العرض. راجع مسؤول النظام؛ لم يتم حذف أي بيانات.';
 }
-
 async function saveReport(report){
-  if(!firebaseReady) throw new Error('Firebase غير مُعد بعد.');
-  return await addDoc(collection(db, 'reports'), {
-    ...report,
-    createdAt: serverTimestamp(),
-    createdBy: auth.currentUser?.email || ''
+  requireEmployee();
+  const safe=validateReport(report);
+  return await addDoc(collection(db,'reports'),{
+    ...safe,createdAt:serverTimestamp(),createdBy:auth.currentUser.email,createdByUid:auth.currentUser.uid
   });
 }
 
 async function removeReport(id){
+  requireOwner();
   if(!firebaseReady) throw new Error('Firebase غير مُعد بعد.');
   await deleteDoc(doc(db, 'reports', id));
 }
 
 function show(view){
+  if(!canUpload || (['permissions','activity'].includes(view) && !isAdmin)) return;
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el=$('view-'+view); if(el) el.classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
@@ -998,7 +1023,7 @@ function show(view){
   if(view==='overview') renderOverview();
   if(view==='branches') renderBranches();
   if(view==='deadstock') renderDead();
-  if(view==='permissions') renderPermissions();
+  if(view==='permissions') renderPermissions().catch(e=>{$('permissionsStatus').textContent=firebaseErrorMessage(e);});
   if(view==='compare') renderCompare();
   if(view==='activity') renderActivity();
 }
@@ -1022,7 +1047,7 @@ function branchStats(){
 }
 
 function renderOverview(){
-  const items=allItemsInRange(), productMap={}, branchMap={};
+  const items=allItemsInRange(), productMap=Object.create(null), branchMap=Object.create(null);
   items.forEach(x=>{const name=(x.name||'بدون اسم').trim(),branch=x.branch||'غير محدد',qty=Number(x.qty||0);productMap[name]=(productMap[name]||0)+qty;branchMap[branch]=(branchMap[branch]||0)+qty;});
   const products=Object.entries(productMap).map(([name,qty])=>({name,qty})).sort((a,b)=>b.qty-a.qty), branchQty=Object.entries(branchMap).map(([branch,qty])=>({branch,qty})).sort((a,b)=>b.qty-a.qty), totalQty=products.reduce((a,x)=>a+x.qty,0);
   $('kpiTotalSales').textContent=fmt(products.length);$('kpiBestBranch').textContent=fmt(totalQty);$('kpiTopProduct').textContent=fmt(branchQty.filter(x=>x.qty>0).length);$('kpiDeadCount').textContent=fmt(reports.length);$('salesShareCenter').textContent=fmt(products.length);$('reportsShareCenter').textContent=fmt(totalQty);
@@ -1031,7 +1056,7 @@ function renderOverview(){
   rows.forEach((x,i)=>{x.perf = i<q1Idx ? 'high' : (i<q3Idx ? 'mid' : 'low');});
   $('branchTableCount').textContent = rows.length>80 ? `(أعلى 80 من ${rows.length})` : `(${rows.length})`;
   const perfLabel={high:'أعلى الأداء',mid:'متوسط',low:'ضعيف'}, perfClass={high:'perf-high',mid:'perf-mid',low:'perf-low'};
-  const renderRows=(q='')=>{const f=rows.filter(x=>!q||x.name.includes(q)||x.branch.includes(q)).slice(0,80);$('branchTable').innerHTML=f.map(x=>{const pct=totalQty?x.qty/totalQty*100:0;return `<tr><td><b>${x.name}</b></td><td>${x.branch}</td><td>${fmt(x.qty)}</td><td>${pct.toLocaleString('en-US',{maximumFractionDigits:1})}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill" style="width:${Math.min(100,Math.max(4,pct*4))}%"></div></div><span class="status-pill ${perfClass[x.perf]}">${perfLabel[x.perf]}</span></div></td></tr>`}).join('')};renderRows();$('branchSearch').oninput=e=>renderRows(e.target.value.trim());drawCharts(products,branchQty,totalQty);
+  const renderRows=(q='')=>{const f=rows.filter(x=>!q||x.name.includes(q)||x.branch.includes(q)).slice(0,80);$('branchTable').innerHTML=f.map(x=>{const pct=totalQty?x.qty/totalQty*100:0;return `<tr><td><b>${escapeHTML(x.name)}</b></td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${pct.toLocaleString('en-US',{maximumFractionDigits:1})}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill" style="width:${Math.min(100,Math.max(4,pct*4))}%"></div></div><span class="status-pill ${perfClass[x.perf]}">${perfLabel[x.perf]}</span></div></td></tr>`}).join('')};renderRows();$('branchSearch').oninput=e=>renderRows(e.target.value.trim());drawCharts(products,branchQty,totalQty);
 }
 function drawCharts(products,branchQty,totalQty){
   if(!window.Chart)return;[chartTop,chartSalesShare,chartReportsShare].forEach(c=>{if(c)c.destroy()});const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff','#ff6b75','#a3ff6b'];const common={responsive:true,maintainAspectRatio:false,rtl:false,animation:{duration:950,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{rtl:false,textDirection:'ltr',backgroundColor:'#0b132b',titleColor:'#fff',bodyColor:'#e9edff',borderColor:'#2a3960',borderWidth:1,padding:9,displayColors:true}},layout:{padding:4}};const top=products.slice(0,6);
@@ -1053,7 +1078,7 @@ function renderBranches(){
   const items=rs.flatMap(r=>r.items||[]);
   $('branchDetailTitle').textContent=`تفاصيل فرع ${selectedBranch}`;
   $('branchReportsCount').textContent=`(${rs.length})`;
-  $('branchReportsTable').innerHTML=rs.map(r=>`<tr><td>${r.date||''}</td><td>${(r.items||[]).length}</td><td>${fmt((r.items||[]).reduce((a,x)=>a+Number(x.qty||0),0))}</td><td>${money((r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0))}</td><td>${isAdmin?`<button class="btn-sm" data-del="${r.id||''}">حذف</button>`:''}</td></tr>`).join('');
+  $('branchReportsTable').innerHTML=rs.map(r=>`<tr><td>${escapeHTML(r.date||'')}</td><td>${(r.items||[]).length}</td><td>${fmt((r.items||[]).reduce((a,x)=>a+Number(x.qty||0),0))}</td><td>${money((r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0))}</td><td>${isAdmin?`<button class="btn-sm" data-del="${escapeHTML(r.id||'')}">حذف</button>`:''}</td></tr>`).join('');
 
   document.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=async()=>{
     if(!btn.dataset.del) return;
@@ -1070,8 +1095,8 @@ function renderBranches(){
     const byDate=rs.slice().reverse();
     chartTrend=new Chart($('chartBranchTrend'),{type:'line',data:{labels:byDate.map(r=>r.date),datasets:[{label:'المبيعات',data:byDate.map(r=>(r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0)),tension:.35,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
   }
-  const top={}; items.forEach(x=>top[x.name]=(top[x.name]||0)+Number(x.qty||0));
-  $('branchTopProductsList').innerHTML='<b style="color:var(--text)">أعلى الأصناف</b><br>'+Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,6).map((x,i)=>`<span dir="ltr" style="unicode-bidi:isolate;display:block;text-align:right">${i+1}. ${x[0]} — ${fmt(x[1])}</span>`).join('');
+  const top=Object.create(null); items.forEach(x=>top[x.name]=(top[x.name]||0)+Number(x.qty||0));
+  $('branchTopProductsList').innerHTML='<b style="color:var(--text)">أعلى الأصناف</b><br>'+Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,6).map((x,i)=>`<span dir="ltr" style="unicode-bidi:isolate;display:block;text-align:right">${i+1}. ${escapeHTML(x[0])} — ${fmt(x[1])}</span>`).join('');
 }
 
 function renderDead(){
@@ -1080,7 +1105,7 @@ function renderDead(){
   const statusFilter=activeBtn?activeBtn.dataset.dead:'all';
 
   const cutoff=rangeCutoffDate() || (()=>{ const d=new Date(); d.setDate(d.getDate()-30); return d.toISOString().slice(0,10); })();
-  const byBranch={};
+  const byBranch=Object.create(null);
   reports.forEach(r=>{ (byBranch[r.branch]=byBranch[r.branch]||[]).push(r); });
 
   const rows=[];
@@ -1088,7 +1113,7 @@ function renderDead(){
     if(bf && branch!==bf) return;
     const oldR=rs.filter(r=>String(r.date||'')<cutoff), newR=rs.filter(r=>String(r.date||'')>=cutoff);
     if(!oldR.length) return; // مفيش تاريخ كافي للمقارنة في الفرع ده
-    const oldSum={}, newSum={};
+    const oldSum=Object.create(null), newSum=Object.create(null);
     oldR.forEach(r=>(r.items||[]).forEach(x=>{const k=(x.code||'')+'|'+x.name;oldSum[k]=(oldSum[k]||0)+Number(x.qty||0);}));
     newR.forEach(r=>(r.items||[]).forEach(x=>{const k=(x.code||'')+'|'+x.name;newSum[k]=(newSum[k]||0)+Number(x.qty||0);}));
     Object.entries(oldSum).forEach(([k,oldQty])=>{
@@ -1106,7 +1131,7 @@ function renderDead(){
   filtered=filtered.filter(x=>(x.name+' '+x.code).toLowerCase().includes(q));
 
   $('deadCountLabel').textContent=`(${filtered.length})`;
-  $('deadStockTable').innerHTML=filtered.sort((a,b)=>a.qty-b.qty).map(x=>`<tr><td>${x.code}</td><td>${x.name}</td><td>${x.branch}</td><td>${fmt(x.qty)}</td><td>${x.status==='out'?'راكد تماماً':'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
+  $('deadStockTable').innerHTML=filtered.sort((a,b)=>a.qty-b.qty).map(x=>`<tr><td>${escapeHTML(x.code)}</td><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${x.status==='out'?'راكد تماماً':'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
 }
 
 function populateBranchSelect(){
@@ -1117,11 +1142,15 @@ function populateBranchSelect(){
 function setStep(n){ [1,2,3].forEach(i=>$('uploadStep'+i).classList.toggle('active',i===n)); }
 
 function loadWorkbook(file){
+  try{requireEmployee();validateFile(file);}catch(e){$('uploadStatus').textContent=e.message;return;}
   const status=$('uploadStatus'); status.textContent='جاري قراءة الملف...';
+  const version=sessionVersion;
   const reader=new FileReader();
+  reader.onerror=()=>{status.textContent='تعذر قراءة الملف.';};
   reader.onload=e=>{
+    if(version!==sessionVersion || !canUpload) return;
     try{
-      const wb=XLSX.read(e.target.result,{type:'array'}), ws=wb.Sheets[wb.SheetNames[0]];
+      const wb=XLSX.read(e.target.result,{type:'array',sheetRows:5002,cellHTML:false,cellFormula:false}), ws=wb.Sheets[wb.SheetNames[0]];
       uploadRows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
       if(uploadRows.length<2) throw new Error('الملف لا يحتوي بيانات كافية');
       const headers=uploadRows[0].map(String);
@@ -1130,10 +1159,10 @@ function loadWorkbook(file){
       map.code=find(['كود','code','sku']);
       map.qty=Math.max(0,find(['كمية','qty','quantity']));
       map.sales=find(['مبيعات','sales','value','قيمة']);
-      const opts=headers.map((h,i)=>`<option value="${i}">${h||'عمود '+(i+1)}</option>`).join('');
+      const opts=headers.map((h,i)=>`<option value="${i}">${escapeHTML(h||'عمود '+(i+1))}</option>`).join('');
       ['mapName','mapCode','mapQty','mapSales'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts);
       $('mapName').value=map.name; $('mapCode').value=map.code; $('mapQty').value=map.qty; $('mapSales').value=map.sales;
-      $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+uploadRows.slice(1,9).map(r=>'<tr>'+headers.map((_,i)=>`<td>${r[i]??''}</td>`).join('')+'</tr>').join('')+'</tbody>';
+      $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')+'</tr></thead><tbody>'+uploadRows.slice(1,9).map(r=>'<tr>'+headers.map((_,i)=>`<td>${escapeHTML(r[i]??'')}</td>`).join('')+'</tr>').join('')+'</tbody>';
       status.textContent=`تمت قراءة ${uploadRows.length-1} صف من ${wb.SheetNames[0]}`;
       setStep(2);
     }catch(err){status.textContent='تعذر قراءة الملف: '+err.message}
@@ -1143,27 +1172,24 @@ function loadWorkbook(file){
 
 let pdfjsReady=null;
 function ensurePdfJs(){
-  if(pdfjsReady) return pdfjsReady;
-  pdfjsReady=new Promise((resolve,reject)=>{
-    const s=document.createElement('script');
-    s.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    s.onload=()=>{
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      resolve();
-    };
-    s.onerror=()=>reject(new Error('تعذر تحميل مكتبة قراءة PDF'));
-    document.head.appendChild(s);
-  });
+  if(!pdfjsReady) pdfjsReady=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.min.mjs').then(lib=>{
+    window.pdfjsLib=lib;
+    lib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.worker.min.mjs';
+  }).catch(error=>{pdfjsReady=null;throw error;});
   return pdfjsReady;
 }
 
 async function loadPdf(file){
+  const version=sessionVersion;
   const status=$('uploadStatus'); status.textContent='جاري تحميل مكتبة قراءة PDF...';
   try{
+    requireEmployee();validateFile(file);
     await ensurePdfJs();
     status.textContent='جاري قراءة الملف...';
     const buf=await file.arrayBuffer();
-    const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+    const pdfTask=window.pdfjsLib.getDocument({data:buf,isEvalSupported:false,stopAtErrors:true});
+    const pdf=await pdfTask.promise;
+    if(pdf.numPages>100) {await pdfTask.destroy();throw new Error('الحد الأقصى 100 صفحة PDF.');}
     let lines=[];
     for(let p=1;p<=pdf.numPages;p++){
       const page=await pdf.getPage(p);
@@ -1175,6 +1201,7 @@ async function loadPdf(file){
       });
       if(currentLine.length) lines.push(currentLine.join(' ').trim());
     }
+    await pdfTask.destroy();
     lines=lines.filter(l=>l.trim()!=='');
 
     // نمط أودو الشائع: [كود] اسم الصنف .... كمية
@@ -1193,16 +1220,17 @@ async function loadPdf(file){
     }
     if(!dataRows.length) throw new Error('لم يتم العثور على بيانات في الملف');
 
+    if(version!==sessionVersion || !canUpload)return;
     uploadRows=[headers,...dataRows];
     const find=(patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
     map.name=Math.max(0,find(['اسم','صنف','product','item','name']));
     map.code=Math.max(0,find(['كود','code','sku']));
     map.qty=Math.max(0,find(['كمية','qty','quantity']));
     map.sales=find(['مبيعات','sales','value','قيمة']);
-    const opts=headers.map((h,i)=>`<option value="${i}">${h||'عمود '+(i+1)}</option>`).join('');
+    const opts=headers.map((h,i)=>`<option value="${i}">${escapeHTML(h||'عمود '+(i+1))}</option>`).join('');
     ['mapName','mapCode','mapQty','mapSales'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts);
     $('mapName').value=map.name; $('mapCode').value=map.code; $('mapQty').value=map.qty; $('mapSales').value=map.sales;
-    $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>'+dataRows.slice(0,8).map(r=>'<tr>'+headers.map((_,i)=>`<td>${r[i]??''}</td>`).join('')+'</tr>').join('')+'</tbody>';
+    $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')+'</tr></thead><tbody>'+dataRows.slice(0,8).map(r=>'<tr>'+headers.map((_,i)=>`<td>${escapeHTML(r[i]??'')}</td>`).join('')+'</tr>').join('')+'</tbody>';
     status.textContent=(bracketRows.length>=Math.max(3,lines.length*0.3))
       ? `✅ تم التعرف تلقائياً على نمط تقرير أودو — ${dataRows.length} صف`
       : `تمت قراءة ${dataRows.length} صف من الملف`;
@@ -1227,7 +1255,10 @@ $('loginForm').onsubmit=async(event)=>{
   $('loginBtn').disabled=true;
   $('loginBtn').textContent='جاري الدخول...';
   try{
+    await authPersistenceReady;
+    if(persistenceError) throw new Error('تعذر إعداد جلسة آمنة في المتصفح. اسمح بتخزين جلسة الموقع ثم حاول مجددًا.');
     await signInWithEmailAndPassword(auth,email,password);
+    $('loginPassword').value='';
   }catch(e){
     $('loginError').textContent=firebaseErrorMessage(e);
   }finally{
@@ -1292,27 +1323,64 @@ $('resetPasswordBtn').onclick=async()=>{
   }
 };
 
-$('logoutBtn').onclick=async()=>{ if(firebaseReady) await signOut(auth); };
-
+function clearSession(){
+  sessionVersion++;
+  if(stopAccessWatch){stopAccessWatch();stopAccessWatch=null;}
+  isAdmin=false;canUpload=false;reports=[];employees=[];uploadRows=[];window._finalData=[];bulkFiles=[];
+  ['branchTable','branchReportsTable','branchTopProductsList','deadStockTable','compareTable','activityTable','adminsTable','previewTable','bulkFileList'].forEach(id=>$(id).replaceChildren());
+  document.querySelectorAll('#view-app input').forEach(input=>{if(input.type==='file'||input.type==='text'||input.type==='email'||input.type==='search')input.value='';});
+  $('loginPassword').value='';
+  [chartTop,chartProducts,chartTrend,chartSalesShare,chartReportsShare,chartCompare].forEach(chart=>{if(chart)chart.destroy();});
+  chartTop=chartProducts=chartTrend=chartSalesShare=chartReportsShare=chartCompare=null;
+  $('view-app').style.display='none';$('view-login').style.display='flex';
+  applyPermissionsUI();
+}
+$('logoutBtn').onclick=async()=>{clearSession();if(firebaseReady)await signOut(auth);};
+$('verifyOwnerBtn').onclick=async()=>{
+  const button=$('verifyOwnerBtn');button.disabled=true;
+  try{
+    const user=auth.currentUser;
+    if(!user || user.email!==OWNER_EMAIL) throw new Error('سجّل الدخول بحساب المالك أولًا.');
+    auth.languageCode='ar';
+    await sendEmailVerification(user);
+    await signOut(auth);
+    $('loginError').textContent='أرسلنا رابط التحقق إلى بريدك. افتحه ثم سجّل الدخول مرة أخرى.';
+    button.hidden=true;
+  }catch(error){$('loginError').textContent=firebaseErrorMessage(error);}
+  finally{button.disabled=false;}
+};
 if(firebaseReady){
-  onAuthStateChanged(auth, async user=>{
-    if(user){
-      $('view-login').style.display='none';
-      $('view-app').style.display='block';
-      await loadRoles();
-      isAdmin = computeIsAdmin(user.email||'');
-      applyPermissionsUI();
-      $('demoBanner').innerHTML=`🔥 متصل بـ Firebase — المستخدم الحالي: <b>${user.email||''}</b> (${isAdmin?'صلاحية كاملة':'مشاهدة فقط'}) — البيانات مشتركة بين الأجهزة.`;
-      populateBranchSelect();
-      try{ await refreshAll(); }catch(e){ $('demoBanner').innerHTML='⚠️ تم تسجيل الدخول لكن تعذر قراءة Firestore: '+firebaseErrorMessage(e); }
-    }else{
-      $('view-app').style.display='none';
-      $('view-login').style.display='flex';
+  onAuthStateChanged(auth,async user=>{
+    clearSession();
+    $('verifyOwnerBtn').hidden=true;
+    const version=sessionVersion;
+    if(!user)return;
+    if(user.email===OWNER_EMAIL && !user.emailVerified){
+      $('loginError').textContent='يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.';
+      $('verifyOwnerBtn').hidden=false;return;
+    }
+    try{
+      const access=await initializeAccess(user);
+      if(version!==sessionVersion)return;
+      isAdmin=access.owner;canUpload=true;
+      applyPermissionsUI();populateBranchSelect();
+      await refreshAll();
+      if(version!==sessionVersion)return;
+      $('view-login').style.display='none';$('view-app').style.display='block';
+      $('demoBanner').textContent='المستخدم: '+user.email+' — '+(isAdmin?'مالك النظام':'مشاهدة ورفع فقط');
+      show('overview');
+      if(!isAdmin)stopAccessWatch=onSnapshot(doc(db,'employees',user.uid),snap=>{
+        if(version!==sessionVersion)return;
+        if(!snap.exists() || snap.data().active!==true || snap.data().email!==user.email){
+          clearSession();$('loginError').textContent='تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
+          signOut(auth).catch(()=>{});
+        }
+      },()=>{if(version!==sessionVersion)return;clearSession();$('loginError').textContent='تعذر التحقق من صلاحية الحساب. سجّل الدخول مرة أخرى.';signOut(auth).catch(()=>{});});
+    }catch(error){
+      if(version!==sessionVersion)return;
+      clearSession();$('loginError').textContent=firebaseErrorMessage(error);
     }
   });
-}else{
-  $('demoBadge').style.display='block';
-  $('demoBadge').textContent='⚠️ أضف Firebase Config أولاً لتفعيل تسجيل الدخول والتخزين.';
 }
 
 document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));
@@ -1330,7 +1398,7 @@ $('exportExcelBtn').onclick=()=>{
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'تفاصيل الحركة');
 
-  const branchTotals={};
+  const branchTotals=Object.create(null);
   items.forEach(x=>{ const b=x.branch||'غير محدد'; branchTotals[b]=(branchTotals[b]||0)+Number(x.qty||0); });
   const branchSheet=Object.entries(branchTotals).sort((a,b)=>b[1]-a[1]).map(([branch,qty])=>({'الفرع':branch,'إجمالي الكمية':qty}));
   const ws2=XLSX.utils.json_to_sheet(branchSheet);
@@ -1368,6 +1436,7 @@ $('bulkDropzone').onclick=()=>$('bulkFileInput').click();
 let bulkFiles = []; // [{file, branch, status}]
 
 $('bulkFileInput').onchange=e=>{
+  if(e.target.files.length>27){alert('الحد الأقصى 27 ملفًا في المرة الواحدة.');e.target.value='';return;}
   bulkFiles = Array.from(e.target.files).map(file=>{
     const guess = branches.find(b=>file.name.includes(b)) || '';
     return { file, branch: guess, status: 'جاهز' };
@@ -1379,13 +1448,13 @@ function renderBulkFileList(){
   const branchOptions = branches.map(b=>`<option value="${b}">${b}</option>`).join('');
   $('bulkFileList').innerHTML = bulkFiles.map((bf,i)=>`
     <div class="field-row" style="align-items:center;background:#0e1424;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;">
-      <div style="flex:2;font-size:12.5px;" dir="ltr" text-align:right;>${bf.file.name}</div>
+      <div style="flex:2;font-size:12.5px;" dir="ltr" text-align:right;>${escapeHTML(bf.file.name)}</div>
       <div class="field" style="flex:1;margin:0;">
         <select class="select-box bulk-branch-select" data-idx="${i}" style="width:100%;">
           <option value="">— اختر الفرع —</option>${branchOptions}
         </select>
       </div>
-      <div style="flex:1;font-size:11.5px;color:var(--muted);" class="bulk-status" data-idx="${i}">${bf.status}</div>
+      <div style="flex:1;font-size:11.5px;color:var(--muted);" class="bulk-status" data-idx="${i}">${escapeHTML(bf.status)}</div>
     </div>
   `).join('');
   document.querySelectorAll('.bulk-branch-select').forEach(sel=>{
@@ -1398,13 +1467,16 @@ function renderBulkFileList(){
 
 // نسخة "صامتة" من قراءة الملف: بترجع الأصناف مباشرة بدون التفاعل مع واجهة خطوة 2
 async function parseFileHeadless(file){
+  requireEmployee();validateFile(file);
   const ext = file.name.split('.').pop().toLowerCase();
   const find=(headers,patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
 
   if(ext==='pdf'){
     await ensurePdfJs();
     const buf=await file.arrayBuffer();
-    const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+    const pdfTask=window.pdfjsLib.getDocument({data:buf,isEvalSupported:false,stopAtErrors:true});
+    const pdf=await pdfTask.promise;
+    if(pdf.numPages>100) {await pdfTask.destroy();throw new Error('الحد الأقصى 100 صفحة PDF.');}
     let lines=[];
     for(let p=1;p<=pdf.numPages;p++){
       const page=await pdf.getPage(p);
@@ -1416,6 +1488,7 @@ async function parseFileHeadless(file){
       });
       if(currentLine.length) lines.push(currentLine.join(' ').trim());
     }
+    await pdfTask.destroy();
     lines=lines.filter(l=>l.trim()!=='');
     const bracketPattern=/^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
     const bracketRows=[];
@@ -1442,7 +1515,7 @@ async function parseFileHeadless(file){
 
   // Excel
   const buf = await file.arrayBuffer();
-  const wb = XLSX.read(buf,{type:'array'}), ws = wb.Sheets[wb.SheetNames[0]];
+  const wb = XLSX.read(buf,{type:'array',sheetRows:5002,cellHTML:false,cellFormula:false}), ws = wb.Sheets[wb.SheetNames[0]];
   const rows = XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
   if(rows.length<2) throw new Error('الملف لا يحتوي بيانات كافية');
   const headers = rows[0].map(String);
@@ -1457,6 +1530,10 @@ async function parseFileHeadless(file){
 }
 
 $('bulkSaveBtn').onclick=async()=>{
+  if($('bulkSaveBtn').disabled) return;
+  try{requireEmployee();}catch(e){alert(e.message);return;}
+  const uploadVersion=sessionVersion;
+  const batchFiles=bulkFiles.slice();
   const date = $('bulkReportDate').value;
   const statusEl = $('bulkStatus');
   if(!date){ statusEl.style.color='var(--pink)'; statusEl.textContent='اختر تاريخ التقرير الأول'; return; }
@@ -1464,12 +1541,14 @@ $('bulkSaveBtn').onclick=async()=>{
 
   $('bulkSaveBtn').disabled = true;
   let done=0, failed=0;
-  for(let i=0;i<bulkFiles.length;i++){
-    const bf = bulkFiles[i];
+  for(let i=0;i<batchFiles.length;i++){
+    if(uploadVersion!==sessionVersion || !canUpload)break;
+    const bf = batchFiles[i];
     const statusCell = document.querySelector(`.bulk-status[data-idx="${i}"]`);
     if(statusCell) statusCell.textContent='⏳ جاري الرفع...';
     try{
       const items = await parseFileHeadless(bf.file);
+      if(uploadVersion!==sessionVersion || !canUpload)break;
       if(!items.length) throw new Error('مفيش بيانات في الملف');
       await saveReport({ branch: bf.branch, date, items });
       done++;
@@ -1480,11 +1559,13 @@ $('bulkSaveBtn').onclick=async()=>{
     }
   }
   $('bulkSaveBtn').disabled = false;
+  if(uploadVersion!==sessionVersion || !canUpload)return;
   statusEl.style.color = failed ? 'var(--amber)' : 'var(--teal)';
   statusEl.textContent = `تم حفظ ${done} فرع${failed?` — فشل ${failed}`:''} بنجاح`;
-  await refreshAll();
+  try{await refreshAll();}catch(error){statusEl.textContent+=' — '+firebaseErrorMessage(error);}
   if(!failed){
     setTimeout(()=>{
+      if(uploadVersion!==sessionVersion)return;
       bulkFiles=[]; $('bulkFileList').innerHTML=''; $('bulkActions').style.display='none';
       $('bulkFileInput').value=''; statusEl.textContent=''; show('overview');
     }, 1500);
@@ -1510,6 +1591,8 @@ $('confirmMapping').onclick=()=>{
 };
 
 $('saveReportBtn').onclick=async()=>{
+  if($('saveReportBtn').disabled) return;
+  try{requireEmployee();}catch(e){alert(e.message);return;}
   const branch=$('newBranchName').value.trim()||$('uploadBranchSelect').value;
   const date=$('reportDate').value||new Date().toISOString().slice(0,10);
   if(!window._finalData?.length){alert('لا توجد بيانات للحفظ');return}

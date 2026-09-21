@@ -373,22 +373,86 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
   table{width:100%;}
   canvas{max-width:100%!important;}
 }
-</style></head>
+</style>
+<style id="refined-login">
+#view-login{position:fixed;inset:0;z-index:100;min-height:100%;overflow:auto;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;direction:rtl;color:#1d1d1f;background:radial-gradient(ellipse at 15% 45%,#eaf2ff80,transparent 48%),radial-gradient(ellipse at 90% 80%,#eeebff70,transparent 45%),#f5f5f7;padding:0 24px;font-family:'Tajawal',-apple-system,BlinkMacSystemFont,sans-serif;}
+#view-login *{box-sizing:border-box;}
+.login-top{width:100%;max-width:1120px;display:flex;align-items:center;gap:10px;padding:27px 0;font-size:16px;font-weight:700;flex-shrink:0;}
+.login-top svg{width:26px;height:26px;color:#0071e3;}
+#view-login .login-card{width:100%;max-width:510px;background:rgba(255,255,255,.94);border:1px solid #fff;border-radius:28px;padding:43px 52px 32px;box-shadow:0 20px 70px #152b4d09,0 2px 8px #152b4d04;text-align:center;margin:auto 0;flex-shrink:0;animation:login-arrive .55s ease-out;}
+.login-symbol{width:80px;height:80px;margin:0 auto 26px;display:grid;place-items:center;border-radius:23px;color:#fff;background:linear-gradient(145deg,#58acff,#0071e3 65%,#0056c8);box-shadow:0 10px 24px #0071e32b,inset 0 1px 1px #ffffff90;}
+.login-symbol img{display:block;width:100%;height:100%;object-fit:contain;}
+#view-login .login-symbol{width:105px;height:100px;background:transparent;border-radius:0;box-shadow:none;}
+.login-top img{width:30px;height:30px;object-fit:contain;}
+#view-login .login-eyebrow{font-size:13px;font-weight:500;color:#86868b;margin:0 0 12px;}
+#view-login h1{font-size:33px;line-height:1.35;letter-spacing:-.8px;margin:0 0 11px;font-weight:800;color:#1d1d1f;}
+#view-login .login-intro{font-size:15px;line-height:1.7;color:#6e6e73;margin:0 auto 29px;max-width:300px;}
+.login-fields{border:1px solid #c5c5ca;border-radius:13px;background:#fff;overflow:hidden;text-align:right;}
+.login-field{position:relative;}
+.login-field+.login-field{border-top:1px solid #d2d2d7;}
+.login-field:focus-within{box-shadow:inset 0 0 0 2px #0071e3;z-index:1;border-radius:3px;}
+#view-login .login-field label{display:block;position:absolute;right:16px;top:10px;font-size:11px;color:#6e6e73;pointer-events:none;}
+#view-login .login-field input{width:100%;height:66px;border:0;border-radius:0;background:transparent;color:#1d1d1f;margin:0;padding:27px 16px 9px;outline:none;font-size:16px;text-align:left;box-shadow:none;}
+#view-login #loginPassword{padding-right:68px;}
+#view-login input::placeholder{color:#a1a1a6;font-size:14px;}
+.login-toggle{position:absolute;right:12px;bottom:9px;min-height:30px;padding:4px 5px;border:0;background:transparent;color:#0071e3;cursor:pointer;font-size:12px;font-weight:600;}
+#view-login .btn-primary{width:100%;margin:21px 0 0;padding:15px 20px;border-radius:12px;background:#0071e3;color:white;font-size:16px;font-weight:700;min-height:51px;box-shadow:none;transition:background .2s,transform .2s;}
+#view-login .btn-primary:hover{background:#0077ed;filter:none;transform:none;}
+#view-login .btn-primary:active{transform:scale(.99);}
+#view-login .btn-primary:disabled{opacity:.65;cursor:wait;}
+#view-login button:focus-visible{outline:3px solid #78b8ff;outline-offset:3px;}
+#view-login .login-error{color:#b42318;font-size:13px;line-height:1.5;margin-top:12px;min-height:20px;}
+#view-login .login-help{border-top:1px solid #ededf0;padding-top:20px;margin:12px 0 0;color:#86868b;font-size:12px;line-height:1.7;}
+#view-login .reset-link{border:0;background:transparent;color:#0071e3;font:inherit;font-size:14px;cursor:pointer;padding:8px 12px;min-height:40px;border-radius:8px;}
+#view-login .reset-link:hover{text-decoration:underline;}
+#view-login .reset-link:disabled{color:#86868b;cursor:default;text-decoration:none;}
+#view-login #resetPasswordStatus{margin:7px 0 0;font-size:12px;line-height:1.8;color:#6e6e73;}
+#view-login #resetPasswordStatus[data-state="error"]{color:#b42318;}
+#view-login #resetPasswordStatus[data-state="success"]{color:#247447;}
+.login-bottom{padding:27px 0 22px;text-align:center;color:#86868b;font-size:12px;line-height:1.8;flex-shrink:0;}
+.login-bottom span{display:block;font-size:11px;color:#a1a1a6;margin-top:3px;}
+@keyframes login-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(max-width:540px){#view-login{padding:0 18px;}.login-top{padding:22px 4px;font-size:14px;}#view-login .login-card{padding:32px 24px 24px;border-radius:23px;}#view-login h1{font-size:29px;}.login-symbol{width:70px;height:70px;border-radius:20px;margin-bottom:23px;}#view-login .login-intro{font-size:14px;}.login-bottom{padding:22px 0 18px;}}
+@media(prefers-reduced-motion:reduce){#view-login .login-card{animation:none;}#view-login .btn-primary{transition:none;}}
+</style>
+</head>
 <body>
 
 <!-- ============ شاشة الدخول ============ -->
 <div id="view-login">
-  <div class="login-card">
-    <div class="dot"><svg viewBox="0 0 24 24" width="58%" height="58%"><circle cx="12" cy="6.5" r="2.2" fill="#fff"/><circle cx="5.5" cy="18" r="1.9" fill="#fff" opacity="0.92"/><circle cx="12" cy="18" r="1.9" fill="#fff" opacity="0.92"/><circle cx="18.5" cy="18" r="1.9" fill="#fff" opacity="0.92"/><path d="M12 8.7 L5.5 16.1 M12 8.7 L12 16.1 M12 8.7 L18.5 16.1" stroke="#fff" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg></div>
-    <h1>منصة تقارير الفروع</h1>
-    <p>سجّل دخولك لمتابعة مبيعات الفروع الـ27</p>
-    <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" dir="ltr" autocomplete="username" style="text-align:left;">
-    <input type="password" id="loginPassword" placeholder="كلمة المرور" dir="ltr" autocomplete="current-password" style="text-align:left;">
-    <button class="btn-primary" id="loginBtn">تسجيل الدخول</button>
-    <div class="login-error" id="loginError"></div>
-    <div id="demoBadge" style="display:none;" class="demo-badge">⚡ وضع تجريبي — أي بيانات دخول هتشتغل</div>
-  </div>
+  <header class="login-top"><img src="data:image/png;base64,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" alt="شعار المنصة" width="345" height="324"><span>منصة تقارير الفروع</span></header>
+  <main class="login-card" aria-labelledby="loginTitle">
+    <div class="login-symbol"><img src="data:image/png;base64,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" alt="شعار المنصة" width="345" height="324"></div>
+    <p class="login-eyebrow">كل فروعك، في مكان واحد</p>
+    <h1 id="loginTitle">أهلًا بعودتك</h1>
+    <p class="login-intro">سجّل دخولك لمتابعة أداء الفروع<br>والاطّلاع على أحدث التقارير.</p>
+    <form id="loginForm">
+      <div class="login-fields">
+        <div class="login-field"><label for="loginEmail">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="name@company.com" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+        <div class="login-field"><label for="loginPassword">كلمة المرور</label><input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" dir="ltr" autocomplete="current-password" required><button class="login-toggle" type="button" id="togglePassword" aria-label="إظهار كلمة المرور" aria-controls="loginPassword" aria-pressed="false">إظهار</button></div>
+      </div>
+      <button class="btn-primary" id="loginBtn" type="submit">تسجيل الدخول</button>
+      <div class="login-error" id="loginError" role="alert" aria-live="polite"></div>
+      <div id="demoBadge" style="display:none;" class="demo-badge">⚡ وضع تجريبي — أي بيانات دخول هتشتغل</div>
+    </form>
+    <div class="login-help">
+      <button type="button" id="resetPasswordBtn" class="reset-link" aria-describedby="resetPasswordStatus">نسيت كلمة المرور؟</button>
+      <p id="resetPasswordStatus" role="status" aria-live="polite">اكتب بريدك الإلكتروني بالأعلى لاستلام رابط إعادة تعيين كلمة المرور.</p>
+    </div>
+  </main>
+  <footer class="login-bottom">منصة تقارير الفروع<span>رؤية أوضح. قرارات أفضل.</span></footer>
 </div>
+<script>
+document.getElementById('togglePassword').addEventListener('click',function(){
+  const input=document.getElementById('loginPassword');
+  const visible=input.type==='password';
+  input.type=visible?'text':'password';
+  this.textContent=visible?'إخفاء':'إظهار';
+  this.setAttribute('aria-label',visible?'إخفاء كلمة المرور':'إظهار كلمة المرور');
+  this.setAttribute('aria-pressed',String(visible));
+});
+document.getElementById('loginForm').addEventListener('submit',function(event){event.preventDefault();});
+</script>
 
 <!-- ============ التطبيق ============ -->
 <div id="view-app">
@@ -411,6 +475,14 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
       <button class="nav-item" data-view="deadstock">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
         أصناف راكدة
+      </button>
+      <button class="nav-item" data-view="compare">
+        <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+        مقارنة الفروع
+      </button>
+      <button class="nav-item" data-view="activity" id="navActivity" style="display:none;">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        سجل النشاط
       </button>
       <button class="nav-item" data-view="permissions" id="navPermissions" style="display:none;">
         <svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -494,28 +566,60 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
 
           <!-- خطوة 1 -->
           <div class="step active" id="uploadStep1">
-            <div class="field-row">
-              <div class="field">
-                <label>الفرع</label>
-                <select id="uploadBranchSelect" class="select-box" style="width:100%;"></select>
+            <div class="field-row" style="align-items:center;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);cursor:pointer;">
+                <input type="checkbox" id="bulkModeToggle" style="accent-color:var(--purple);">
+                رفع أكتر من فرع مرة واحدة (رفع بالجملة)
+              </label>
+            </div>
+
+            <div id="singleUploadFields">
+              <div class="field-row">
+                <div class="field">
+                  <label>الفرع</label>
+                  <select id="uploadBranchSelect" class="select-box" style="width:100%;"></select>
+                </div>
+                <div class="field">
+                  <label>أو أضف فرع جديد</label>
+                  <input type="text" id="newBranchName" placeholder="اسم الفرع الجديد">
+                </div>
+                <div class="field">
+                  <label>تاريخ التقرير</label>
+                  <input type="date" id="reportDate">
+                </div>
               </div>
-              <div class="field">
-                <label>أو أضف فرع جديد</label>
-                <input type="text" id="newBranchName" placeholder="اسم الفرع الجديد">
-              </div>
-              <div class="field">
-                <label>تاريخ التقرير</label>
-                <input type="date" id="reportDate">
+              <div class="dropzone" id="dropzone">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
+                <div>اسحب ملف Excel أو PDF هنا، أو اضغط للاختيار</div>
+                <div style="font-size:10.5px;margin-top:6px;">.xlsx / .xls / .pdf</div>
+                <input type="file" id="fileInput" accept=".xlsx,.xls,.pdf" style="display:none;">
               </div>
             </div>
-            <div class="dropzone" id="dropzone">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
-              <div>اسحب ملف Excel أو PDF هنا، أو اضغط للاختيار</div>
-              <div style="font-size:10.5px;margin-top:6px;">.xlsx / .xls / .pdf</div>
-              <input type="file" id="fileInput" accept=".xlsx,.xls,.pdf" style="display:none;">
+
+            <div id="bulkUploadFields" style="display:none;">
+              <div class="field-row">
+                <div class="field">
+                  <label>تاريخ التقرير (لكل الملفات المختارة)</label>
+                  <input type="date" id="bulkReportDate">
+                </div>
+              </div>
+              <div class="dropzone" id="bulkDropzone">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
+                <div>اختر ملفات كل الفروع مرة واحدة (Excel أو PDF)</div>
+                <div style="font-size:10.5px;margin-top:6px;">هيتحدد عمود الاسم/الكمية تلقائياً لكل ملف</div>
+                <input type="file" id="bulkFileInput" accept=".xlsx,.xls,.pdf" multiple style="display:none;">
+              </div>
+              <div id="bulkFileList" style="margin-top:14px;"></div>
+              <div class="step-actions" id="bulkActions" style="display:none;">
+                <span></span>
+                <button class="btn-primary" style="width:auto;padding:10px 22px;" id="bulkSaveBtn">حفظ كل الفروع ✓</button>
+              </div>
+              <div id="bulkStatus" style="font-size:12.5px;margin-top:10px;"></div>
             </div>
+
             <div id="uploadStatus" style="font-size:12px;color:var(--muted);margin-top:10px;"></div>
           </div>
+
 
           <!-- خطوة 2: تحديد الأعمدة ومعاينة -->
           <div class="step" id="uploadStep2">
@@ -571,6 +675,35 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
         </div>
       </div>
 
+      <div class="view" id="view-compare">
+        <div class="panel">
+          <h3>مقارنة الفروع <span>اختر 2 أو أكتر</span></h3>
+          <div id="compareCheckboxes" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+          <div class="chart-wrap" style="height:280px;"><canvas id="chartCompareTrend"></canvas></div>
+          <div class="preview-scroll" style="margin-top:16px;">
+            <table>
+              <thead><tr><th>الفرع</th><th>إجمالي الكمية</th><th>إجمالي المبيعات</th><th>أكثر صنف مبيعاً</th></tr></thead>
+              <tbody id="compareTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-activity">
+        <div class="panel">
+          <h3>سجل النشاط <span id="activityCountLabel"></span></h3>
+          <div class="controls">
+            <input type="text" class="search-box" id="activitySearch" placeholder="ابحث بالفرع أو الإيميل...">
+          </div>
+          <div class="preview-scroll" style="max-height:560px;">
+            <table>
+              <thead><tr><th>تاريخ الرفع</th><th>الفرع</th><th>تاريخ التقرير</th><th>عدد الأصناف</th><th>إجمالي المبيعات</th><th>بواسطة</th></tr></thead>
+              <tbody id="activityTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <div class="view" id="view-permissions">
         <div class="panel">
           <h3>إدارة الصلاحيات</h3>
@@ -611,7 +744,7 @@ body{background:radial-gradient(circle at 45% -10%,#1a2550 0,#0c142d 34%,#080e20
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 import {
   getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
@@ -676,6 +809,7 @@ function computeIsAdmin(email){
 function applyPermissionsUI(){
   $('navUpload').style.display = isAdmin ? '' : 'none';
   $('navPermissions').style.display = isAdmin ? '' : 'none';
+  $('navActivity').style.display = isAdmin ? '' : 'none';
 }
 
 async function saveAdminEmails(newList){
@@ -704,6 +838,96 @@ function renderPermissions(){
     };
   });
 }
+
+function renderActivity(){
+  const q = ($('activitySearch').value||'').toLowerCase();
+  const sorted = [...reports].sort((a,b)=>{
+    const ta = a.createdAt?.seconds || a.createdAt || 0;
+    const tb = b.createdAt?.seconds || b.createdAt || 0;
+    return tb - ta;
+  });
+  const filtered = sorted.filter(r=>!q || (r.branch||'').toLowerCase().includes(q) || (r.createdBy||'').toLowerCase().includes(q));
+  $('activityCountLabel').textContent = `(${filtered.length})`;
+  $('activityTable').innerHTML = filtered.map(r=>{
+    let uploadedAt = '—';
+    if(r.createdAt?.seconds) uploadedAt = new Date(r.createdAt.seconds*1000).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const totalSales = (r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0);
+    return `<tr>
+      <td class="mono">${uploadedAt}</td>
+      <td>${r.branch||'—'}</td>
+      <td class="mono">${r.date||'—'}</td>
+      <td class="mono">${(r.items||[]).length}</td>
+      <td class="mono">${money(totalSales)}</td>
+      <td dir="ltr" style="text-align:right;">${r.createdBy||'—'}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">لا يوجد نشاط بعد</td></tr>';
+}
+$('activitySearch')?.addEventListener('input', renderActivity);
+
+function renderCompare(){
+  const box = $('compareCheckboxes');
+  if(!box.dataset.built){
+    box.innerHTML = branches.map(b=>`
+      <label style="display:flex;align-items:center;gap:6px;background:#0e1424;border:1px solid var(--border);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;">
+        <input type="checkbox" value="${b}" class="compare-chk" style="accent-color:var(--purple);">
+        ${b}
+      </label>`).join('');
+    box.dataset.built = '1';
+    box.querySelectorAll('.compare-chk').forEach(cb=>cb.addEventListener('change', drawCompare));
+    // اختيار أول فرعين افتراضياً عشان الشاشة متبقاش فاضية أول مرة
+    const boxes = box.querySelectorAll('.compare-chk');
+    if(boxes[0]) boxes[0].checked = true;
+    if(boxes[1]) boxes[1].checked = true;
+  }
+  drawCompare();
+}
+
+let chartCompare;
+function drawCompare(){
+  const selected = Array.from(document.querySelectorAll('.compare-chk:checked')).map(cb=>cb.value);
+  const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff'];
+
+  // جدول ملخص
+  const summary = selected.map(branch=>{
+    const rs = reports.filter(r=>r.branch===branch);
+    const totalQty = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.qty||0),0),0);
+    const totalSales = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0),0);
+    const prodMap = {};
+    rs.forEach(r=>(r.items||[]).forEach(x=>{prodMap[x.name]=(prodMap[x.name]||0)+Number(x.qty||0);}));
+    const top = Object.entries(prodMap).sort((a,b)=>b[1]-a[1])[0];
+    return { branch, totalQty, totalSales, top: top?top[0]:'—' };
+  });
+  $('compareTable').innerHTML = summary.map(s=>`
+    <tr><td><b>${s.branch}</b></td><td class="mono">${fmt(s.totalQty)}</td><td class="mono">${money(s.totalSales)}</td><td dir="ltr" style="text-align:right;">${s.top}</td></tr>
+  `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px;">اختر فرعين أو أكتر فوق</td></tr>';
+
+  // شارت خطي: مبيعات كل فرع عبر الوقت
+  if(!window.Chart) return;
+  if(chartCompare) chartCompare.destroy();
+  const allDates = [...new Set(reports.filter(r=>selected.includes(r.branch)).map(r=>r.date))].sort();
+  const datasets = selected.map((branch,i)=>{
+    const rs = reports.filter(r=>r.branch===branch);
+    const byDate = {};
+    rs.forEach(r=>{byDate[r.date]=(byDate[r.date]||0)+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0);});
+    return {
+      label: branch,
+      data: allDates.map(d=>byDate[d]||0),
+      borderColor: palette[i%palette.length],
+      backgroundColor: palette[i%palette.length]+'22',
+      tension:0.35, fill:false, pointRadius:3
+    };
+  });
+  chartCompare = new Chart($('chartCompareTrend'), {
+    type:'line',
+    data:{ labels: allDates, datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false, rtl:false,
+      plugins:{ legend:{display:true, labels:{color:'#c9d2f0'}}, tooltip:{rtl:false,textDirection:'ltr'} },
+      scales:{ x:{ticks:{color:'#8892b0'}, grid:{color:'#1c2447'}}, y:{ticks:{color:'#8892b0'}, grid:{color:'#1c2447'}} }
+    }
+  });
+}
+
 
 $('addAdminBtn').onclick=async()=>{
   const email = $('newAdminEmail').value.trim().toLowerCase();
@@ -768,13 +992,15 @@ function show(view){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el=$('view-'+view); if(el) el.classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',deadstock:'الأصناف الراكدة',permissions:'إدارة الصلاحيات'};
+  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',deadstock:'الأصناف الراكدة',permissions:'إدارة الصلاحيات',compare:'مقارنة الفروع',activity:'سجل النشاط'};
   $('pageTitle').textContent=titles[view]||'منصة تقارير الفروع';
   $('pageSub').textContent='آخر تحديث: '+new Date().toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
   if(view==='overview') renderOverview();
   if(view==='branches') renderBranches();
   if(view==='deadstock') renderDead();
   if(view==='permissions') renderPermissions();
+  if(view==='compare') renderCompare();
+  if(view==='activity') renderActivity();
 }
 
 function allItems(){
@@ -989,7 +1215,8 @@ async function refreshAll(){
   renderOverview();
 }
 
-$('loginBtn').onclick=async()=>{
+$('loginForm').onsubmit=async(event)=>{
+  event.preventDefault();
   $('loginError').textContent='';
   if(!firebaseReady){
     $('loginError').innerHTML='Firebase Config غير مضاف بعد. افتح الملف وابحث عن <b>firebaseConfig</b> وضع بيانات مشروعك.';
@@ -1006,6 +1233,62 @@ $('loginBtn').onclick=async()=>{
   }finally{
     $('loginBtn').disabled=false;
     $('loginBtn').textContent='تسجيل الدخول';
+  }
+};
+
+// Password recovery uses Firebase's hosted password-reset page.
+let resetPasswordPending = false;
+let resetPasswordNextAllowed = 0;
+$('resetPasswordBtn').onclick=async()=>{
+  if(resetPasswordPending || Date.now()<resetPasswordNextAllowed) return;
+  const button=$('resetPasswordBtn');
+  const status=$('resetPasswordStatus');
+  const emailInput=$('loginEmail');
+  emailInput.value=emailInput.value.trim();
+  status.dataset.state='error';
+  if(!emailInput.value || !emailInput.checkValidity()){
+    status.textContent='اكتب بريدًا إلكترونيًا صحيحًا في خانة البريد بالأعلى، ثم اضغط «نسيت كلمة المرور؟».';
+    emailInput.focus();
+    return;
+  }
+  if(!firebaseReady){
+    status.textContent='خدمة استعادة كلمة المرور غير متاحة الآن. حاول لاحقًا أو تواصل مع مسؤول النظام.';
+    return;
+  }
+  resetPasswordPending=true;
+  button.disabled=true;
+  button.textContent='جارٍ إرسال الرابط…';
+  status.dataset.state='';
+  status.textContent='';
+  let sent=false;
+  try{
+    auth.languageCode='ar';
+    await sendPasswordResetEmail(auth,emailInput.value);
+    sent=true;
+  }catch(error){
+    if(error?.code==='auth/user-not-found'){
+      sent=true;
+    }else{
+      status.dataset.state='error';
+      const messages={
+        'auth/invalid-email':'البريد الإلكتروني غير صحيح. راجعه وحاول مرة أخرى.',
+        'auth/too-many-requests':'تم إرسال طلبات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.',
+        'auth/network-request-failed':'تعذر الاتصال بالإنترنت. تأكد من الاتصال وحاول مرة أخرى.'
+      };
+      status.textContent=messages[error?.code] || 'تعذر إرسال رابط إعادة التعيين. حاول لاحقًا أو تواصل مع مسؤول النظام.';
+    }
+  }finally{
+    resetPasswordPending=false;
+    if(sent){
+      status.dataset.state='success';
+      status.textContent='إذا كان البريد مرتبطًا بحساب، فستصلك رسالة تحتوي على رابط تعيين كلمة مرور جديدة. راجع الوارد والرسائل غير المرغوب فيها (Spam). يمكنك طلب رابط آخر بعد دقيقة.';
+      resetPasswordNextAllowed=Date.now()+60000;
+      button.textContent='يمكنك إعادة الإرسال بعد دقيقة';
+      setTimeout(()=>{button.disabled=false;button.textContent='إعادة إرسال رابط التعيين';},60000);
+    }else{
+      button.disabled=false;
+      button.textContent='نسيت كلمة المرور؟';
+    }
   }
 };
 
@@ -1073,6 +1356,139 @@ $('fileInput').onchange=e=>{
   const ext=file.name.split('.').pop().toLowerCase();
   if(ext==='pdf') loadPdf(file);
   else loadWorkbook(file);
+};
+
+// ===== وضع الرفع بالجملة (أكتر من فرع مرة واحدة) =====
+$('bulkModeToggle').onchange=e=>{
+  const bulk = e.target.checked;
+  $('singleUploadFields').style.display = bulk ? 'none' : '';
+  $('bulkUploadFields').style.display = bulk ? '' : 'none';
+};
+$('bulkDropzone').onclick=()=>$('bulkFileInput').click();
+let bulkFiles = []; // [{file, branch, status}]
+
+$('bulkFileInput').onchange=e=>{
+  bulkFiles = Array.from(e.target.files).map(file=>{
+    const guess = branches.find(b=>file.name.includes(b)) || '';
+    return { file, branch: guess, status: 'جاهز' };
+  });
+  renderBulkFileList();
+};
+
+function renderBulkFileList(){
+  const branchOptions = branches.map(b=>`<option value="${b}">${b}</option>`).join('');
+  $('bulkFileList').innerHTML = bulkFiles.map((bf,i)=>`
+    <div class="field-row" style="align-items:center;background:#0e1424;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;">
+      <div style="flex:2;font-size:12.5px;" dir="ltr" text-align:right;>${bf.file.name}</div>
+      <div class="field" style="flex:1;margin:0;">
+        <select class="select-box bulk-branch-select" data-idx="${i}" style="width:100%;">
+          <option value="">— اختر الفرع —</option>${branchOptions}
+        </select>
+      </div>
+      <div style="flex:1;font-size:11.5px;color:var(--muted);" class="bulk-status" data-idx="${i}">${bf.status}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.bulk-branch-select').forEach(sel=>{
+    const idx = +sel.dataset.idx;
+    sel.value = bulkFiles[idx].branch;
+    sel.onchange = ()=>{ bulkFiles[idx].branch = sel.value; };
+  });
+  $('bulkActions').style.display = bulkFiles.length ? 'flex' : 'none';
+}
+
+// نسخة "صامتة" من قراءة الملف: بترجع الأصناف مباشرة بدون التفاعل مع واجهة خطوة 2
+async function parseFileHeadless(file){
+  const ext = file.name.split('.').pop().toLowerCase();
+  const find=(headers,patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
+
+  if(ext==='pdf'){
+    await ensurePdfJs();
+    const buf=await file.arrayBuffer();
+    const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+    let lines=[];
+    for(let p=1;p<=pdf.numPages;p++){
+      const page=await pdf.getPage(p);
+      const content=await page.getTextContent();
+      let currentLine=[], lastY=null;
+      content.items.forEach(item=>{
+        if(lastY!==null && Math.abs(item.transform[5]-lastY)>2){ lines.push(currentLine.join(' ').trim()); currentLine=[]; }
+        currentLine.push(item.str); lastY=item.transform[5];
+      });
+      if(currentLine.length) lines.push(currentLine.join(' ').trim());
+    }
+    lines=lines.filter(l=>l.trim()!=='');
+    const bracketPattern=/^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
+    const bracketRows=[];
+    lines.forEach(line=>{ const m=line.match(bracketPattern); if(m) bracketRows.push([m[1],m[2].trim(),m[3].replace(/,/g,'')]); });
+    let headers, dataRows;
+    if(bracketRows.length>=Math.max(3,lines.length*0.3)){
+      headers=['كود','اسم','كمية']; dataRows=bracketRows;
+    }else{
+      dataRows=lines.map(l=>l.split(/\s{2,}/).map(c=>c.trim()).filter(c=>c!=='')).filter(r=>r.length>1);
+      const maxCols=Math.max(...dataRows.map(r=>r.length),1);
+      headers=Array.from({length:maxCols},(_,i)=>'عمود '+(i+1));
+    }
+    if(!dataRows.length) throw new Error('لم يتم العثور على بيانات');
+    const nameIdx=Math.max(0,find(headers,['اسم','صنف','product','item','name']));
+    const codeIdx=Math.max(0,find(headers,['كود','code','sku']));
+    const qtyIdx=Math.max(0,find(headers,['كمية','qty','quantity']));
+    const salesIdx=find(headers,['مبيعات','sales','value','قيمة']);
+    return dataRows.map(r=>({
+      name:(r[nameIdx]||'').toString().trim(), code:(r[codeIdx]||'').toString().trim(),
+      qty:parseFloat(String(r[qtyIdx]||'0').replace(/,/g,''))||0,
+      sales: salesIdx>=0 ? (parseFloat(String(r[salesIdx]||'0').replace(/,/g,''))||0) : 0
+    })).filter(x=>x.name);
+  }
+
+  // Excel
+  const buf = await file.arrayBuffer();
+  const wb = XLSX.read(buf,{type:'array'}), ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
+  if(rows.length<2) throw new Error('الملف لا يحتوي بيانات كافية');
+  const headers = rows[0].map(String);
+  const nameIdx=Math.max(0,find(headers,['اسم','صنف','product','item','name']));
+  const codeIdx=find(headers,['كود','code','sku']);
+  const qtyIdx=Math.max(0,find(headers,['كمية','qty','quantity']));
+  const salesIdx=find(headers,['مبيعات','sales','value','قيمة']);
+  return rows.slice(1).map(r=>({
+    name:(r[nameIdx]||'').toString().trim(), code: codeIdx>=0 ? (r[codeIdx]||'').toString().trim() : '',
+    qty: Number(r[qtyIdx]||0), sales: salesIdx>=0 ? Number(r[salesIdx]||0) : 0
+  })).filter(x=>x.name);
+}
+
+$('bulkSaveBtn').onclick=async()=>{
+  const date = $('bulkReportDate').value;
+  const statusEl = $('bulkStatus');
+  if(!date){ statusEl.style.color='var(--pink)'; statusEl.textContent='اختر تاريخ التقرير الأول'; return; }
+  if(bulkFiles.some(bf=>!bf.branch)){ statusEl.style.color='var(--pink)'; statusEl.textContent='لازم تحدد الفرع لكل ملف قبل الحفظ'; return; }
+
+  $('bulkSaveBtn').disabled = true;
+  let done=0, failed=0;
+  for(let i=0;i<bulkFiles.length;i++){
+    const bf = bulkFiles[i];
+    const statusCell = document.querySelector(`.bulk-status[data-idx="${i}"]`);
+    if(statusCell) statusCell.textContent='⏳ جاري الرفع...';
+    try{
+      const items = await parseFileHeadless(bf.file);
+      if(!items.length) throw new Error('مفيش بيانات في الملف');
+      await saveReport({ branch: bf.branch, date, items });
+      done++;
+      if(statusCell){ statusCell.textContent='✅ تم الحفظ'; statusCell.style.color='var(--teal)'; }
+    }catch(err){
+      failed++;
+      if(statusCell){ statusCell.textContent='⚠️ '+err.message; statusCell.style.color='var(--pink)'; }
+    }
+  }
+  $('bulkSaveBtn').disabled = false;
+  statusEl.style.color = failed ? 'var(--amber)' : 'var(--teal)';
+  statusEl.textContent = `تم حفظ ${done} فرع${failed?` — فشل ${failed}`:''} بنجاح`;
+  await refreshAll();
+  if(!failed){
+    setTimeout(()=>{
+      bulkFiles=[]; $('bulkFileList').innerHTML=''; $('bulkActions').style.display='none';
+      $('bulkFileInput').value=''; statusEl.textContent=''; show('overview');
+    }, 1500);
+  }
 };
 $('backToStep1').onclick=()=>setStep(1);
 $('backToStep2').onclick=()=>setStep(2);

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-76FWgIYxYlFN4LlZXDWY+d5cdYa48s5DyRTw30OkSKE=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-gQ1SOGwePvWeL5pXJKYFjZCcAI/NdJIPS/ZBQmYuKko=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة تقارير الفروع</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%238b6cf9%22/%3E%3Cstop%20offset%3D%2255%25%22%20stop-color%3D%22%23e8479f%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%232fd6c4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2220%22%20r%3D%226%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Cpath%20d%3D%22M32%2026%20L16%2041%20M32%2026%20L32%2041%20M32%2026%20L48%2041%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
@@ -515,7 +515,7 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
       </div>
 
       <div class="demo-banner" id="demoBanner" style="display:none;">
-        🔥 النسخة دي <b>جاهزة لـ Firebase</b>. ضع بيانات مشروعك في إعدادات Firebase داخل الملف، وبعدها تسجيل الدخول والحفظ والمزامنة بين الأجهزة هيشتغلوا من Firestore.
+        النظام متصل بخدمة البيانات ويزامن التقارير بين الأجهزة.
       </div>
 
       <!-- ===== نظرة عامة ===== -->
@@ -709,25 +709,46 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
       <div class="view" id="view-permissions">
         <div class="panel">
           <h3>إدارة الصلاحيات</h3>
-          <p style="color:var(--muted);font-size:12.5px;line-height:1.9;">حساب المالك وحده يدير الموظفين ويحذف التقارير. الموظف المعتمد يشاهد التقارير ويرفع تقارير جديدة فقط. بعد إنشاء الحساب في Firebase Authentication، انسخ UID والإيميل واعتمدهما هنا. إيقاف الموظف يمنع قراءة ورفع البيانات الجديدة، ولا يمحو نسخًا سبق له تنزيلها.</p>
+          <p style="color:var(--muted);font-size:12.5px;line-height:1.9;">
+            حساب المالك هو الحساب الأعلى ولا يمكن تغييره. يمكنك منح كل موظف مستوى صلاحية مستقل، وإيقاف الحساب عند الحاجة.
+          </p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 16px;font-size:10.5px;color:var(--muted);">
+            <span class="tag ok">موظف: مشاهدة + رفع</span>
+            <span class="tag low">مدير: مشاهدة + رفع + حذف + سجل النشاط</span>
+            <span class="tag" style="background:rgba(139,108,249,.15);color:#b7a6ff;">مسؤول كامل: إدارة الصلاحيات أيضًا</span>
+          </div>
 
           <div style="margin:18px 0;">
             <div class="field-row">
-              <div class="field" style="flex:2;">
-                <label>إيميل الموظف (مشاهدة ورفع فقط)</label>
-                <input type="email" id="newAdminEmail" placeholder="example@company.com" required><label for="employeeUid">UID من Firebase Authentication</label><input type="text" id="employeeUid" dir="ltr" placeholder="الصق UID الخاص بالموظف" maxlength="128" required>
+              <div class="field">
+                <label>إيميل الموظف</label>
+                <input type="email" id="newAdminEmail" placeholder="example@company.com" required>
               </div>
-              <div class="field" style="flex:0 0 auto;align-self:flex-end;">
-                <button class="btn-primary" style="width:auto;padding:11px 22px;" id="addAdminBtn">إضافة</button>
+              <div class="field">
+                <label for="employeeUid">معرّف الحساب (UID)</label>
+                <input type="text" id="employeeUid" dir="ltr" placeholder="الصق UID الخاص بالموظف" maxlength="128" required>
+              </div>
+              <div class="field">
+                <label for="newEmployeeRole">مستوى الصلاحية</label>
+                <select id="newEmployeeRole" class="select-box" style="width:100%;">
+                  <option value="employee">موظف — مشاهدة ورفع</option>
+                  <option value="manager">مدير — حذف + سجل النشاط</option>
+                  <option value="admin">مسؤول كامل — إدارة الصلاحيات</option>
+                </select>
               </div>
             </div>
-            <div id="permissionsStatus" style="font-size:12.5px;margin-top:6px;"></div>
+            <div style="display:flex;justify-content:flex-end;margin-top:12px;">
+              <button class="btn-primary" style="width:auto;padding:11px 22px;" id="addAdminBtn">إضافة الموظف</button>
+            </div>
+            <div id="permissionsStatus" style="font-size:12.5px;margin-top:8px;"></div>
           </div>
 
-          <table>
-            <thead><tr><th>الإيميل</th><th>الصلاحية</th><th></th></tr></thead>
-            <tbody id="adminsTable"></tbody>
-          </table>
+          <div class="preview-scroll">
+            <table style="min-width:760px;">
+              <thead><tr><th>الإيميل / UID</th><th>مستوى الصلاحية</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+              <tbody id="adminsTable"></tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -789,50 +810,116 @@ let uploadRows = [], map = {name:0,code:-1,qty:1,sales:-1};
 
 // Authorization is enforced independently by firestore.rules.
 const OWNER_EMAIL = 'mohamedrgab20@gmail.com';
-let isAdmin = false, canUpload = false, employees = [];
+const VALID_ROLES = ['employee','manager','admin'];
+const ROLE_LABELS = {
+  employee:'موظف — مشاهدة ورفع',
+  manager:'مدير — مشاهدة ورفع وحذف + سجل النشاط',
+  admin:'مسؤول كامل — جميع الصلاحيات الإدارية'
+};
+let isOwner = false, currentRole = 'employee', canUpload = false, canDelete = false, canManageUsers = false, canViewActivity = false, employees = [];
 let stopAccessWatch = null;
 let sessionVersion = 0;
 let persistenceError=null;
 const authPersistenceReady = firebaseReady ? setPersistence(auth, browserSessionPersistence).catch(error=>{persistenceError=error;}) : Promise.resolve();
+function normalizeRole(role){ return VALID_ROLES.includes(role) ? role : 'employee'; }
+function applyRoleCapabilities(owner, role='employee'){
+  isOwner=!!owner;
+  currentRole=isOwner?'owner':normalizeRole(role);
+  canUpload=true;
+  canDelete=isOwner || currentRole==='manager' || currentRole==='admin';
+  canManageUsers=isOwner || currentRole==='admin';
+  canViewActivity=isOwner || currentRole==='manager' || currentRole==='admin';
+}
 function requireOwner(){
-  if(!auth?.currentUser || !isAdmin) throw new Error('هذا الإجراء متاح لمالك النظام فقط.');
+  if(!auth?.currentUser || !isOwner) throw new Error('هذا الإجراء متاح لمالك النظام فقط.');
+}
+function requireManageUsers(){
+  if(!auth?.currentUser || !canManageUsers) throw new Error('ليس لديك صلاحية إدارة المستخدمين.');
+}
+function requireDelete(){
+  if(!auth?.currentUser || !canDelete) throw new Error('ليس لديك صلاحية حذف التقارير.');
 }
 function requireEmployee(){
   if(!auth?.currentUser || !canUpload) throw new Error('حسابك غير معتمد للوصول إلى التقارير.');
 }
 function applyPermissionsUI(){
   $('navUpload').style.display=canUpload?'':'none';
-  $('navPermissions').style.display=isAdmin?'':'none';
-  $('navActivity').style.display=isAdmin?'':'none';
+  $('navPermissions').style.display=canManageUsers?'':'none';
+  $('navActivity').style.display=canViewActivity?'':'none';
+}
+function currentAccessLabel(){
+  if(isOwner) return 'مالك النظام';
+  return ROLE_LABELS[currentRole] || ROLE_LABELS.employee;
 }
 async function initializeAccess(user){
-  const ref=doc(db,'settings','security');
-  let security=await getDoc(ref);
-  if(!security.exists() && user.email===OWNER_EMAIL && user.emailVerified){
-    try{await setDoc(ref,{ownerUid:user.uid,ownerEmail:OWNER_EMAIL,createdAt:serverTimestamp()});}
-    catch(error){const concurrent=await getDoc(ref);if(!concurrent.exists() || concurrent.data().ownerUid!==user.uid)throw error;}
-    security=await getDoc(ref);
+  if(user.email===OWNER_EMAIL){
+    if(!user.emailVerified) throw new Error('يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.');
+    const ref=doc(db,'settings','security');
+    let security=await getDoc(ref);
+    if(!security.exists()){
+      try{await setDoc(ref,{ownerUid:user.uid,ownerEmail:OWNER_EMAIL,createdAt:serverTimestamp()});}
+      catch(error){const concurrent=await getDoc(ref);if(!concurrent.exists() || concurrent.data().ownerUid!==user.uid)throw error;}
+      security=await getDoc(ref);
+    }
+    const owner=security.exists() && security.data().ownerUid===user.uid && security.data().ownerEmail===OWNER_EMAIL;
+    if(!owner) throw new Error('تعذر التحقق من حساب المالك. تواصل مع مسؤول النظام.');
+    return {owner:true,role:'owner'};
   }
-  const owner=security.exists() && security.data().ownerUid===user.uid && user.email===OWNER_EMAIL && user.emailVerified;
-  if(owner)return {owner:true};
   const access=await getDoc(doc(db,'employees',user.uid));
   const allowed=access.exists() && access.data().active===true && access.data().email===user.email;
-  if(!allowed) throw new Error('حسابك غير معتمد. أرسل UID حسابك إلى مسؤول النظام: '+user.uid);
-  return {owner:false};
+  if(!allowed) throw new Error('حسابك غير معتمد. أرسل معرّف حسابك إلى مسؤول النظام: '+user.uid);
+  return {owner:false,role:normalizeRole(access.data().role)};
+}
+async function saveEmployeeAccess(employee, updates={}){
+  requireManageUsers();
+  const role=normalizeRole(updates.role ?? employee.role);
+  const active=typeof updates.active==='boolean'?updates.active:employee.active!==false;
+  if(employee.uid===auth.currentUser.uid && !isOwner && (active===false || role!=='admin')){
+    throw new Error('لا يمكنك خفض صلاحية حسابك أو إيقافه من جلستك الحالية. استخدم حساب المالك.');
+  }
+  await setDoc(doc(db,'employees',employee.uid),{
+    email:String(employee.email||'').toLowerCase(),
+    active,
+    role,
+    updatedAt:serverTimestamp(),
+    updatedBy:auth.currentUser.email
+  });
 }
 async function renderPermissions(){
-  requireOwner();
+  requireManageUsers();
   const snap=await getDocs(collection(db,'employees'));
-  if(!isAdmin) return;
-  employees=snap.docs.map(d=>({...d.data(),uid:d.id}));
-  $('adminsTable').innerHTML=employees.map(e=>`<tr><td>${escapeHTML(e.email)}<br><small dir="ltr">${escapeHTML(e.uid)}</small></td><td>${e.active?'مشاهدة ورفع فقط':'موقوف'}</td><td><button class="btn-sm" data-employee="${escapeHTML(e.uid)}">${e.active?'إيقاف':'تفعيل'}</button></td></tr>`).join('');
-  document.querySelectorAll('[data-employee]').forEach(button=>button.onclick=async()=>{
+  if(!canManageUsers) return;
+  employees=snap.docs.map(d=>({...d.data(),uid:d.id,role:normalizeRole(d.data().role)}));
+  $('adminsTable').innerHTML=employees.map(e=>`<tr>
+    <td>${escapeHTML(e.email||'')}<br><small dir="ltr">${escapeHTML(e.uid)}</small></td>
+    <td><select class="select-box role-select" data-role-uid="${escapeHTML(e.uid)}" style="min-width:210px;" ${(!isOwner && e.uid===auth.currentUser.uid)?'disabled':''}>
+      <option value="employee" ${e.role==='employee'?'selected':''}>موظف — مشاهدة ورفع</option>
+      <option value="manager" ${e.role==='manager'?'selected':''}>مدير — حذف + سجل النشاط</option>
+      <option value="admin" ${e.role==='admin'?'selected':''}>مسؤول كامل — إدارة الصلاحيات</option>
+    </select></td>
+    <td><span class="tag ${e.active?'ok':'out'}">${e.active?'نشط':'موقوف'}</span></td>
+    <td><button class="btn-sm" data-employee-toggle="${escapeHTML(e.uid)}" ${(!isOwner && e.uid===auth.currentUser.uid)?'disabled':''}>${e.active?'إيقاف':'تفعيل'}</button></td>
+  </tr>`).join('') || '<tr><td colspan="4" class="no-results">لا يوجد موظفون مضافون حتى الآن.</td></tr>';
+
+  document.querySelectorAll('[data-role-uid]').forEach(select=>select.onchange=async()=>{
+    const employee=employees.find(e=>e.uid===select.dataset.roleUid);
+    if(!employee)return;
+    const previous=employee.role;
     try{
-      requireOwner();
-      const employee=employees.find(e=>e.uid===button.dataset.employee);
-      if(!employee || !confirm('تأكيد تغيير صلاحية هذا الموظف؟')) return;
+      select.disabled=true;
+      await saveEmployeeAccess(employee,{role:select.value});
+      $('permissionsStatus').textContent='تم تحديث مستوى الصلاحية بنجاح.';
+      await renderPermissions();
+    }catch(error){select.value=previous;select.disabled=false;alert(firebaseErrorMessage(error));}
+  });
+
+  document.querySelectorAll('[data-employee-toggle]').forEach(button=>button.onclick=async()=>{
+    try{
+      const employee=employees.find(e=>e.uid===button.dataset.employeeToggle);
+      if(!employee || !confirm(employee.active?'تأكيد إيقاف هذا الموظف؟':'تأكيد تفعيل هذا الموظف؟')) return;
       button.disabled=true;
-      await setDoc(doc(db,'employees',employee.uid),{email:employee.email,active:!employee.active,updatedAt:serverTimestamp()});
+      await saveEmployeeAccess(employee,{active:!employee.active});
+      $('permissionsStatus').textContent=employee.active?'تم إيقاف الحساب.':'تم تفعيل الحساب.';
       await renderPermissions();
     }catch(error){alert(firebaseErrorMessage(error));button.disabled=false;}
   });
@@ -931,15 +1018,16 @@ function drawCompare(){
 $('addAdminBtn').onclick=async()=>{
   const status=$('permissionsStatus');
   try{
-    requireOwner();
+    requireManageUsers();
     const email=$('newAdminEmail').value.trim().toLowerCase();
     const uid=$('employeeUid').value.trim();
-    if(!/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !$('newAdminEmail').checkValidity() || !email) throw new Error('انسخ UID والإيميل من Firebase Authentication بشكل صحيح.');
+    const role=normalizeRole($('newEmployeeRole').value);
+    if(!/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !$('newAdminEmail').checkValidity() || !email) throw new Error('أدخل البريد ومعرّف الحساب بشكل صحيح.');
     if(uid===auth.currentUser.uid || email===OWNER_EMAIL) throw new Error('حساب المالك ثابت ولا يضاف كموظف.');
     $('addAdminBtn').disabled=true;
-    await setDoc(doc(db,'employees',uid),{email,active:true,updatedAt:serverTimestamp()});
-    status.textContent='تم اعتماد الموظف: مشاهدة التقارير ورفع تقارير جديدة فقط.';
-    $('newAdminEmail').value='';$('employeeUid').value='';
+    await setDoc(doc(db,'employees',uid),{email,active:true,role,updatedAt:serverTimestamp(),updatedBy:auth.currentUser.email});
+    status.textContent='تمت إضافة الموظف بصلاحية: '+ROLE_LABELS[role];
+    $('newAdminEmail').value='';$('employeeUid').value='';$('newEmployeeRole').value='employee';
     await renderPermissions();
   }catch(error){status.textContent=firebaseErrorMessage(error);}
   finally{$('addAdminBtn').disabled=false;}
@@ -1007,13 +1095,13 @@ async function saveReport(report){
 }
 
 async function removeReport(id){
-  requireOwner();
-  if(!firebaseReady) throw new Error('Firebase غير مُعد بعد.');
+  requireDelete();
+  if(!firebaseReady) throw new Error('خدمة البيانات غير متاحة حاليًا.');
   await deleteDoc(doc(db, 'reports', id));
 }
 
 function show(view){
-  if(!canUpload || (['permissions','activity'].includes(view) && !isAdmin)) return;
+  if(!canUpload || (view==='permissions' && !canManageUsers) || (view==='activity' && !canViewActivity)) return;
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el=$('view-'+view); if(el) el.classList.add('active');
   document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
@@ -1078,7 +1166,7 @@ function renderBranches(){
   const items=rs.flatMap(r=>r.items||[]);
   $('branchDetailTitle').textContent=`تفاصيل فرع ${selectedBranch}`;
   $('branchReportsCount').textContent=`(${rs.length})`;
-  $('branchReportsTable').innerHTML=rs.map(r=>`<tr><td>${escapeHTML(r.date||'')}</td><td>${(r.items||[]).length}</td><td>${fmt((r.items||[]).reduce((a,x)=>a+Number(x.qty||0),0))}</td><td>${money((r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0))}</td><td>${isAdmin?`<button class="btn-sm" data-del="${escapeHTML(r.id||'')}">حذف</button>`:''}</td></tr>`).join('');
+  $('branchReportsTable').innerHTML=rs.map(r=>`<tr><td>${escapeHTML(r.date||'')}</td><td>${(r.items||[]).length}</td><td>${fmt((r.items||[]).reduce((a,x)=>a+Number(x.qty||0),0))}</td><td>${money((r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0))}</td><td>${canDelete?`<button class="btn-sm" data-del="${escapeHTML(r.id||'')}">حذف</button>`:''}</td></tr>`).join('');
 
   document.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=async()=>{
     if(!btn.dataset.del) return;
@@ -1247,7 +1335,7 @@ $('loginForm').onsubmit=async(event)=>{
   event.preventDefault();
   $('loginError').textContent='';
   if(!firebaseReady){
-    $('loginError').innerHTML='Firebase Config غير مضاف بعد. افتح الملف وابحث عن <b>firebaseConfig</b> وضع بيانات مشروعك.';
+    $('loginError').textContent='خدمة النظام غير مهيأة حاليًا. تواصل مع مسؤول النظام.';
     return;
   }
   const email=$('loginEmail').value.trim(), password=$('loginPassword').value;
@@ -1326,7 +1414,7 @@ $('resetPasswordBtn').onclick=async()=>{
 function clearSession(){
   sessionVersion++;
   if(stopAccessWatch){stopAccessWatch();stopAccessWatch=null;}
-  isAdmin=false;canUpload=false;reports=[];employees=[];uploadRows=[];window._finalData=[];bulkFiles=[];
+  isOwner=false;currentRole='employee';canUpload=false;canDelete=false;canManageUsers=false;canViewActivity=false;reports=[];employees=[];uploadRows=[];window._finalData=[];bulkFiles=[];
   ['branchTable','branchReportsTable','branchTopProductsList','deadStockTable','compareTable','activityTable','adminsTable','previewTable','bulkFileList'].forEach(id=>$(id).replaceChildren());
   document.querySelectorAll('#view-app input').forEach(input=>{if(input.type==='file'||input.type==='text'||input.type==='email'||input.type==='search')input.value='';});
   $('loginPassword').value='';
@@ -1362,18 +1450,26 @@ if(firebaseReady){
     try{
       const access=await initializeAccess(user);
       if(version!==sessionVersion)return;
-      isAdmin=access.owner;canUpload=true;
+      applyRoleCapabilities(access.owner,access.role);
       applyPermissionsUI();populateBranchSelect();
       await refreshAll();
       if(version!==sessionVersion)return;
       $('view-login').style.display='none';$('view-app').style.display='block';
-      $('demoBanner').textContent='المستخدم: '+user.email+' — '+(isAdmin?'مالك النظام':'مشاهدة ورفع فقط');
+      $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
       show('overview');
-      if(!isAdmin)stopAccessWatch=onSnapshot(doc(db,'employees',user.uid),snap=>{
+      if(!isOwner)stopAccessWatch=onSnapshot(doc(db,'employees',user.uid),snap=>{
         if(version!==sessionVersion)return;
         if(!snap.exists() || snap.data().active!==true || snap.data().email!==user.email){
           clearSession();$('loginError').textContent='تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
-          signOut(auth).catch(()=>{});
+          signOut(auth).catch(()=>{});return;
+        }
+        const nextRole=normalizeRole(snap.data().role);
+        if(nextRole!==currentRole){
+          applyRoleCapabilities(false,nextRole);
+          applyPermissionsUI();
+          $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
+          const activeView=document.querySelector('.view.active')?.id?.replace('view-','')||'overview';
+          if((activeView==='permissions'&&!canManageUsers)||(activeView==='activity'&&!canViewActivity))show('overview');
         }
       },()=>{if(version!==sessionVersion)return;clearSession();$('loginError').textContent='تعذر التحقق من صلاحية الحساب. سجّل الدخول مرة أخرى.';signOut(auth).catch(()=>{});});
     }catch(error){
@@ -1597,10 +1693,10 @@ $('saveReportBtn').onclick=async()=>{
   const date=$('reportDate').value||new Date().toISOString().slice(0,10);
   if(!window._finalData?.length){alert('لا توجد بيانات للحفظ');return}
   $('saveReportBtn').disabled=true;
-  $('saveStatus').textContent='جاري الحفظ على Firebase...';
+  $('saveStatus').textContent='جاري حفظ التقرير...';
   try{
     await saveReport({branch,date,items:window._finalData});
-    $('saveStatus').textContent='✓ تم حفظ التقرير على Firebase بنجاح';
+    $('saveStatus').textContent='✓ تم حفظ التقرير بنجاح';
     window._finalData=[];
     $('fileInput').value='';
     setStep(1);

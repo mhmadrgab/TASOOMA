@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-jistPQmdBMq0FvrIYLy+Xz2LrsNTy4djudpXVDr4tZo=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qJyeCCtu/QVNMB6mOtKSJ8OedYZjDCHN1XRhOM1Ec8k=' 'sha256-D9Zf1vcKlCpAJ1iwqmocsC7qI1Ds05hNZlvwmgJxlG0=' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة تقارير الفروع</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%228%22%20y1%3D%226%22%20x2%3D%2256%22%20y2%3D%2260%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%235B8CFF%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%237C5CFA%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318D5BD%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2216%22%20fill%3D%22%230E1730%22%2F%3E%0A%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%2252%22%20height%3D%2252%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22%20opacity%3D%22.16%22%2F%3E%0A%3Cpath%20d%3D%22M16%2044V31h7v13h-7Zm12%200V21h7v23h-7Zm12%200V27h7v17h-7Z%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M17%2022.5%2028%2015l10%205.2%209-8.2%22%20fill%3D%22none%22%20stroke%3D%22%2366F1DC%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Ccircle%20cx%3D%2217%22%20cy%3D%2222.5%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2215%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2238%22%20cy%3D%2220.2%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2212%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%0A%3C%2Fsvg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%238b6cf9%22/%3E%3Cstop%20offset%3D%2255%25%22%20stop-color%3D%22%23e8479f%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%232fd6c4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2220%22%20r%3D%226%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Ccircle%20cx%3D%2248%22%20cy%3D%2246%22%20r%3D%225%22%20fill%3D%22%23fff%22%20opacity%3D%220.92%22/%3E%3Cpath%20d%3D%22M32%2026%20L16%2041%20M32%2026%20L32%2041%20M32%2026%20L48%2041%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha384-bs/nf9FbdNouRbMiFcrcZfLXYPKiPaGVGplVbv7dLGECccEXDW+S3zjqSKR5ZEaD" crossorigin="anonymous"></script>
 <style>
 
@@ -496,24 +496,6 @@ tbody tr:hover{transform:translateX(-1px)}
 }
 </style>
 
-
-<style id="polish-v3">
-/* ===== تجربة استخدام نهائية: ترحيب، تنبيهات، Skeleton، Toasts، Confirm ===== */
-.dashboard-welcome{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:10px;padding:15px 17px;border:1px solid #2b385e;border-radius:14px;background:linear-gradient(135deg,rgba(77,124,255,.12),rgba(139,92,246,.08) 48%,rgba(22,217,189,.06));box-shadow:0 14px 34px rgba(0,0,0,.12);overflow:hidden;position:relative}
-.dashboard-welcome:after{content:"";position:absolute;width:180px;height:180px;left:-65px;top:-95px;border-radius:50%;background:radial-gradient(circle,rgba(91,140,255,.18),transparent 68%);pointer-events:none}
-.welcome-copy{position:relative;z-index:1;min-width:0}.welcome-copy .eyebrow{font-size:9.5px;color:#92a0c8;margin-bottom:4px}.welcome-copy h2{font-size:17px;margin:0 0 3px;font-weight:800}.welcome-copy p{font-size:10.5px;color:var(--muted);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:620px}
-.welcome-status{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;position:relative;z-index:1}.system-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #2a375b;background:rgba(9,15,34,.62);border-radius:999px;padding:6px 9px;font-size:9px;color:#aeb9d8;white-space:nowrap}.system-chip .live-dot{width:7px;height:7px;border-radius:50%;background:#18d5bd;box-shadow:0 0 0 4px rgba(24,213,189,.1),0 0 12px rgba(24,213,189,.7)}.system-chip.offline .live-dot{background:#ff6b75;box-shadow:0 0 0 4px rgba(255,107,117,.1)}
-.smart-alerts-panel{margin-bottom:10px;padding:12px 13px!important}.smart-alerts-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}.smart-alerts-head h3{margin:0!important}.smart-alerts-head span{font-size:8.5px;color:var(--muted)}.smart-alerts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.smart-alert{min-height:74px;border:1px solid #273455;border-radius:10px;padding:10px;background:#0e1730;display:flex;gap:9px;align-items:flex-start;transition:transform .18s ease,border-color .18s ease}.smart-alert:hover{transform:translateY(-2px);border-color:#3a4c7a}.smart-alert-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:rgba(77,124,255,.12);font-size:14px;flex:0 0 auto}.smart-alert.warning .smart-alert-icon{background:rgba(255,194,52,.12)}.smart-alert.danger .smart-alert-icon{background:rgba(255,62,145,.12)}.smart-alert.success .smart-alert-icon{background:rgba(22,217,189,.12)}.smart-alert b{display:block;font-size:9.7px;margin:0 0 3px;color:#edf2ff}.smart-alert small{display:block;font-size:8.5px;line-height:1.55;color:#8794b8}
-/* Dashboard skeleton shown while cloud data is loading */
-#view-overview{position:relative}.dashboard-skeleton{display:none;position:absolute;z-index:25;inset:0;border-radius:12px;background:rgba(9,15,34,.92);backdrop-filter:blur(5px);padding:0;pointer-events:none}.dashboard-loading .dashboard-skeleton{display:block}.skeleton-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:0}.sk{position:relative;overflow:hidden;background:#151f3d;border:1px solid #253252;border-radius:11px}.sk:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);animation:skShimmer 1.25s infinite}.sk-kpi{height:66px}.sk-row{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:10px;margin-top:10px}.sk-panel{height:220px}.sk-table{height:260px;margin-top:10px}@keyframes skShimmer{100%{transform:translateX(100%)}}
-/* Toast notifications */
-.toast-stack{position:fixed;left:20px;bottom:20px;z-index:10000;display:flex;flex-direction:column;gap:9px;width:min(390px,calc(100vw - 32px));pointer-events:none;direction:rtl}.toast{pointer-events:auto;display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid #2d3b61;background:rgba(12,20,43,.97);box-shadow:0 16px 45px rgba(0,0,0,.32);animation:toastIn .28s ease both}.toast.out{animation:toastOut .2s ease forwards}.toast-icon{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;background:rgba(77,124,255,.13)}.toast.success .toast-icon{background:rgba(22,217,189,.14)}.toast.warning .toast-icon{background:rgba(255,194,52,.14)}.toast.error .toast-icon{background:rgba(255,62,145,.14)}.toast-copy{min-width:0;flex:1}.toast-copy b{display:block;font-size:10px;margin-bottom:3px}.toast-copy span{display:block;font-size:9px;line-height:1.65;color:#9aa6c6}.toast-close{border:0;background:transparent;color:#8390b2;cursor:pointer;font-size:16px;padding:0 2px;line-height:1}.toast-close:hover{color:#fff}@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}@keyframes toastOut{to{opacity:0;transform:translateY(8px) scale(.98)}}
-/* Custom confirmation dialog */
-.confirm-backdrop{position:fixed;inset:0;z-index:11000;background:rgba(4,8,19,.66);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:20px;direction:rtl}.confirm-backdrop.open{display:flex}.confirm-card{width:min(420px,100%);background:linear-gradient(180deg,#151f3f,#101831);border:1px solid #304068;border-radius:17px;padding:19px;box-shadow:0 28px 80px rgba(0,0,0,.48);animation:confirmPop .22s ease both}.confirm-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,62,145,.12);font-size:20px;margin-bottom:11px}.confirm-card h3{margin:0 0 7px;font-size:14px}.confirm-card p{margin:0;color:#9ba8c8;font-size:11px;line-height:1.8}.confirm-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.btn-danger{background:linear-gradient(135deg,#ff3e91,#e33667);border:0;color:#fff;border-radius:9px;padding:9px 15px;font:700 11px 'Tajawal',sans-serif;cursor:pointer}.btn-danger:hover{filter:brightness(1.08)}@keyframes confirmPop{from{opacity:0;transform:translateY(9px) scale(.98)}to{opacity:1;transform:none}}
-@media(max-width:900px){.smart-alerts-grid{grid-template-columns:1fr 1fr}.dashboard-welcome{align-items:flex-start;flex-direction:column}.welcome-status{justify-content:flex-start}.sk-row{grid-template-columns:1fr}.sk-panel{height:150px}}
-@media(max-width:540px){.smart-alerts-grid{grid-template-columns:1fr}.skeleton-kpis{grid-template-columns:1fr 1fr}.toast-stack{left:16px;bottom:16px}.welcome-copy h2{font-size:15px}.welcome-copy p{white-space:normal}.dashboard-welcome{padding:13px}}
-</style>
-
 </head>
 <body>
 
@@ -618,16 +600,6 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
 
       <!-- ===== نظرة عامة ===== -->
       <div class="view active" id="view-overview">
-        <div class="dashboard-skeleton" id="dashboardSkeleton" aria-hidden="true">
-          <div class="skeleton-kpis"><div class="sk sk-kpi"></div><div class="sk sk-kpi"></div><div class="sk sk-kpi"></div><div class="sk sk-kpi"></div></div>
-          <div class="sk-row"><div class="sk sk-panel"></div><div class="sk sk-panel"></div><div class="sk sk-panel"></div></div>
-          <div class="sk sk-table"></div>
-        </div>
-        <section class="dashboard-welcome" aria-label="حالة النظام">
-          <div class="welcome-copy"><div class="eyebrow">لوحة المتابعة التنفيذية</div><h2 id="welcomeGreeting">أهلاً بك</h2><p id="welcomeUser">جاري تجهيز بيانات الحساب...</p></div>
-          <div class="welcome-status"><span class="system-chip" id="systemStatusChip"><i class="live-dot"></i><span id="systemStatusText">النظام متصل</span></span><span class="system-chip">↻ <span id="lastSyncText">آخر مزامنة: —</span></span><span class="system-chip" id="roleStatusChip">الصلاحية: —</span></div>
-        </section>
-        <section class="panel smart-alerts-panel" aria-label="التنبيهات الذكية"><div class="smart-alerts-head"><h3>التنبيهات الذكية</h3><span>تُحسب تلقائياً من التقارير والفترة المختارة</span></div><div class="smart-alerts-grid" id="smartAlertsGrid"></div></section>
         <div class="kpi-row">
           <div class="kpi" style="--accent:#8b5cf6"><div class="label">عدد الأصناف</div><div class="value mono" id="kpiTotalSales">—</div></div>
           <div class="kpi" style="--accent:#16d9bd"><div class="label">إجمالي الكمية</div><div class="value mono" id="kpiBestBranch">—</div></div>
@@ -866,17 +838,6 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
 </div>
 
 
-
-<div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
-<div class="confirm-backdrop" id="confirmBackdrop" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
-  <div class="confirm-card">
-    <div class="confirm-icon" id="confirmIcon">!</div>
-    <h3 id="confirmTitle">تأكيد الإجراء</h3>
-    <p id="confirmMessage">هل تريد المتابعة؟</p>
-    <div class="confirm-actions"><button class="btn-sm" id="confirmCancelBtn" type="button">إلغاء</button><button class="btn-danger" id="confirmOkBtn" type="button">تأكيد</button></div>
-  </div>
-</div>
-
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
@@ -913,60 +874,6 @@ if (firebaseReady) {
 
 const $ = id => document.getElementById(id);
 const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-
-const toastIcons={info:'ℹ',success:'✓',warning:'!',error:'×'};
-const toastTitles={info:'تنبيه',success:'تم بنجاح',warning:'يحتاج انتباه',error:'تعذر تنفيذ الإجراء'};
-function inferToastType(message){
-  const m=String(message||'');
-  if(/تم |نجاح|جاهز|اكتمل/.test(m))return 'success';
-  if(/تعذر|خطأ|غير صحي|فشل|ليس لديك|موقوف/.test(m))return 'error';
-  if(/يجب|لا توجد|الحد الأقصى|انتظر|تنبيه/.test(m))return 'warning';
-  return 'info';
-}
-function showToast(message,type='info',timeout=4300){
-  const stack=$('toastStack'); if(!stack)return;
-  type=['info','success','warning','error'].includes(type)?type:'info';
-  const toast=document.createElement('div');toast.className='toast '+type;
-  const icon=document.createElement('div');icon.className='toast-icon';icon.textContent=toastIcons[type];
-  const copy=document.createElement('div');copy.className='toast-copy';
-  const title=document.createElement('b');title.textContent=toastTitles[type];
-  const body=document.createElement('span');body.textContent=String(message||'');
-  const close=document.createElement('button');close.type='button';close.className='toast-close';close.setAttribute('aria-label','إغلاق');close.textContent='×';
-  copy.append(title,body);toast.append(icon,copy,close);stack.appendChild(toast);
-  const dismiss=()=>{if(!toast.isConnected)return;toast.classList.add('out');setTimeout(()=>toast.remove(),220);};
-  close.onclick=dismiss;if(timeout>0)setTimeout(dismiss,timeout);
-}
-window.alert=message=>showToast(message,inferToastType(message));
-let confirmResolver=null;
-function confirmAction(message,{title='تأكيد الإجراء',confirmText='تأكيد',tone='danger'}={}){
-  const backdrop=$('confirmBackdrop'),ok=$('confirmOkBtn'),cancel=$('confirmCancelBtn');
-  if(!backdrop)return Promise.resolve(false);
-  if(confirmResolver){confirmResolver(false);confirmResolver=null;}
-  $('confirmTitle').textContent=title;$('confirmMessage').textContent=String(message||'هل تريد المتابعة؟');ok.textContent=confirmText;
-  $('confirmIcon').textContent=tone==='danger'?'!':'?';backdrop.classList.add('open');
-  return new Promise(resolve=>{
-    confirmResolver=resolve;
-    const finish=value=>{backdrop.classList.remove('open');confirmResolver=null;ok.onclick=null;cancel.onclick=null;backdrop.onclick=null;document.removeEventListener('keydown',onKey);resolve(value);};
-    const onKey=e=>{if(e.key==='Escape')finish(false);if(e.key==='Enter')finish(true);};
-    ok.onclick=()=>finish(true);cancel.onclick=()=>finish(false);backdrop.onclick=e=>{if(e.target===backdrop)finish(false);};document.addEventListener('keydown',onKey);ok.focus();
-  });
-}
-function setDashboardLoading(active){$('view-overview')?.classList.toggle('dashboard-loading',!!active);}
-function greetingForNow(){const h=new Date().getHours();return h<12?'صباح الخير':h<18?'مساء الخير':'مساء الخير';}
-function updateSystemStatus(){
-  const online=navigator.onLine,chip=$('systemStatusChip');if(!chip)return;
-  chip.classList.toggle('offline',!online);$('systemStatusText').textContent=online?'النظام متصل':'لا يوجد اتصال';
-}
-function updateWelcomeHeader(syncNow=false){
-  const user=auth?.currentUser; if($('welcomeGreeting'))$('welcomeGreeting').textContent=greetingForNow()+' 👋';
-  if($('welcomeUser'))$('welcomeUser').textContent=user?`${user.email} — ${currentAccessLabel()}`:'منصة تقارير الفروع';
-  if($('roleStatusChip'))$('roleStatusChip').textContent='الصلاحية: '+currentAccessLabel();
-  if(syncNow&&$('lastSyncText'))$('lastSyncText').textContent='آخر مزامنة: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  updateSystemStatus();
-}
-window.addEventListener('online',()=>{updateSystemStatus();showToast('تم استعادة الاتصال بالإنترنت.','success');});
-window.addEventListener('offline',()=>{updateSystemStatus();showToast('انقطع الاتصال بالإنترنت. ستعود المزامنة عند رجوع الشبكة.','warning',6500);});
-
 document.addEventListener('contextmenu', event => event.preventDefault());
 
 const fmt = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits:2});
@@ -1089,7 +996,7 @@ async function renderPermissions(){
   document.querySelectorAll('[data-employee-toggle]').forEach(button=>button.onclick=async()=>{
     try{
       const employee=employees.find(e=>e.uid===button.dataset.employeeToggle);
-      if(!employee || !await confirmAction(employee.active?'هل تريد إيقاف هذا الموظف؟':'هل تريد تفعيل هذا الموظف؟',{title:employee.active?'إيقاف حساب موظف':'تفعيل حساب موظف',confirmText:employee.active?'إيقاف':'تفعيل'})) return;
+      if(!employee || !confirm(employee.active?'تأكيد إيقاف هذا الموظف؟':'تأكيد تفعيل هذا الموظف؟')) return;
       button.disabled=true;
       await saveEmployeeAccess(employee,{active:!employee.active});
       $('permissionsStatus').textContent=employee.active?'تم إيقاف الحساب.':'تم تفعيل الحساب.';
@@ -1307,32 +1214,7 @@ function branchStats(){
   }).sort((a,b)=>b.sales-a.sales);
 }
 
-
-function renderSmartAlerts(){
-  const grid=$('smartAlertsGrid');if(!grid)return;
-  const scoped=reportsInRange(),items=allItemsInRange();
-  if(!scoped.length){grid.innerHTML='<div class="smart-alert warning"><div class="smart-alert-icon">!</div><div><b>لا توجد بيانات في الفترة</b><small>غيّر الفترة أو ارفع تقارير جديدة لعرض التنبيهات الذكية.</small></div></div>';return;}
-  const branchTotals=Object.create(null),productTotals=Object.create(null);
-  scoped.forEach(r=>(r.items||[]).forEach(x=>{const q=Number(x.qty||0);branchTotals[r.branch]=(branchTotals[r.branch]||0)+q;const key=(x.code||'')+'|'+(x.name||'بدون اسم');productTotals[key]=(productTotals[key]||0)+q;}));
-  const noReports=branches.filter(b=>!scoped.some(r=>r.branch===b));
-  const zeroProducts=Object.entries(productTotals).filter(([,qty])=>qty<=0).length;
-  const ranked=Object.entries(branchTotals).filter(([,qty])=>qty>0).sort((a,b)=>b[1]-a[1]);
-  const latest=[...scoped].map(r=>r.date).filter(Boolean).sort().at(-1);
-  const alerts=[];
-  if(noReports.length)alerts.push({type:'warning',icon:'!',title:`${noReports.length} فرع بدون تقارير`,text:`خلال الفترة المختارة. مثال: ${noReports.slice(0,3).join('، ')}${noReports.length>3?'…':''}`});
-  else alerts.push({type:'success',icon:'✓',title:'تغطية الفروع مكتملة',text:'كل الفروع لديها تقارير ضمن الفترة المختارة.'});
-  if(zeroProducts)alerts.push({type:'danger',icon:'0',title:`${zeroProducts} صنف بدون حركة`,text:'أصناف مجموع كميتها المسجلة صفر خلال الفترة وتحتاج مراجعة.'});
-  else alerts.push({type:'success',icon:'↗',title:'لا توجد أصناف بصفر حركة',text:'كل الأصناف المسجلة لديها حركة موجبة ضمن الفترة.'});
-  if(ranked.length){alerts.push({type:'info',icon:'★',title:`أعلى حركة: ${ranked[0][0]}`,text:`إجمالي الكمية ${fmt(ranked[0][1])} ضمن الفترة المختارة.`});}
-  if(latest){
-    const age=Math.floor((Date.now()-new Date(latest+'T00:00:00').getTime())/86400000);
-    alerts.push({type:age>7?'warning':'info',icon:'↻',title:'آخر تاريخ تقرير: '+latest,text:age>7?`آخر تقرير أقدم من ${age} يومًا؛ راجع تحديث التقارير.`:'بيانات التقارير حديثة نسبيًا.'});
-  }
-  grid.innerHTML=alerts.slice(0,4).map(a=>`<div class="smart-alert ${a.type}"><div class="smart-alert-icon">${escapeHTML(a.icon)}</div><div><b>${escapeHTML(a.title)}</b><small>${escapeHTML(a.text)}</small></div></div>`).join('');
-}
-
 function renderOverview(){
-  updateWelcomeHeader();renderSmartAlerts();
   const items=allItemsInRange(), productMap=Object.create(null), branchMap=Object.create(null);
   items.forEach(x=>{const name=(x.name||'بدون اسم').trim(),branch=x.branch||'غير محدد',qty=Number(x.qty||0);productMap[name]=(productMap[name]||0)+qty;branchMap[branch]=(branchMap[branch]||0)+qty;});
   const products=Object.entries(productMap).map(([name,qty])=>({name,qty})).sort((a,b)=>b.qty-a.qty), branchQty=Object.entries(branchMap).map(([branch,qty])=>({branch,qty})).sort((a,b)=>b.qty-a.qty), totalQty=products.reduce((a,x)=>a+x.qty,0);
@@ -1368,7 +1250,7 @@ function renderBranches(){
 
   document.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=async()=>{
     if(!btn.dataset.del) return;
-    if(!await confirmAction('سيتم حذف التقرير نهائيًا من النظام. هل تريد المتابعة؟',{title:'حذف التقرير',confirmText:'حذف نهائيًا'})) return;
+    if(!confirm('هل تريد حذف هذا التقرير؟')) return;
     try{
       await removeReport(btn.dataset.del);
       await refreshAll();
@@ -1525,14 +1407,8 @@ async function loadPdf(file){
 }
 
 async function refreshAll(){
-  setDashboardLoading(true);
-  try{
-    await loadReports();
-    renderOverview();
-    updateWelcomeHeader(true);
-  }finally{
-    setDashboardLoading(false);
-  }
+  await loadReports();
+  renderOverview();
 }
 
 
@@ -1694,16 +1570,13 @@ if(firebaseReady){
       if(version!==sessionVersion)return;
       applyRoleCapabilities(access.owner,access.role);
       applyPermissionsUI();populateBranchSelect();
+      await refreshAll();
+      if(version!==sessionVersion)return;
       setLoginLoading(false);
       $('view-login').style.display='none';$('view-app').style.display='block';
       animateAppEntrance();
       $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
-      updateWelcomeHeader();
-      setDashboardLoading(true);
       show('overview');
-      await refreshAll();
-      if(version!==sessionVersion)return;
-      showToast('تم تحميل بيانات المنصة ومزامنتها بنجاح.','success',3000);
       if(!isOwner)stopAccessWatch=onSnapshot(doc(db,'employees',user.uid),snap=>{
         if(version!==sessionVersion)return;
         if(!snap.exists() || snap.data().active!==true || snap.data().email!==user.email){
@@ -1715,8 +1588,6 @@ if(firebaseReady){
           applyRoleCapabilities(false,nextRole);
           applyPermissionsUI();
           $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
-          updateWelcomeHeader();
-          showToast('تم تحديث مستوى صلاحية حسابك إلى: '+currentAccessLabel(),'info',5000);
           const activeView=document.querySelector('.view.active')?.id?.replace('view-','')||'overview';
           if((activeView==='permissions'&&!canManageUsers)||(activeView==='activity'&&!canViewActivity))show('overview');
         }

@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://www.gstatic.com/firebasejs/12.2.1/ https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js; script-src-attr 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src data:; connect-src https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/ https://tasooma-bef93.firebaseapp.com; frame-src https://tasooma-bef93.firebaseapp.com; worker-src blob: https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="build" content="csp-login-fix-2026-09-24">
 <title>منصة تقارير الفروع</title>
@@ -950,1032 +952,1300 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
 </div>
 
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import {
-  getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, setPersistence, browserSessionPersistence, signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-import {
-  getFirestore, collection, addDoc, getDocs, deleteDoc, doc,
-  query, orderBy, serverTimestamp, getDoc, setDoc, onSnapshot
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-if(window.Chart){
-  Chart.defaults.font.family = "Tajawal, sans-serif";
-  Chart.defaults.font.size = 12;
-  Chart.defaults.font.weight = "500";
-  Chart.defaults.color = "#9aa6c6";
-  Chart.defaults.plugins.tooltip.titleFont = {family:"Tajawal, sans-serif",size:13,weight:"700"};
-  Chart.defaults.plugins.tooltip.bodyFont = {family:"Tajawal, sans-serif",size:12,weight:"500"};
+<script>
+(function(){
+  if(!Promise.prototype.finally){Promise.prototype.finally=function(cb){var P=this.constructor;return this.then(function(v){return P.resolve(cb()).then(function(){return v;});},function(e){return P.resolve(cb()).then(function(){throw e;});});};}
+  if(!Array.prototype.flatMap){Array.prototype.flatMap=function(cb,thisArg){return Array.prototype.concat.apply([],this.map(cb,thisArg));};}
+  if(!Array.prototype.includes){Array.prototype.includes=function(x,from){return this.indexOf(x,from||0)!==-1;};}
+  if(!String.prototype.includes){String.prototype.includes=function(x,pos){return this.indexOf(x,pos||0)!==-1;};}
+  if(!Object.values){Object.values=function(o){return Object.keys(o).map(function(k){return o[k];});};}
+  if(window.NodeList&&!NodeList.prototype.forEach){NodeList.prototype.forEach=Array.prototype.forEach;}
+  if(window.Element&&!Element.prototype.matches){Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector;}
+  if(window.Element&&!Element.prototype.closest){Element.prototype.closest=function(s){var el=this;do{if(el.matches(s))return el;el=el.parentElement||el.parentNode;}while(el&&el.nodeType===1);return null;};}
+  if(window.Element&&!Element.prototype.replaceChildren){Element.prototype.replaceChildren=function(){while(this.firstChild)this.removeChild(this.firstChild);for(var i=0;i<arguments.length;i++){var n=arguments[i];this.appendChild(n&&n.nodeType?n:document.createTextNode(String(n)));}};}
+  if(typeof window.TextEncoder==='undefined'){window.TextEncoder=function(){};TextEncoder.prototype.encode=function(str){var utf=unescape(encodeURIComponent(String(str))),a=new Uint8Array(utf.length);for(var i=0;i<utf.length;i++)a[i]=utf.charCodeAt(i);return a;};}
+})();
+</script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var _a, _b, _c;
+/* ===== Firebase classic compatibility bridge =====
+   Uses compat builds instead of ES modules so login works on more browsers/devices. */
+function initializeApp(config) { return firebase.apps && firebase.apps.length ? firebase.app() : firebase.initializeApp(config); }
+function getAuth() { return firebase.auth(); }
+function getFirestore() { return firebase.firestore(); }
+var browserSessionPersistence = firebase.auth.Auth.Persistence.SESSION;
+function setPersistence(auth, p) { return auth.setPersistence(p); }
+function signInWithEmailAndPassword(auth, email, password) { return auth.signInWithEmailAndPassword(email, password); }
+function sendPasswordResetEmail(auth, email) { return auth.sendPasswordResetEmail(email); }
+function sendEmailVerification(user) { return user.sendEmailVerification(); }
+function signOut(auth) { return auth.signOut(); }
+function onAuthStateChanged(auth, fn) { return auth.onAuthStateChanged(fn); }
+function collection(db, name) { return db.collection(name); }
+function doc(db, col, id) { return db.collection(col).doc(id); }
+function orderBy(field, dir) { return { __kind: 'orderBy', field: field, dir: dir }; }
+function query(ref) { var ops = Array.prototype.slice.call(arguments, 1); return ops.reduce(function (q, op) { return op && op.__kind === 'orderBy' ? q.orderBy(op.field, op.dir) : q; }, ref); }
+function adaptDocSnapshot(s) { return { id: s.id, exists: function () { return !!s.exists; }, data: function () { return s.data(); } }; }
+function getDoc(ref) { return ref.get().then(adaptDocSnapshot); }
+function getDocs(ref) { return ref.get(); }
+function addDoc(ref, data) { return ref.add(data); }
+function deleteDoc(ref) { return ref.delete(); }
+function setDoc(ref, data) { return ref.set(data); }
+function onSnapshot(ref, next, error) { return ref.onSnapshot(function (s) { next(adaptDocSnapshot(s)); }, error); }
+function serverTimestamp() { return firebase.firestore.FieldValue.serverTimestamp(); }
+if (window.Chart) {
+    Chart.defaults.font.family = "Tajawal, sans-serif";
+    Chart.defaults.font.size = 12;
+    Chart.defaults.font.weight = "500";
+    Chart.defaults.color = "#9aa6c6";
+    Chart.defaults.plugins.tooltip.titleFont = { family: "Tajawal, sans-serif", size: 13, weight: "700" };
+    Chart.defaults.plugins.tooltip.bodyFont = { family: "Tajawal, sans-serif", size: 12, weight: "500" };
 }
-
 /* ============================================================
    ضع بيانات Firebase الخاصة بمشروعك هنا
    Firebase Console > Project settings > Your apps > Web app
    ============================================================ */
 const firebaseConfig = {
-  apiKey: "AIzaSyA8mcFAvknjWrpq-uK64cL8Ef4-odpoTpk",
-  authDomain: "tasooma-bef93.firebaseapp.com",
-  projectId: "tasooma-bef93",
-  storageBucket: "tasooma-bef93.firebasestorage.app",
-  messagingSenderId: "512025637640",
-  appId: "1:512025637640:web:73ea266292887f0dabf2bd",
-  measurementId: "G-ST6H4CLQX7"
+    apiKey: "AIzaSyA8mcFAvknjWrpq-uK64cL8Ef4-odpoTpk",
+    authDomain: "tasooma-bef93.firebaseapp.com",
+    projectId: "tasooma-bef93",
+    storageBucket: "tasooma-bef93.firebasestorage.app",
+    messagingSenderId: "512025637640",
+    appId: "1:512025637640:web:73ea266292887f0dabf2bd",
+    measurementId: "G-ST6H4CLQX7"
 };
-
 const firebaseReady = !Object.values(firebaseConfig).some(v => String(v).includes("PUT_YOUR_"));
-
 let app, auth, db;
 if (firebaseReady) {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
 }
-
 const $ = id => document.getElementById(id);
-const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-
-const toastIcons={info:'ℹ',success:'✓',warning:'!',error:'×'};
-const toastTitles={info:'تنبيه',success:'تم بنجاح',warning:'يحتاج انتباه',error:'تعذر تنفيذ الإجراء'};
-function inferToastType(message){
-  const m=String(message||'');
-  if(/تم |نجاح|جاهز|اكتمل/.test(m))return 'success';
-  if(/تعذر|خطأ|غير صحي|فشل|ليس لديك|موقوف/.test(m))return 'error';
-  if(/يجب|لا توجد|الحد الأقصى|انتظر|تنبيه/.test(m))return 'warning';
-  return 'info';
+const escapeHTML = value => String(value !== null && value !== void 0 ? value : '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const toastIcons = { info: 'ℹ', success: '✓', warning: '!', error: '×' };
+const toastTitles = { info: 'تنبيه', success: 'تم بنجاح', warning: 'يحتاج انتباه', error: 'تعذر تنفيذ الإجراء' };
+function inferToastType(message) {
+    const m = String(message || '');
+    if (/تم |نجاح|جاهز|اكتمل/.test(m))
+        return 'success';
+    if (/تعذر|خطأ|غير صحي|فشل|ليس لديك|موقوف/.test(m))
+        return 'error';
+    if (/يجب|لا توجد|الحد الأقصى|انتظر|تنبيه/.test(m))
+        return 'warning';
+    return 'info';
 }
-function showToast(message,type='info',timeout=4300){
-  const stack=$('toastStack'); if(!stack)return;
-  type=['info','success','warning','error'].includes(type)?type:'info';
-  const toast=document.createElement('div');toast.className='toast '+type;
-  const icon=document.createElement('div');icon.className='toast-icon';icon.textContent=toastIcons[type];
-  const copy=document.createElement('div');copy.className='toast-copy';
-  const title=document.createElement('b');title.textContent=toastTitles[type];
-  const body=document.createElement('span');body.textContent=String(message||'');
-  const close=document.createElement('button');close.type='button';close.className='toast-close';close.setAttribute('aria-label','إغلاق');close.textContent='×';
-  copy.append(title,body);toast.append(icon,copy,close);stack.appendChild(toast);
-  const dismiss=()=>{if(!toast.isConnected)return;toast.classList.add('out');setTimeout(()=>toast.remove(),220);};
-  close.onclick=dismiss;if(timeout>0)setTimeout(dismiss,timeout);
+function showToast(message, type = 'info', timeout = 4300) {
+    const stack = $('toastStack');
+    if (!stack)
+        return;
+    type = ['info', 'success', 'warning', 'error'].includes(type) ? type : 'info';
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    const icon = document.createElement('div');
+    icon.className = 'toast-icon';
+    icon.textContent = toastIcons[type];
+    const copy = document.createElement('div');
+    copy.className = 'toast-copy';
+    const title = document.createElement('b');
+    title.textContent = toastTitles[type];
+    const body = document.createElement('span');
+    body.textContent = String(message || '');
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'toast-close';
+    close.setAttribute('aria-label', 'إغلاق');
+    close.textContent = '×';
+    copy.append(title, body);
+    toast.append(icon, copy, close);
+    stack.appendChild(toast);
+    const dismiss = () => { if (!toast.isConnected)
+        return; toast.classList.add('out'); setTimeout(() => toast.remove(), 220); };
+    close.onclick = dismiss;
+    if (timeout > 0)
+        setTimeout(dismiss, timeout);
 }
-window.alert=message=>showToast(message,inferToastType(message));
-let confirmResolver=null;
-function confirmAction(message,{title='تأكيد الإجراء',confirmText='تأكيد',tone='danger'}={}){
-  const backdrop=$('confirmBackdrop'),ok=$('confirmOkBtn'),cancel=$('confirmCancelBtn');
-  if(!backdrop)return Promise.resolve(false);
-  if(confirmResolver){confirmResolver(false);confirmResolver=null;}
-  $('confirmTitle').textContent=title;$('confirmMessage').textContent=String(message||'هل تريد المتابعة؟');ok.textContent=confirmText;
-  $('confirmIcon').textContent=tone==='danger'?'!':'?';backdrop.classList.add('open');
-  return new Promise(resolve=>{
-    confirmResolver=resolve;
-    const finish=value=>{backdrop.classList.remove('open');confirmResolver=null;ok.onclick=null;cancel.onclick=null;backdrop.onclick=null;document.removeEventListener('keydown',onKey);resolve(value);};
-    const onKey=e=>{if(e.key==='Escape')finish(false);if(e.key==='Enter')finish(true);};
-    ok.onclick=()=>finish(true);cancel.onclick=()=>finish(false);backdrop.onclick=e=>{if(e.target===backdrop)finish(false);};document.addEventListener('keydown',onKey);ok.focus();
-  });
+window.alert = message => showToast(message, inferToastType(message));
+let confirmResolver = null;
+function confirmAction(message, { title = 'تأكيد الإجراء', confirmText = 'تأكيد', tone = 'danger' } = {}) {
+    const backdrop = $('confirmBackdrop'), ok = $('confirmOkBtn'), cancel = $('confirmCancelBtn');
+    if (!backdrop)
+        return Promise.resolve(false);
+    if (confirmResolver) {
+        confirmResolver(false);
+        confirmResolver = null;
+    }
+    $('confirmTitle').textContent = title;
+    $('confirmMessage').textContent = String(message || 'هل تريد المتابعة؟');
+    ok.textContent = confirmText;
+    $('confirmIcon').textContent = tone === 'danger' ? '!' : '?';
+    backdrop.classList.add('open');
+    return new Promise(resolve => {
+        confirmResolver = resolve;
+        const finish = value => { backdrop.classList.remove('open'); confirmResolver = null; ok.onclick = null; cancel.onclick = null; backdrop.onclick = null; document.removeEventListener('keydown', onKey); resolve(value); };
+        const onKey = e => { if (e.key === 'Escape')
+            finish(false); if (e.key === 'Enter')
+            finish(true); };
+        ok.onclick = () => finish(true);
+        cancel.onclick = () => finish(false);
+        backdrop.onclick = e => { if (e.target === backdrop)
+            finish(false); };
+        document.addEventListener('keydown', onKey);
+        ok.focus();
+    });
 }
-
-function closeInfoModal(){
-  const backdrop=$('infoBackdrop'); if(backdrop)backdrop.classList.remove('open');
+function closeInfoModal() {
+    const backdrop = $('infoBackdrop');
+    if (backdrop)
+        backdrop.classList.remove('open');
 }
-function openInfoModal(title,subtitle,contentNode){
-  const backdrop=$('infoBackdrop'),body=$('infoBody'); if(!backdrop||!body)return;
-  $('infoTitle').textContent=String(title||'تفاصيل');
-  $('infoSubtitle').textContent=String(subtitle||'');
-  body.replaceChildren();
-  if(contentNode)body.appendChild(contentNode);
-  backdrop.classList.add('open');
-  $('infoCloseBtn')?.focus();
+function openInfoModal(title, subtitle, contentNode) {
+    var _a;
+    const backdrop = $('infoBackdrop'), body = $('infoBody');
+    if (!backdrop || !body)
+        return;
+    $('infoTitle').textContent = String(title || 'تفاصيل');
+    $('infoSubtitle').textContent = String(subtitle || '');
+    body.replaceChildren();
+    if (contentNode)
+        body.appendChild(contentNode);
+    backdrop.classList.add('open');
+    (_a = $('infoCloseBtn')) === null || _a === void 0 ? void 0 : _a.focus();
 }
-function openBranchDetails(branch,{notify=false}={}){
-  if(!branches.includes(branch))return;
-  selectedBranch=branch;
-  show('branches');
-  renderBranches();
-  const title=$('branchDetailTitle');
-  const panel=title?.closest('.panel');
-  if(panel){
-    panel.classList.remove('branch-focus-flash');
-    void panel.offsetWidth;
-    panel.classList.add('branch-focus-flash');
-    setTimeout(()=>panel.classList.remove('branch-focus-flash'),1500);
-    panel.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  if(notify)showToast(`تم فتح تفاصيل فرع ${branch}.`,'info',2600);
+function openBranchDetails(branch, { notify = false } = {}) {
+    if (!branches.includes(branch))
+        return;
+    selectedBranch = branch;
+    show('branches');
+    renderBranches();
+    const title = $('branchDetailTitle');
+    const panel = title === null || title === void 0 ? void 0 : title.closest('.panel');
+    if (panel) {
+        panel.classList.remove('branch-focus-flash');
+        void panel.offsetWidth;
+        panel.classList.add('branch-focus-flash');
+        setTimeout(() => panel.classList.remove('branch-focus-flash'), 1500);
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    if (notify)
+        showToast(`تم فتح تفاصيل فرع ${branch}.`, 'info', 2600);
 }
-function showMissingBranches(branchList){
-  const list=Array.isArray(branchList)?branchList:[];
-  const wrap=document.createElement('div');
-  const grid=document.createElement('div');grid.className='missing-branches-grid';
-  list.forEach(branch=>{
-    const btn=document.createElement('button');
-    btn.type='button';btn.className='missing-branch-btn';btn.textContent=branch;
-    btn.onclick=()=>{closeInfoModal();openBranchDetails(branch,{notify:true});};
-    grid.appendChild(btn);
-  });
-  wrap.appendChild(grid);
-  const note=document.createElement('p');note.className='info-note';
-  note.textContent='اضغط على اسم أي فرع لفتح صفحة الفرع ومراجعة تفاصيله مباشرة.';
-  wrap.appendChild(note);
-  openInfoModal(`${list.length} فرع بدون تقرير`,'الفروع التي لا يوجد لها تقرير خلال الفترة المختارة.',wrap);
+function showMissingBranches(branchList) {
+    const list = Array.isArray(branchList) ? branchList : [];
+    const wrap = document.createElement('div');
+    const grid = document.createElement('div');
+    grid.className = 'missing-branches-grid';
+    list.forEach(branch => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'missing-branch-btn';
+        btn.textContent = branch;
+        btn.onclick = () => { closeInfoModal(); openBranchDetails(branch, { notify: true }); };
+        grid.appendChild(btn);
+    });
+    wrap.appendChild(grid);
+    const note = document.createElement('p');
+    note.className = 'info-note';
+    note.textContent = 'اضغط على اسم أي فرع لفتح صفحة الفرع ومراجعة تفاصيله مباشرة.';
+    wrap.appendChild(note);
+    openInfoModal(`${list.length} فرع بدون تقرير`, 'الفروع التي لا يوجد لها تقرير خلال الفترة المختارة.', wrap);
 }
-$('infoCloseBtn')?.addEventListener('click',closeInfoModal);
-$('infoBackdrop')?.addEventListener('click',event=>{if(event.target===$('infoBackdrop'))closeInfoModal();});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&$('infoBackdrop')?.classList.contains('open'))closeInfoModal();});
-
-function setDashboardLoading(active){$('view-overview')?.classList.toggle('dashboard-loading',!!active);}
-function greetingForNow(){const h=new Date().getHours();return h<12?'صباح الخير':h<18?'مساء الخير':'مساء الخير';}
-function updateSystemStatus(){
-  const online=navigator.onLine,chip=$('systemStatusChip');if(!chip)return;
-  chip.classList.toggle('offline',!online);$('systemStatusText').textContent=online?'النظام متصل':'لا يوجد اتصال';
+(_a = $('infoCloseBtn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', closeInfoModal);
+(_b = $('infoBackdrop')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', event => { if (event.target === $('infoBackdrop'))
+    closeInfoModal(); });
+document.addEventListener('keydown', event => { var _a; if (event.key === 'Escape' && ((_a = $('infoBackdrop')) === null || _a === void 0 ? void 0 : _a.classList.contains('open')))
+    closeInfoModal(); });
+function setDashboardLoading(active) { var _a; (_a = $('view-overview')) === null || _a === void 0 ? void 0 : _a.classList.toggle('dashboard-loading', !!active); }
+function greetingForNow() { const h = new Date().getHours(); return h < 12 ? 'صباح الخير' : h < 18 ? 'مساء الخير' : 'مساء الخير'; }
+function updateSystemStatus() {
+    const online = navigator.onLine, chip = $('systemStatusChip');
+    if (!chip)
+        return;
+    chip.classList.toggle('offline', !online);
+    $('systemStatusText').textContent = online ? 'النظام متصل' : 'لا يوجد اتصال';
 }
-function updateWelcomeHeader(syncNow=false){
-  const user=auth?.currentUser; if($('welcomeGreeting'))$('welcomeGreeting').textContent=greetingForNow()+' 👋';
-  if($('welcomeUser'))$('welcomeUser').textContent=user?`${user.email} — ${currentAccessLabel()}`:'منصة تقارير الفروع';
-  if($('roleStatusChip'))$('roleStatusChip').textContent='الصلاحية: '+currentAccessLabel();
-  if(syncNow&&$('lastSyncText'))$('lastSyncText').textContent='آخر مزامنة: '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  updateSystemStatus();
+function updateWelcomeHeader(syncNow = false) {
+    const user = auth === null || auth === void 0 ? void 0 : auth.currentUser;
+    if ($('welcomeGreeting'))
+        $('welcomeGreeting').textContent = greetingForNow() + ' 👋';
+    if ($('welcomeUser'))
+        $('welcomeUser').textContent = user ? `${user.email} — ${currentAccessLabel()}` : 'منصة تقارير الفروع';
+    if ($('roleStatusChip'))
+        $('roleStatusChip').textContent = 'الصلاحية: ' + currentAccessLabel();
+    if (syncNow && $('lastSyncText'))
+        $('lastSyncText').textContent = 'آخر مزامنة: ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    updateSystemStatus();
 }
-window.addEventListener('online',()=>{updateSystemStatus();showToast('تم استعادة الاتصال بالإنترنت.','success');});
-window.addEventListener('offline',()=>{updateSystemStatus();showToast('انقطع الاتصال بالإنترنت. ستعود المزامنة عند رجوع الشبكة.','warning',6500);});
-
+window.addEventListener('online', () => { updateSystemStatus(); showToast('تم استعادة الاتصال بالإنترنت.', 'success'); });
+window.addEventListener('offline', () => { updateSystemStatus(); showToast('انقطع الاتصال بالإنترنت. ستعود المزامنة عند رجوع الشبكة.', 'warning', 6500); });
 document.addEventListener('contextmenu', event => event.preventDefault());
-
-const fmt = n => Number(n || 0).toLocaleString('en-US', {maximumFractionDigits:2});
+const fmt = n => Number(n || 0).toLocaleString('en-US', { maximumFractionDigits: 2 });
 const money = n => fmt(n) + ' ر.س';
-
 const branches = [
-  'الرياض','الخرج','الدمام','جدة','مكة','المدينة','الطائف','تبوك','أبها',
-  'خميس مشيط','جازان','نجران','حائل','بريدة','عنيزة','ينبع','الجبيل',
-  'القطيف','الأحساء','سكاكا','عرعر','الباحة','رابغ','القنفذة','الرس','وادي الدواسر','بيشة'
+    'الرياض', 'الخرج', 'الدمام', 'جدة', 'مكة', 'المدينة', 'الطائف', 'تبوك', 'أبها',
+    'خميس مشيط', 'جازان', 'نجران', 'حائل', 'بريدة', 'عنيزة', 'ينبع', 'الجبيل',
+    'القطيف', 'الأحساء', 'سكاكا', 'عرعر', 'الباحة', 'رابغ', 'القنفذة', 'الرس', 'وادي الدواسر', 'بيشة'
 ];
 let reports = [];
 let selectedBranch = branches[0], chartTop, chartProducts, chartTrend, chartSalesShare, chartReportsShare;
-let uploadRows = [], map = {name:0,code:-1,qty:1,sales:-1};
-
+let uploadRows = [], map = { name: 0, code: -1, qty: 1, sales: -1 };
 // Authorization is enforced independently by firestore.rules.
 const OWNER_EMAIL = 'mohamedrgab20@gmail.com';
-const VALID_ROLES = ['employee','manager','admin'];
+const VALID_ROLES = ['employee', 'manager', 'admin'];
 const ROLE_LABELS = {
-  employee:'موظف — مشاهدة ورفع',
-  manager:'مدير — مشاهدة ورفع وحذف + سجل النشاط',
-  admin:'مسؤول كامل — جميع الصلاحيات الإدارية'
+    employee: 'موظف — مشاهدة ورفع',
+    manager: 'مدير — مشاهدة ورفع وحذف + سجل النشاط',
+    admin: 'مسؤول كامل — جميع الصلاحيات الإدارية'
 };
 let isOwner = false, currentRole = 'employee', canUpload = false, canDelete = false, canManageUsers = false, canViewActivity = false, employees = [];
 let stopAccessWatch = null;
 let sessionVersion = 0;
-let persistenceError=null;
+let persistenceError = null;
 const authPersistenceReady = firebaseReady
-  ? setPersistence(auth, browserSessionPersistence).catch(error=>{persistenceError=error;return null;})
-  : Promise.resolve();
-function normalizeRole(role){ return VALID_ROLES.includes(role) ? role : 'employee'; }
-function applyRoleCapabilities(owner, role='employee'){
-  isOwner=!!owner;
-  currentRole=isOwner?'owner':normalizeRole(role);
-  canUpload=true;
-  canDelete=isOwner || currentRole==='manager' || currentRole==='admin';
-  canManageUsers=isOwner || currentRole==='admin';
-  canViewActivity=isOwner || currentRole==='manager' || currentRole==='admin';
+    ? setPersistence(auth, browserSessionPersistence).catch(error => { persistenceError = error; return null; })
+    : Promise.resolve();
+function normalizeRole(role) { return VALID_ROLES.includes(role) ? role : 'employee'; }
+function applyRoleCapabilities(owner, role = 'employee') {
+    isOwner = !!owner;
+    currentRole = isOwner ? 'owner' : normalizeRole(role);
+    canUpload = true;
+    canDelete = isOwner || currentRole === 'manager' || currentRole === 'admin';
+    canManageUsers = isOwner || currentRole === 'admin';
+    canViewActivity = isOwner || currentRole === 'manager' || currentRole === 'admin';
 }
-function requireOwner(){
-  if(!auth?.currentUser || !isOwner) throw new Error('هذا الإجراء متاح لمالك النظام فقط.');
+function requireOwner() {
+    if (!(auth === null || auth === void 0 ? void 0 : auth.currentUser) || !isOwner)
+        throw new Error('هذا الإجراء متاح لمالك النظام فقط.');
 }
-function requireManageUsers(){
-  if(!auth?.currentUser || !canManageUsers) throw new Error('ليس لديك صلاحية إدارة المستخدمين.');
+function requireManageUsers() {
+    if (!(auth === null || auth === void 0 ? void 0 : auth.currentUser) || !canManageUsers)
+        throw new Error('ليس لديك صلاحية إدارة المستخدمين.');
 }
-function requireDelete(){
-  if(!auth?.currentUser || !canDelete) throw new Error('ليس لديك صلاحية حذف التقارير.');
+function requireDelete() {
+    if (!(auth === null || auth === void 0 ? void 0 : auth.currentUser) || !canDelete)
+        throw new Error('ليس لديك صلاحية حذف التقارير.');
 }
-function requireEmployee(){
-  if(!auth?.currentUser || !canUpload) throw new Error('حسابك غير معتمد للوصول إلى التقارير.');
+function requireEmployee() {
+    if (!(auth === null || auth === void 0 ? void 0 : auth.currentUser) || !canUpload)
+        throw new Error('حسابك غير معتمد للوصول إلى التقارير.');
 }
-function applyPermissionsUI(){
-  $('navUpload').style.display=canUpload?'':'none';
-  $('navPermissions').style.display=canManageUsers?'':'none';
-  $('navActivity').style.display=canViewActivity?'':'none';
+function applyPermissionsUI() {
+    $('navUpload').style.display = canUpload ? '' : 'none';
+    $('navPermissions').style.display = canManageUsers ? '' : 'none';
+    $('navActivity').style.display = canViewActivity ? '' : 'none';
 }
-function currentAccessLabel(){
-  if(isOwner) return 'مالك النظام';
-  return ROLE_LABELS[currentRole] || ROLE_LABELS.employee;
+function currentAccessLabel() {
+    if (isOwner)
+        return 'مالك النظام';
+    return ROLE_LABELS[currentRole] || ROLE_LABELS.employee;
 }
-async function initializeAccess(user){
-  if(user.email===OWNER_EMAIL){
-    if(!user.emailVerified) throw new Error('يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.');
-    const ref=doc(db,'settings','security');
-    let security=await getDoc(ref);
-    if(!security.exists()){
-      try{await setDoc(ref,{ownerUid:user.uid,ownerEmail:OWNER_EMAIL,createdAt:serverTimestamp()});}
-      catch(error){const concurrent=await getDoc(ref);if(!concurrent.exists() || concurrent.data().ownerUid!==user.uid)throw error;}
-      security=await getDoc(ref);
-    }
-    const owner=security.exists() && security.data().ownerUid===user.uid && security.data().ownerEmail===OWNER_EMAIL;
-    if(!owner) throw new Error('تعذر التحقق من حساب المالك. تواصل مع مسؤول النظام.');
-    return {owner:true,role:'owner'};
-  }
-  const access=await getDoc(doc(db,'employees',user.uid));
-  const allowed=access.exists() && access.data().active===true && access.data().email===user.email;
-  if(!allowed) throw new Error('حسابك غير معتمد. أرسل معرّف حسابك إلى مسؤول النظام: '+user.uid);
-  return {owner:false,role:normalizeRole(access.data().role)};
+function initializeAccess(user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (user.email === OWNER_EMAIL) {
+            if (!user.emailVerified)
+                throw new Error('يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.');
+            const ref = doc(db, 'settings', 'security');
+            let security = yield getDoc(ref);
+            if (!security.exists()) {
+                try {
+                    yield setDoc(ref, { ownerUid: user.uid, ownerEmail: OWNER_EMAIL, createdAt: serverTimestamp() });
+                }
+                catch (error) {
+                    const concurrent = yield getDoc(ref);
+                    if (!concurrent.exists() || concurrent.data().ownerUid !== user.uid)
+                        throw error;
+                }
+                security = yield getDoc(ref);
+            }
+            const owner = security.exists() && security.data().ownerUid === user.uid && security.data().ownerEmail === OWNER_EMAIL;
+            if (!owner)
+                throw new Error('تعذر التحقق من حساب المالك. تواصل مع مسؤول النظام.');
+            return { owner: true, role: 'owner' };
+        }
+        const access = yield getDoc(doc(db, 'employees', user.uid));
+        const allowed = access.exists() && access.data().active === true && access.data().email === user.email;
+        if (!allowed)
+            throw new Error('حسابك غير معتمد. أرسل معرّف حسابك إلى مسؤول النظام: ' + user.uid);
+        return { owner: false, role: normalizeRole(access.data().role) };
+    });
 }
-async function saveEmployeeAccess(employee, updates={}){
-  requireManageUsers();
-  const role=normalizeRole(updates.role ?? employee.role);
-  const active=typeof updates.active==='boolean'?updates.active:employee.active!==false;
-  if(employee.uid===auth.currentUser.uid && !isOwner && (active===false || role!=='admin')){
-    throw new Error('لا يمكنك خفض صلاحية حسابك أو إيقافه من جلستك الحالية. استخدم حساب المالك.');
-  }
-  await setDoc(doc(db,'employees',employee.uid),{
-    email:String(employee.email||'').toLowerCase(),
-    active,
-    role,
-    updatedAt:serverTimestamp(),
-    updatedBy:auth.currentUser.email
-  });
+function saveEmployeeAccess(employee_1) {
+    return __awaiter(this, arguments, void 0, function* (employee, updates = {}) {
+        var _a;
+        requireManageUsers();
+        const role = normalizeRole((_a = updates.role) !== null && _a !== void 0 ? _a : employee.role);
+        const active = typeof updates.active === 'boolean' ? updates.active : employee.active !== false;
+        if (employee.uid === auth.currentUser.uid && !isOwner && (active === false || role !== 'admin')) {
+            throw new Error('لا يمكنك خفض صلاحية حسابك أو إيقافه من جلستك الحالية. استخدم حساب المالك.');
+        }
+        yield setDoc(doc(db, 'employees', employee.uid), {
+            email: String(employee.email || '').toLowerCase(),
+            active,
+            role,
+            updatedAt: serverTimestamp(),
+            updatedBy: auth.currentUser.email
+        });
+    });
 }
-async function renderPermissions(){
-  requireManageUsers();
-  const snap=await getDocs(collection(db,'employees'));
-  if(!canManageUsers) return;
-  employees=snap.docs.map(d=>({...d.data(),uid:d.id,role:normalizeRole(d.data().role)}));
-  $('adminsTable').innerHTML=employees.map(e=>`<tr>
-    <td>${escapeHTML(e.email||'')}<br><small dir="ltr">${escapeHTML(e.uid)}</small></td>
-    <td><select class="select-box role-select" data-role-uid="${escapeHTML(e.uid)}" style="min-width:210px;" ${(!isOwner && e.uid===auth.currentUser.uid)?'disabled':''}>
-      <option value="employee" ${e.role==='employee'?'selected':''}>موظف — مشاهدة ورفع</option>
-      <option value="manager" ${e.role==='manager'?'selected':''}>مدير — حذف + سجل النشاط</option>
-      <option value="admin" ${e.role==='admin'?'selected':''}>مسؤول كامل — إدارة الصلاحيات</option>
+function renderPermissions() {
+    return __awaiter(this, void 0, void 0, function* () {
+        requireManageUsers();
+        const snap = yield getDocs(collection(db, 'employees'));
+        if (!canManageUsers)
+            return;
+        employees = snap.docs.map(d => (Object.assign(Object.assign({}, d.data()), { uid: d.id, role: normalizeRole(d.data().role) })));
+        $('adminsTable').innerHTML = employees.map(e => `<tr>
+    <td>${escapeHTML(e.email || '')}<br><small dir="ltr">${escapeHTML(e.uid)}</small></td>
+    <td><select class="select-box role-select" data-role-uid="${escapeHTML(e.uid)}" style="min-width:210px;" ${(!isOwner && e.uid === auth.currentUser.uid) ? 'disabled' : ''}>
+      <option value="employee" ${e.role === 'employee' ? 'selected' : ''}>موظف — مشاهدة ورفع</option>
+      <option value="manager" ${e.role === 'manager' ? 'selected' : ''}>مدير — حذف + سجل النشاط</option>
+      <option value="admin" ${e.role === 'admin' ? 'selected' : ''}>مسؤول كامل — إدارة الصلاحيات</option>
     </select></td>
-    <td><span class="tag ${e.active?'ok':'out'}">${e.active?'نشط':'موقوف'}</span></td>
-    <td><button class="btn-sm" data-employee-toggle="${escapeHTML(e.uid)}" ${(!isOwner && e.uid===auth.currentUser.uid)?'disabled':''}>${e.active?'إيقاف':'تفعيل'}</button></td>
+    <td><span class="tag ${e.active ? 'ok' : 'out'}">${e.active ? 'نشط' : 'موقوف'}</span></td>
+    <td><button class="btn-sm" data-employee-toggle="${escapeHTML(e.uid)}" ${(!isOwner && e.uid === auth.currentUser.uid) ? 'disabled' : ''}>${e.active ? 'إيقاف' : 'تفعيل'}</button></td>
   </tr>`).join('') || '<tr><td colspan="4" class="no-results">لا يوجد موظفون مضافون حتى الآن.</td></tr>';
-
-  document.querySelectorAll('[data-role-uid]').forEach(select=>select.onchange=async()=>{
-    const employee=employees.find(e=>e.uid===select.dataset.roleUid);
-    if(!employee)return;
-    const previous=employee.role;
-    try{
-      select.disabled=true;
-      await saveEmployeeAccess(employee,{role:select.value});
-      $('permissionsStatus').textContent='تم تحديث مستوى الصلاحية بنجاح.';
-      await renderPermissions();
-    }catch(error){select.value=previous;select.disabled=false;alert(firebaseErrorMessage(error));}
-  });
-
-  document.querySelectorAll('[data-employee-toggle]').forEach(button=>button.onclick=async()=>{
-    try{
-      const employee=employees.find(e=>e.uid===button.dataset.employeeToggle);
-      if(!employee || !await confirmAction(employee.active?'هل تريد إيقاف هذا الموظف؟':'هل تريد تفعيل هذا الموظف؟',{title:employee.active?'إيقاف حساب موظف':'تفعيل حساب موظف',confirmText:employee.active?'إيقاف':'تفعيل'})) return;
-      button.disabled=true;
-      await saveEmployeeAccess(employee,{active:!employee.active});
-      $('permissionsStatus').textContent=employee.active?'تم إيقاف الحساب.':'تم تفعيل الحساب.';
-      await renderPermissions();
-    }catch(error){alert(firebaseErrorMessage(error));button.disabled=false;}
-  });
+        document.querySelectorAll('[data-role-uid]').forEach(select => select.onchange = () => __awaiter(this, void 0, void 0, function* () {
+            const employee = employees.find(e => e.uid === select.dataset.roleUid);
+            if (!employee)
+                return;
+            const previous = employee.role;
+            try {
+                select.disabled = true;
+                yield saveEmployeeAccess(employee, { role: select.value });
+                $('permissionsStatus').textContent = 'تم تحديث مستوى الصلاحية بنجاح.';
+                yield renderPermissions();
+            }
+            catch (error) {
+                select.value = previous;
+                select.disabled = false;
+                alert(firebaseErrorMessage(error));
+            }
+        }));
+        document.querySelectorAll('[data-employee-toggle]').forEach(button => button.onclick = () => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const employee = employees.find(e => e.uid === button.dataset.employeeToggle);
+                if (!employee || !(yield confirmAction(employee.active ? 'هل تريد إيقاف هذا الموظف؟' : 'هل تريد تفعيل هذا الموظف؟', { title: employee.active ? 'إيقاف حساب موظف' : 'تفعيل حساب موظف', confirmText: employee.active ? 'إيقاف' : 'تفعيل' })))
+                    return;
+                button.disabled = true;
+                yield saveEmployeeAccess(employee, { active: !employee.active });
+                $('permissionsStatus').textContent = employee.active ? 'تم إيقاف الحساب.' : 'تم تفعيل الحساب.';
+                yield renderPermissions();
+            }
+            catch (error) {
+                alert(firebaseErrorMessage(error));
+                button.disabled = false;
+            }
+        }));
+    });
 }
-
-function renderActivity(){
-  const q = ($('activitySearch').value||'').toLowerCase();
-  const sorted = [...reports].sort((a,b)=>{
-    const ta = a.createdAt?.seconds || a.createdAt || 0;
-    const tb = b.createdAt?.seconds || b.createdAt || 0;
-    return tb - ta;
-  });
-  const filtered = sorted.filter(r=>!q || (r.branch||'').toLowerCase().includes(q) || (r.createdBy||'').toLowerCase().includes(q));
-  $('activityCountLabel').textContent = `(${filtered.length})`;
-  $('activityTable').innerHTML = filtered.map(r=>{
-    let uploadedAt = '—';
-    if(r.createdAt?.seconds) uploadedAt = new Date(r.createdAt.seconds*1000).toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    const totalSales = (r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0);
-    return `<tr>
+function renderActivity() {
+    const q = ($('activitySearch').value || '').toLowerCase();
+    const sorted = [...reports].sort((a, b) => {
+        var _a, _b;
+        const ta = ((_a = a.createdAt) === null || _a === void 0 ? void 0 : _a.seconds) || a.createdAt || 0;
+        const tb = ((_b = b.createdAt) === null || _b === void 0 ? void 0 : _b.seconds) || b.createdAt || 0;
+        return tb - ta;
+    });
+    const filtered = sorted.filter(r => !q || (r.branch || '').toLowerCase().includes(q) || (r.createdBy || '').toLowerCase().includes(q));
+    $('activityCountLabel').textContent = `(${filtered.length})`;
+    $('activityTable').innerHTML = filtered.map(r => {
+        var _a;
+        let uploadedAt = '—';
+        if ((_a = r.createdAt) === null || _a === void 0 ? void 0 : _a.seconds)
+            uploadedAt = new Date(r.createdAt.seconds * 1000).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const totalSales = (r.items || []).reduce((a, x) => a + Number(x.sales || 0), 0);
+        return `<tr>
       <td class="mono">${uploadedAt}</td>
-      <td>${escapeHTML(r.branch||'—')}</td>
-      <td class="mono">${escapeHTML(r.date||'—')}</td>
-      <td class="mono">${(r.items||[]).length}</td>
+      <td>${escapeHTML(r.branch || '—')}</td>
+      <td class="mono">${escapeHTML(r.date || '—')}</td>
+      <td class="mono">${(r.items || []).length}</td>
       <td class="mono">${money(totalSales)}</td>
-      <td dir="ltr" style="text-align:right;">${escapeHTML(r.createdBy||'—')}</td>
+      <td dir="ltr" style="text-align:right;">${escapeHTML(r.createdBy || '—')}</td>
     </tr>`;
-  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">لا يوجد نشاط بعد</td></tr>';
+    }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;">لا يوجد نشاط بعد</td></tr>';
 }
-$('activitySearch')?.addEventListener('input', renderActivity);
-
-function renderCompare(){
-  const box = $('compareCheckboxes');
-  if(!box.dataset.built){
-    box.innerHTML = branches.map(b=>`
+(_c = $('activitySearch')) === null || _c === void 0 ? void 0 : _c.addEventListener('input', renderActivity);
+function renderCompare() {
+    const box = $('compareCheckboxes');
+    if (!box.dataset.built) {
+        box.innerHTML = branches.map(b => `
       <label style="display:flex;align-items:center;gap:6px;background:#0e1424;border:1px solid var(--border);padding:7px 12px;border-radius:20px;font-size:12px;cursor:pointer;">
         <input type="checkbox" value="${b}" class="compare-chk" style="accent-color:var(--purple);">
         ${b}
       </label>`).join('');
-    box.dataset.built = '1';
-    box.querySelectorAll('.compare-chk').forEach(cb=>cb.addEventListener('change', drawCompare));
-    // اختيار أول فرعين افتراضياً عشان الشاشة متبقاش فاضية أول مرة
-    const boxes = box.querySelectorAll('.compare-chk');
-    if(boxes[0]) boxes[0].checked = true;
-    if(boxes[1]) boxes[1].checked = true;
-  }
-  drawCompare();
+        box.dataset.built = '1';
+        box.querySelectorAll('.compare-chk').forEach(cb => cb.addEventListener('change', drawCompare));
+        // اختيار أول فرعين افتراضياً عشان الشاشة متبقاش فاضية أول مرة
+        const boxes = box.querySelectorAll('.compare-chk');
+        if (boxes[0])
+            boxes[0].checked = true;
+        if (boxes[1])
+            boxes[1].checked = true;
+    }
+    drawCompare();
 }
-
 let chartCompare;
-function drawCompare(){
-  const selected = Array.from(document.querySelectorAll('.compare-chk:checked')).map(cb=>cb.value);
-  const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff'];
-
-  // جدول ملخص
-  const summary = selected.map(branch=>{
-    const rs = reports.filter(r=>r.branch===branch);
-    const totalQty = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.qty||0),0),0);
-    const totalSales = rs.reduce((a,r)=>a+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0),0);
-    const prodMap=Object.create(null);
-    rs.forEach(r=>(r.items||[]).forEach(x=>{prodMap[x.name]=(prodMap[x.name]||0)+Number(x.qty||0);}));
-    const top = Object.entries(prodMap).sort((a,b)=>b[1]-a[1])[0];
-    return { branch, totalQty, totalSales, top: top?top[0]:'—' };
-  });
-  $('compareTable').innerHTML = summary.map(s=>`
+function drawCompare() {
+    const selected = Array.from(document.querySelectorAll('.compare-chk:checked')).map(cb => cb.value);
+    const palette = ['#8b5cf6', '#16d9bd', '#ff3e91', '#ffc234', '#4d7cff', '#5fe1ff'];
+    // جدول ملخص
+    const summary = selected.map(branch => {
+        const rs = reports.filter(r => r.branch === branch);
+        const totalQty = rs.reduce((a, r) => a + (r.items || []).reduce((s, x) => s + Number(x.qty || 0), 0), 0);
+        const totalSales = rs.reduce((a, r) => a + (r.items || []).reduce((s, x) => s + Number(x.sales || 0), 0), 0);
+        const prodMap = Object.create(null);
+        rs.forEach(r => (r.items || []).forEach(x => { prodMap[x.name] = (prodMap[x.name] || 0) + Number(x.qty || 0); }));
+        const top = Object.entries(prodMap).sort((a, b) => b[1] - a[1])[0];
+        return { branch, totalQty, totalSales, top: top ? top[0] : '—' };
+    });
+    $('compareTable').innerHTML = summary.map(s => `
     <tr><td><b>${escapeHTML(s.branch)}</b></td><td class="mono">${fmt(s.totalQty)}</td><td class="mono">${money(s.totalSales)}</td><td dir="ltr" style="text-align:right;">${escapeHTML(s.top)}</td></tr>
   `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px;">اختر فرعين أو أكتر فوق</td></tr>';
-
-  // شارت خطي: مبيعات كل فرع عبر الوقت
-  if(!window.Chart) return;
-  if(chartCompare) chartCompare.destroy();
-  const allDates = [...new Set(reports.filter(r=>selected.includes(r.branch)).map(r=>r.date))].sort();
-  const datasets = selected.map((branch,i)=>{
-    const rs = reports.filter(r=>r.branch===branch);
-    const byDate=Object.create(null);
-    rs.forEach(r=>{byDate[r.date]=(byDate[r.date]||0)+(r.items||[]).reduce((s,x)=>s+Number(x.sales||0),0);});
-    return {
-      label: branch,
-      data: allDates.map(d=>byDate[d]||0),
-      borderColor: palette[i%palette.length],
-      backgroundColor: palette[i%palette.length]+'22',
-      tension:0.35, fill:false, pointRadius:3
+    // شارت خطي: مبيعات كل فرع عبر الوقت
+    if (!window.Chart)
+        return;
+    if (chartCompare)
+        chartCompare.destroy();
+    const allDates = [...new Set(reports.filter(r => selected.includes(r.branch)).map(r => r.date))].sort();
+    const datasets = selected.map((branch, i) => {
+        const rs = reports.filter(r => r.branch === branch);
+        const byDate = Object.create(null);
+        rs.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + (r.items || []).reduce((s, x) => s + Number(x.sales || 0), 0); });
+        return {
+            label: branch,
+            data: allDates.map(d => byDate[d] || 0),
+            borderColor: palette[i % palette.length],
+            backgroundColor: palette[i % palette.length] + '22',
+            tension: 0.35, fill: false, pointRadius: 3
+        };
+    });
+    chartCompare = new Chart($('chartCompareTrend'), {
+        type: 'line',
+        data: { labels: allDates, datasets },
+        options: {
+            responsive: true, maintainAspectRatio: false, rtl: false,
+            plugins: { legend: { display: true, labels: { color: '#c9d2f0' } }, tooltip: { rtl: false, textDirection: 'ltr' } },
+            scales: { x: { ticks: { color: '#8892b0' }, grid: { color: '#1c2447' } }, y: { ticks: { color: '#8892b0' }, grid: { color: '#1c2447' } } }
+        }
+    });
+}
+$('addAdminBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
+    const status = $('permissionsStatus');
+    try {
+        requireManageUsers();
+        const email = $('newAdminEmail').value.trim().toLowerCase();
+        const uid = $('employeeUid').value.trim();
+        const role = normalizeRole($('newEmployeeRole').value);
+        if (!/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !$('newAdminEmail').checkValidity() || !email)
+            throw new Error('أدخل البريد ومعرّف الحساب بشكل صحيح.');
+        if (uid === auth.currentUser.uid || email === OWNER_EMAIL)
+            throw new Error('حساب المالك ثابت ولا يضاف كموظف.');
+        $('addAdminBtn').disabled = true;
+        yield setDoc(doc(db, 'employees', uid), { email, active: true, role, updatedAt: serverTimestamp(), updatedBy: auth.currentUser.email });
+        status.textContent = 'تمت إضافة الموظف بصلاحية: ' + ROLE_LABELS[role];
+        $('newAdminEmail').value = '';
+        $('employeeUid').value = '';
+        $('newEmployeeRole').value = 'employee';
+        yield renderPermissions();
+    }
+    catch (error) {
+        status.textContent = firebaseErrorMessage(error);
+    }
+    finally {
+        $('addAdminBtn').disabled = false;
+    }
+});
+function rangeCutoffDate() {
+    var _a;
+    const days = Number(((_a = $('rangeSelect')) === null || _a === void 0 ? void 0 : _a.value) || 99999);
+    if (days >= 99999)
+        return null;
+    const d = new Date();
+    d.setDate(d.getDate() - days);
+    return d.toISOString().slice(0, 10);
+}
+function reportsInRange() {
+    const cutoff = rangeCutoffDate();
+    return cutoff ? reports.filter(r => String(r.date || '') >= cutoff) : reports;
+}
+function firebaseErrorMessage(err) {
+    const code = (err === null || err === void 0 ? void 0 : err.code) || '';
+    if (code.includes('invalid-credential'))
+        return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+    if (code.includes('user-not-found'))
+        return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+    if (code.includes('wrong-password'))
+        return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+    if (code.includes('permission-denied'))
+        return 'الوصول مرفوض: تأكد من نشر قواعد الأمان واعتماد الحساب لدى مسؤول النظام.';
+    if (code.includes('too-many-requests'))
+        return 'تمت محاولات كثيرة. حاول مرة أخرى لاحقاً.';
+    if (code.includes('network-request-failed'))
+        return 'تعذر الاتصال بالإنترنت.';
+    return code ? 'تعذر إتمام العملية. حاول لاحقًا أو تواصل مع مسؤول النظام.' : ((err === null || err === void 0 ? void 0 : err.message) || 'حدث خطأ غير متوقع.');
+}
+const MAX_ITEMS = 5000, MAX_FILE_BYTES = 10 * 1024 * 1024;
+function validateReport(report) {
+    if (!report || typeof report.branch !== 'string' || !report.branch.trim() || report.branch.length > 120)
+        throw new Error('اسم الفرع غير صالح.');
+    if (typeof report.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(report.date) || (!Number.isFinite(Date.parse(report.date + 'T00:00:00Z')) || new Date(report.date + 'T00:00:00Z').toISOString().slice(0, 10) !== report.date))
+        throw new Error('تاريخ التقرير غير صالح.');
+    if (!Array.isArray(report.items) || !report.items.length || report.items.length > MAX_ITEMS)
+        throw new Error('التقرير يجب أن يحتوي من 1 إلى 5000 صنف.');
+    const items = report.items.map(x => {
+        if (!x || typeof x.name !== 'string' || !x.name.trim() || x.name.length > 300 || typeof x.code !== 'string' || x.code.length > 120 || typeof x.qty !== 'number' || !Number.isFinite(x.qty) || Math.abs(x.qty) > 1e9 || typeof x.sales !== 'number' || !Number.isFinite(x.sales) || Math.abs(x.sales) > 1e12)
+            throw new Error('يوجد صنف غير صالح أو كمية/قيمة غير رقمية. راجع الملف.');
+        return { name: x.name, code: x.code, qty: x.qty, sales: x.sales };
+    });
+    const safe = { branch: report.branch, date: report.date, items };
+    if (new TextEncoder().encode(JSON.stringify(safe)).length > 800000)
+        throw new Error('التقرير كبير جدًا. قسّمه إلى تقارير أصغر.');
+    return safe;
+}
+function validateFile(file) {
+    if (!file || file.size > MAX_FILE_BYTES || !/\.(xlsx|xls|csv|pdf)$/i.test(file.name))
+        throw new Error('الملفات المسموحة Excel أو CSV أو PDF بحد أقصى 10 ميجابايت.');
+}
+function loadReports() {
+    return __awaiter(this, void 0, void 0, function* () {
+        requireEmployee();
+        const version = sessionVersion;
+        const q = query(collection(db, 'reports'), orderBy('date', 'desc'));
+        const snap = yield getDocs(q);
+        if (version !== sessionVersion || !canUpload)
+            return;
+        let invalid = 0;
+        reports = snap.docs.flatMap(d => {
+            try {
+                const raw = d.data(), safe = validateReport(raw);
+                return [Object.assign(Object.assign({}, safe), { id: d.id, createdAt: raw.createdAt, createdBy: typeof raw.createdBy === 'string' ? raw.createdBy : '', createdByUid: typeof raw.createdByUid === 'string' ? raw.createdByUid : '' })];
+            }
+            catch (_a) {
+                invalid++;
+                return [];
+            }
+        });
+        if (invalid)
+            $('demoBanner').textContent = 'تم استبعاد ' + invalid + ' تقرير غير صالح من العرض. راجع مسؤول النظام؛ لم يتم حذف أي بيانات.';
+    });
+}
+function saveReport(report) {
+    return __awaiter(this, void 0, void 0, function* () {
+        requireEmployee();
+        const safe = validateReport(report);
+        return yield addDoc(collection(db, 'reports'), Object.assign(Object.assign({}, safe), { createdAt: serverTimestamp(), createdBy: auth.currentUser.email, createdByUid: auth.currentUser.uid }));
+    });
+}
+function removeReport(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        requireDelete();
+        if (!firebaseReady)
+            throw new Error('خدمة البيانات غير متاحة حاليًا.');
+        yield deleteDoc(doc(db, 'reports', id));
+    });
+}
+function show(view) {
+    if (!canUpload || (view === 'permissions' && !canManageUsers) || (view === 'activity' && !canViewActivity))
+        return;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const el = $('view-' + view);
+    if (el)
+        el.classList.add('active');
+    document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+    const titles = { overview: 'نظرة عامة على كل الفروع', branches: 'الفروع', upload: 'رفع تقرير مبيعات فرع', deadstock: 'الأصناف الراكدة', permissions: 'إدارة الصلاحيات', compare: 'مقارنة الفروع', activity: 'سجل النشاط' };
+    $('pageTitle').textContent = titles[view] || 'منصة تقارير الفروع';
+    $('pageSub').textContent = 'آخر تحديث: ' + new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    if (view === 'overview')
+        renderOverview();
+    if (view === 'branches')
+        renderBranches();
+    if (view === 'deadstock')
+        renderDead();
+    if (view === 'permissions')
+        renderPermissions().catch(e => { $('permissionsStatus').textContent = firebaseErrorMessage(e); });
+    if (view === 'compare')
+        renderCompare();
+    if (view === 'activity')
+        renderActivity();
+}
+function allItems() {
+    const arr = [];
+    reports.forEach(r => (r.items || []).forEach(x => arr.push(Object.assign(Object.assign({}, x), { branch: r.branch, date: r.date }))));
+    return arr;
+}
+function allItemsInRange() {
+    const arr = [];
+    reportsInRange().forEach(r => (r.items || []).forEach(x => arr.push(Object.assign(Object.assign({}, x), { branch: r.branch, date: r.date }))));
+    return arr;
+}
+function branchStats() {
+    return branches.map(b => {
+        const rs = reports.filter(r => r.branch === b), items = rs.flatMap(r => r.items || []);
+        return { branch: b, reports: rs.length, qty: items.reduce((a, x) => a + Number(x.qty || 0), 0), sales: items.reduce((a, x) => a + Number(x.sales || 0), 0) };
+    }).sort((a, b) => b.sales - a.sales);
+}
+function renderSmartAlerts() {
+    const grid = $('smartAlertsGrid');
+    if (!grid)
+        return;
+    const scoped = reportsInRange(), items = allItemsInRange();
+    if (!scoped.length) {
+        grid.innerHTML = '<div class="smart-alert warning"><div class="smart-alert-icon">!</div><div><b>لا توجد بيانات في الفترة</b><small>غيّر الفترة أو ارفع تقارير جديدة لعرض التنبيهات الذكية.</small></div></div>';
+        return;
+    }
+    const branchTotals = Object.create(null), productTotals = Object.create(null);
+    scoped.forEach(r => (r.items || []).forEach(x => {
+        const q = Number(x.qty || 0);
+        branchTotals[r.branch] = (branchTotals[r.branch] || 0) + q;
+        const key = (x.code || '') + '|' + (x.name || 'بدون اسم');
+        productTotals[key] = (productTotals[key] || 0) + q;
+    }));
+    const noReports = branches.filter(b => !scoped.some(r => r.branch === b));
+    const zeroProducts = Object.entries(productTotals).filter(([, qty]) => qty <= 0).length;
+    const ranked = Object.entries(branchTotals).filter(([, qty]) => qty > 0).sort((a, b) => b[1] - a[1]);
+    const latest = [...scoped].map(r => r.date).filter(Boolean).sort().at(-1);
+    const alerts = [];
+    if (noReports.length) {
+        alerts.push({
+            type: 'warning', icon: '!', title: `${noReports.length} فرع بدون تقرير`,
+            text: `خلال الفترة المختارة. اضغط لعرض أسماء الفروع.`,
+            action: 'missing', actionText: 'عرض الفروع'
+        });
+    }
+    else {
+        alerts.push({ type: 'success', icon: '✓', title: 'تغطية الفروع مكتملة', text: 'كل الفروع لديها تقارير ضمن الفترة المختارة.' });
+    }
+    if (zeroProducts) {
+        alerts.push({ type: 'danger', icon: '0', title: `${zeroProducts} صنف بدون حركة`, text: 'أصناف مجموع كميتها المسجلة صفر خلال الفترة وتحتاج مراجعة.' });
+    }
+    else {
+        alerts.push({ type: 'success', icon: '↗', title: 'لا توجد أصناف بصفر حركة', text: 'كل الأصناف المسجلة لديها حركة موجبة ضمن الفترة.' });
+    }
+    if (ranked.length) {
+        alerts.push({
+            type: 'info', icon: '★', title: `أعلى حركة: ${ranked[0][0]}`,
+            text: `إجمالي الكمية ${fmt(ranked[0][1])} ضمن الفترة المختارة.`,
+            action: 'top-branch', actionText: 'فتح الفرع', branch: ranked[0][0]
+        });
+    }
+    if (latest) {
+        const age = Math.floor((Date.now() - new Date(latest + 'T00:00:00').getTime()) / 86400000);
+        alerts.push({ type: age > 7 ? 'warning' : 'info', icon: '↻', title: 'آخر تاريخ تقرير: ' + latest, text: age > 7 ? `آخر تقرير أقدم من ${age} يومًا؛ راجع تحديث التقارير.` : 'بيانات التقارير حديثة نسبيًا.' });
+    }
+    grid.innerHTML = alerts.slice(0, 4).map(a => `<div class="smart-alert ${a.type}${a.action ? ' actionable' : ''}" ${a.action ? `data-alert-action="${escapeHTML(a.action)}" tabindex="0" role="button"` : ''}${a.branch ? ` data-branch="${escapeHTML(a.branch)}"` : ''}><div class="smart-alert-icon">${escapeHTML(a.icon)}</div><div><b>${escapeHTML(a.title)}</b><small>${escapeHTML(a.text)}</small></div>${a.action ? `<span class="smart-alert-action">${escapeHTML(a.actionText || 'عرض التفاصيل')}</span>` : ''}</div>`).join('');
+    grid.querySelectorAll('[data-alert-action]').forEach(card => {
+        const activate = () => {
+            if (card.dataset.alertAction === 'missing')
+                showMissingBranches(noReports);
+            if (card.dataset.alertAction === 'top-branch')
+                openBranchDetails(card.dataset.branch, { notify: true });
+        };
+        card.addEventListener('click', activate);
+        card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            activate();
+        } });
+    });
+}
+function renderOverview() {
+    updateWelcomeHeader();
+    renderSmartAlerts();
+    const items = allItemsInRange(), productMap = Object.create(null), branchMap = Object.create(null);
+    items.forEach(x => { const name = (x.name || 'بدون اسم').trim(), branch = x.branch || 'غير محدد', qty = Number(x.qty || 0); productMap[name] = (productMap[name] || 0) + qty; branchMap[branch] = (branchMap[branch] || 0) + qty; });
+    const products = Object.entries(productMap).map(([name, qty]) => ({ name, qty })).sort((a, b) => b.qty - a.qty), branchQty = Object.entries(branchMap).map(([branch, qty]) => ({ branch, qty })).sort((a, b) => b.qty - a.qty), totalQty = products.reduce((a, x) => a + x.qty, 0);
+    $('kpiTotalSales').textContent = fmt(products.length);
+    $('kpiBestBranch').textContent = fmt(totalQty);
+    $('kpiTopProduct').textContent = fmt(branchQty.filter(x => x.qty > 0).length);
+    $('kpiDeadCount').textContent = fmt(reports.length);
+    $('salesShareCenter').textContent = fmt(products.length);
+    $('reportsShareCenter').textContent = fmt(totalQty);
+    const rows = [];
+    reportsInRange().forEach(r => (r.items || []).forEach(x => rows.push({ name: x.name || 'بدون اسم', branch: r.branch || 'غير محدد', qty: Number(x.qty || 0) })));
+    rows.sort((a, b) => b.qty - a.qty);
+    const q1Idx = Math.ceil(rows.length * 0.25), q3Idx = Math.ceil(rows.length * 0.75);
+    rows.forEach((x, i) => { x.perf = i < q1Idx ? 'high' : (i < q3Idx ? 'mid' : 'low'); });
+    $('branchTableCount').textContent = rows.length > 80 ? `(أعلى 80 من ${rows.length})` : `(${rows.length})`;
+    const perfLabel = { high: 'أعلى الأداء', mid: 'متوسط', low: 'ضعيف' }, perfClass = { high: 'perf-high', mid: 'perf-mid', low: 'perf-low' };
+    const renderRows = (q = '') => { const f = rows.filter(x => !q || x.name.includes(q) || x.branch.includes(q)).slice(0, 80); $('branchTable').innerHTML = f.map(x => { const pct = totalQty ? x.qty / totalQty * 100 : 0; return `<tr><td><b>${escapeHTML(x.name)}</b></td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${pct.toLocaleString('en-US', { maximumFractionDigits: 1 })}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill" style="width:${Math.min(100, Math.max(4, pct * 4))}%"></div></div><span class="status-pill ${perfClass[x.perf]}">${perfLabel[x.perf]}</span></div></td></tr>`; }).join(''); };
+    renderRows();
+    $('branchSearch').oninput = e => renderRows(e.target.value.trim());
+    drawCharts(products, branchQty, totalQty);
+}
+function drawCharts(products, branchQty, totalQty) {
+    if (!window.Chart)
+        return;
+    [chartTop, chartSalesShare, chartReportsShare].forEach(c => { if (c)
+        c.destroy(); });
+    const palette = ['#8b5cf6', '#16d9bd', '#ff3e91', '#ffc234', '#4d7cff', '#5fe1ff', '#ff6b75', '#a3ff6b'];
+    const common = { responsive: true, maintainAspectRatio: false, rtl: false, animation: { duration: 950, easing: 'easeOutQuart' }, plugins: { legend: { display: false }, tooltip: { rtl: false, textDirection: 'ltr', backgroundColor: '#0b132b', titleColor: '#fff', bodyColor: '#e9edff', borderColor: '#2a3960', borderWidth: 1, padding: 9, displayColors: true } }, layout: { padding: 4 } };
+    const top = products.slice(0, 6);
+    chartTop = new Chart($('chartTopBranches'), { type: 'bar', data: { labels: top.map(x => x.name.length > 18 ? x.name.slice(0, 18) + '…' : x.name), datasets: [{ data: top.map(x => x.qty), backgroundColor: top.map((_, i) => palette[i % palette.length]), borderRadius: 4, borderSkipped: false, barPercentage: .56, categoryPercentage: .72 }] }, options: Object.assign(Object.assign({}, common), { indexAxis: 'y', scales: { x: { grid: { color: 'rgba(117,137,184,.10)', drawBorder: false }, ticks: { color: '#7f8bad', font: { size: 11 } } }, y: { grid: { display: false }, ticks: { color: '#dbe1f5', font: { size: 11 } } } } }) });
+    const dp = products.slice(0, 5), otherP = products.slice(5).reduce((a, x) => a + x.qty, 0), donutOpts = Object.assign(Object.assign({}, common), { cutout: '66%', plugins: Object.assign(Object.assign({}, common.plugins), { legend: { display: true, position: 'bottom', labels: { color: '#8a96b9', usePointStyle: true, pointStyle: 'circle', boxWidth: 6, boxHeight: 6, padding: 7, font: { size: 10 } } } }) });
+    chartSalesShare = new Chart($('chartSalesShare'), { type: 'doughnut', data: { labels: dp.map(x => x.name.length > 10 ? x.name.slice(0, 10) + '…' : x.name).concat(otherP > 0 ? ['أخرى'] : []), datasets: [{ data: dp.map(x => x.qty).concat(otherP > 0 ? [otherP] : []), backgroundColor: palette, borderColor: '#111a35', borderWidth: 2, hoverOffset: 6 }] }, options: donutOpts });
+    const db = branchQty.slice(0, 5), otherB = branchQty.slice(5).reduce((a, x) => a + x.qty, 0);
+    chartReportsShare = new Chart($('chartReportsShare'), { type: 'doughnut', data: { labels: db.map(x => x.branch).concat(otherB > 0 ? ['أخرى'] : []), datasets: [{ data: db.map(x => x.qty).concat(otherB > 0 ? [otherB] : []), backgroundColor: ['#16d9bd', '#ff3e91', '#ffc234', '#8b5cf6', '#4d7cff', '#5fe1ff'], borderColor: '#111a35', borderWidth: 2, hoverOffset: 6 }] }, options: donutOpts });
+}
+function focusOverviewBranch(branch) { }
+function renderBranches() {
+    const q = ($('branchListSearch').value || '').trim();
+    const list = branches.filter(b => b.includes(q));
+    $('branchCountLabel').textContent = `(${list.length})`;
+    $('branchListPanel').innerHTML = list.map(b => `<div class="branch-item ${b === selectedBranch ? 'active' : ''}" data-b="${b}"><b>${b}</b><div style="color:var(--muted);font-size:12.5px;margin-top:4px">${reports.filter(r => r.branch === b).length} تقرير</div></div>`).join('');
+    document.querySelectorAll('[data-b]').forEach(e => e.onclick = () => { selectedBranch = e.dataset.b; renderBranches(); });
+    const rs = reports.filter(r => r.branch === selectedBranch).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const items = rs.flatMap(r => r.items || []);
+    $('branchDetailTitle').textContent = `تفاصيل فرع ${selectedBranch}`;
+    $('branchReportsCount').textContent = `(${rs.length})`;
+    $('branchReportsTable').innerHTML = rs.map(r => `<tr><td>${escapeHTML(r.date || '')}</td><td>${(r.items || []).length}</td><td>${fmt((r.items || []).reduce((a, x) => a + Number(x.qty || 0), 0))}</td><td>${money((r.items || []).reduce((a, x) => a + Number(x.sales || 0), 0))}</td><td>${canDelete ? `<button class="btn-sm" data-del="${escapeHTML(r.id || '')}">حذف</button>` : ''}</td></tr>`).join('');
+    document.querySelectorAll('[data-del]').forEach(btn => btn.onclick = () => __awaiter(this, void 0, void 0, function* () {
+        if (!btn.dataset.del)
+            return;
+        if (!(yield confirmAction('سيتم حذف التقرير نهائيًا من النظام. هل تريد المتابعة؟', { title: 'حذف التقرير', confirmText: 'حذف نهائيًا' })))
+            return;
+        try {
+            yield removeReport(btn.dataset.del);
+            yield refreshAll();
+            renderBranches();
+        }
+        catch (e) {
+            alert(firebaseErrorMessage(e));
+        }
+    }));
+    if (window.Chart) {
+        if (chartTrend)
+            chartTrend.destroy();
+        const byDate = rs.slice().reverse();
+        chartTrend = new Chart($('chartBranchTrend'), { type: 'line', data: { labels: byDate.map(r => r.date), datasets: [{ label: 'المبيعات', data: byDate.map(r => (r.items || []).reduce((a, x) => a + Number(x.sales || 0), 0)), tension: .35, fill: false }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+    }
+    const top = Object.create(null);
+    items.forEach(x => top[x.name] = (top[x.name] || 0) + Number(x.qty || 0));
+    $('branchTopProductsList').innerHTML = '<b style="color:var(--text)">أعلى الأصناف</b><br>' + Object.entries(top).sort((a, b) => b[1] - a[1]).slice(0, 6).map((x, i) => `<span dir="ltr" style="unicode-bidi:isolate;display:block;text-align:right">${i + 1}. ${escapeHTML(x[0])} — ${fmt(x[1])}</span>`).join('');
+}
+function renderDead() {
+    const q = ($('deadSearch').value || '').toLowerCase(), bf = $('deadBranchFilter').value;
+    const activeBtn = document.querySelector('[data-dead].active');
+    const statusFilter = activeBtn ? activeBtn.dataset.dead : 'all';
+    const cutoff = rangeCutoffDate() || (() => { const d = new Date(); d.setDate(d.getDate() - 30); return d.toISOString().slice(0, 10); })();
+    const byBranch = Object.create(null);
+    reports.forEach(r => { (byBranch[r.branch] = byBranch[r.branch] || []).push(r); });
+    const rows = [];
+    Object.entries(byBranch).forEach(([branch, rs]) => {
+        if (bf && branch !== bf)
+            return;
+        const oldR = rs.filter(r => String(r.date || '') < cutoff), newR = rs.filter(r => String(r.date || '') >= cutoff);
+        if (!oldR.length)
+            return; // مفيش تاريخ كافي للمقارنة في الفرع ده
+        const oldSum = Object.create(null), newSum = Object.create(null);
+        oldR.forEach(r => (r.items || []).forEach(x => { const k = (x.code || '') + '|' + x.name; oldSum[k] = (oldSum[k] || 0) + Number(x.qty || 0); }));
+        newR.forEach(r => (r.items || []).forEach(x => { const k = (x.code || '') + '|' + x.name; newSum[k] = (newSum[k] || 0) + Number(x.qty || 0); }));
+        Object.entries(oldSum).forEach(([k, oldQty]) => {
+            const oldAvg = oldQty / oldR.length;
+            if (oldAvg <= 0)
+                return;
+            const newQty = newSum[k] || 0, newAvg = newR.length ? newQty / newR.length : 0;
+            let status = null;
+            if (newQty === 0)
+                status = 'out';
+            else if (newAvg < oldAvg * 0.3)
+                status = 'low';
+            if (status) {
+                const [code, name] = k.split('|');
+                rows.push({ code, name, branch, qty: newQty, status });
+            }
+        });
+    });
+    let filtered = rows;
+    if (statusFilter !== 'all')
+        filtered = filtered.filter(x => x.status === statusFilter);
+    filtered = filtered.filter(x => (x.name + ' ' + x.code).toLowerCase().includes(q));
+    $('deadCountLabel').textContent = `(${filtered.length})`;
+    $('deadStockTable').innerHTML = filtered.sort((a, b) => a.qty - b.qty).map(x => `<tr><td>${escapeHTML(x.code)}</td><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${x.status === 'out' ? 'راكد تماماً' : 'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
+}
+function populateBranchSelect() {
+    $('uploadBranchSelect').innerHTML = branches.map(b => `<option>${b}</option>`).join('');
+    $('deadBranchFilter').innerHTML = '<option value="">كل الفروع</option>' + branches.map(b => `<option>${b}</option>`).join('');
+}
+function setStep(n) { [1, 2, 3].forEach(i => $('uploadStep' + i).classList.toggle('active', i === n)); }
+function loadWorkbook(file) {
+    try {
+        requireEmployee();
+        validateFile(file);
+    }
+    catch (e) {
+        $('uploadStatus').textContent = e.message;
+        return;
+    }
+    const status = $('uploadStatus');
+    status.textContent = 'جاري قراءة الملف...';
+    const version = sessionVersion;
+    const reader = new FileReader();
+    reader.onerror = () => { status.textContent = 'تعذر قراءة الملف.'; };
+    reader.onload = e => {
+        if (version !== sessionVersion || !canUpload)
+            return;
+        try {
+            const wb = XLSX.read(e.target.result, { type: 'array', sheetRows: 5002, cellHTML: false, cellFormula: false }), ws = wb.Sheets[wb.SheetNames[0]];
+            uploadRows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' }).filter(r => r.some(v => String(v).trim() !== ''));
+            if (uploadRows.length < 2)
+                throw new Error('الملف لا يحتوي بيانات كافية');
+            const headers = uploadRows[0].map(String);
+            const find = (patterns) => headers.findIndex(h => patterns.some(p => h.toLowerCase().includes(p)));
+            map.name = Math.max(0, find(['اسم', 'صنف', 'product', 'item', 'name']));
+            map.code = find(['كود', 'code', 'sku']);
+            map.qty = Math.max(0, find(['كمية', 'qty', 'quantity']));
+            map.sales = find(['مبيعات', 'sales', 'value', 'قيمة']);
+            const opts = headers.map((h, i) => `<option value="${i}">${escapeHTML(h || 'عمود ' + (i + 1))}</option>`).join('');
+            ['mapName', 'mapCode', 'mapQty', 'mapSales'].forEach(id => $(id).innerHTML = '<option value="-1">— بدون تحديد —</option>' + opts);
+            $('mapName').value = map.name;
+            $('mapCode').value = map.code;
+            $('mapQty').value = map.qty;
+            $('mapSales').value = map.sales;
+            $('previewTable').innerHTML = '<thead><tr>' + headers.map(h => `<th>${escapeHTML(h)}</th>`).join('') + '</tr></thead><tbody>' + uploadRows.slice(1, 9).map(r => '<tr>' + headers.map((_, i) => { var _a; return `<td>${escapeHTML((_a = r[i]) !== null && _a !== void 0 ? _a : '')}</td>`; }).join('') + '</tr>').join('') + '</tbody>';
+            status.textContent = `تمت قراءة ${uploadRows.length - 1} صف من ${wb.SheetNames[0]}`;
+            setStep(2);
+        }
+        catch (err) {
+            status.textContent = 'تعذر قراءة الملف: ' + err.message;
+        }
     };
-  });
-  chartCompare = new Chart($('chartCompareTrend'), {
-    type:'line',
-    data:{ labels: allDates, datasets },
-    options:{
-      responsive:true, maintainAspectRatio:false, rtl:false,
-      plugins:{ legend:{display:true, labels:{color:'#c9d2f0'}}, tooltip:{rtl:false,textDirection:'ltr'} },
-      scales:{ x:{ticks:{color:'#8892b0'}, grid:{color:'#1c2447'}}, y:{ticks:{color:'#8892b0'}, grid:{color:'#1c2447'}} }
-    }
-  });
+    reader.readAsArrayBuffer(file);
 }
-
-
-$('addAdminBtn').onclick=async()=>{
-  const status=$('permissionsStatus');
-  try{
-    requireManageUsers();
-    const email=$('newAdminEmail').value.trim().toLowerCase();
-    const uid=$('employeeUid').value.trim();
-    const role=normalizeRole($('newEmployeeRole').value);
-    if(!/^[A-Za-z0-9_-]{1,128}$/.test(uid) || !$('newAdminEmail').checkValidity() || !email) throw new Error('أدخل البريد ومعرّف الحساب بشكل صحيح.');
-    if(uid===auth.currentUser.uid || email===OWNER_EMAIL) throw new Error('حساب المالك ثابت ولا يضاف كموظف.');
-    $('addAdminBtn').disabled=true;
-    await setDoc(doc(db,'employees',uid),{email,active:true,role,updatedAt:serverTimestamp(),updatedBy:auth.currentUser.email});
-    status.textContent='تمت إضافة الموظف بصلاحية: '+ROLE_LABELS[role];
-    $('newAdminEmail').value='';$('employeeUid').value='';$('newEmployeeRole').value='employee';
-    await renderPermissions();
-  }catch(error){status.textContent=firebaseErrorMessage(error);}
-  finally{$('addAdminBtn').disabled=false;}
-};
-
-function rangeCutoffDate(){
-  const days = Number($('rangeSelect')?.value || 99999);
-  if(days >= 99999) return null;
-  const d = new Date(); d.setDate(d.getDate() - days);
-  return d.toISOString().slice(0,10);
+let pdfjsReady = null;
+function ensurePdfJs() {
+    if (!pdfjsReady)
+        pdfjsReady = Promise.resolve().then(() => require('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.min.mjs')).then(lib => {
+            window.pdfjsLib = lib;
+            lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.worker.min.mjs';
+        }).catch(error => { pdfjsReady = null; throw error; });
+    return pdfjsReady;
 }
-function reportsInRange(){
-  const cutoff = rangeCutoffDate();
-  return cutoff ? reports.filter(r=>String(r.date||'') >= cutoff) : reports;
-}
-
-function firebaseErrorMessage(err){
-  const code = err?.code || '';
-  if(code.includes('invalid-credential')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
-  if(code.includes('user-not-found')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
-  if(code.includes('wrong-password')) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
-  if(code.includes('permission-denied')) return 'الوصول مرفوض: تأكد من نشر قواعد الأمان واعتماد الحساب لدى مسؤول النظام.';
-  if(code.includes('too-many-requests')) return 'تمت محاولات كثيرة. حاول مرة أخرى لاحقاً.';
-  if(code.includes('network-request-failed')) return 'تعذر الاتصال بالإنترنت.';
-  return code ? 'تعذر إتمام العملية. حاول لاحقًا أو تواصل مع مسؤول النظام.' : (err?.message || 'حدث خطأ غير متوقع.');
-}
-
-const MAX_ITEMS=5000, MAX_FILE_BYTES=10*1024*1024;
-function validateReport(report){
-  if(!report || typeof report.branch!=='string' || !report.branch.trim() || report.branch.length>120) throw new Error('اسم الفرع غير صالح.');
-  if(typeof report.date!=='string' || !/^\d{4}-\d{2}-\d{2}$/.test(report.date) || (!Number.isFinite(Date.parse(report.date+'T00:00:00Z')) || new Date(report.date+'T00:00:00Z').toISOString().slice(0,10)!==report.date)) throw new Error('تاريخ التقرير غير صالح.');
-  if(!Array.isArray(report.items) || !report.items.length || report.items.length>MAX_ITEMS) throw new Error('التقرير يجب أن يحتوي من 1 إلى 5000 صنف.');
-  const items=report.items.map(x=>{
-    if(!x || typeof x.name!=='string' || !x.name.trim() || x.name.length>300 || typeof x.code!=='string' || x.code.length>120 || typeof x.qty!=='number' || !Number.isFinite(x.qty) || Math.abs(x.qty)>1e9 || typeof x.sales!=='number' || !Number.isFinite(x.sales) || Math.abs(x.sales)>1e12) throw new Error('يوجد صنف غير صالح أو كمية/قيمة غير رقمية. راجع الملف.');
-    return {name:x.name,code:x.code,qty:x.qty,sales:x.sales};
-  });
-  const safe={branch:report.branch,date:report.date,items};
-  if(new TextEncoder().encode(JSON.stringify(safe)).length>800000) throw new Error('التقرير كبير جدًا. قسّمه إلى تقارير أصغر.');
-  return safe;
-}
-function validateFile(file){
-  if(!file || file.size>MAX_FILE_BYTES || !/\.(xlsx|xls|csv|pdf)$/i.test(file.name)) throw new Error('الملفات المسموحة Excel أو CSV أو PDF بحد أقصى 10 ميجابايت.');
-}
-async function loadReports(){
-  requireEmployee();
-  const version=sessionVersion;
-  const q=query(collection(db,'reports'),orderBy('date','desc'));
-  const snap=await getDocs(q);
-  if(version!==sessionVersion || !canUpload) return;
-  let invalid=0;
-  reports=snap.docs.flatMap(d=>{
-    try{
-      const raw=d.data(), safe=validateReport(raw);
-      return [{...safe,id:d.id,createdAt:raw.createdAt,createdBy:typeof raw.createdBy==='string'?raw.createdBy:'',createdByUid:typeof raw.createdByUid==='string'?raw.createdByUid:''}];
-    }catch{invalid++;return [];}
-  });
-  if(invalid) $('demoBanner').textContent='تم استبعاد '+invalid+' تقرير غير صالح من العرض. راجع مسؤول النظام؛ لم يتم حذف أي بيانات.';
-}
-async function saveReport(report){
-  requireEmployee();
-  const safe=validateReport(report);
-  return await addDoc(collection(db,'reports'),{
-    ...safe,createdAt:serverTimestamp(),createdBy:auth.currentUser.email,createdByUid:auth.currentUser.uid
-  });
-}
-
-async function removeReport(id){
-  requireDelete();
-  if(!firebaseReady) throw new Error('خدمة البيانات غير متاحة حاليًا.');
-  await deleteDoc(doc(db, 'reports', id));
-}
-
-function show(view){
-  if(!canUpload || (view==='permissions' && !canManageUsers) || (view==='activity' && !canViewActivity)) return;
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  const el=$('view-'+view); if(el) el.classList.add('active');
-  document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={overview:'نظرة عامة على كل الفروع',branches:'الفروع',upload:'رفع تقرير مبيعات فرع',deadstock:'الأصناف الراكدة',permissions:'إدارة الصلاحيات',compare:'مقارنة الفروع',activity:'سجل النشاط'};
-  $('pageTitle').textContent=titles[view]||'منصة تقارير الفروع';
-  $('pageSub').textContent='آخر تحديث: '+new Date().toLocaleString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-  if(view==='overview') renderOverview();
-  if(view==='branches') renderBranches();
-  if(view==='deadstock') renderDead();
-  if(view==='permissions') renderPermissions().catch(e=>{$('permissionsStatus').textContent=firebaseErrorMessage(e);});
-  if(view==='compare') renderCompare();
-  if(view==='activity') renderActivity();
-}
-
-function allItems(){
-  const arr=[];
-  reports.forEach(r=>(r.items||[]).forEach(x=>arr.push({...x,branch:r.branch,date:r.date})));
-  return arr;
-}
-function allItemsInRange(){
-  const arr=[];
-  reportsInRange().forEach(r=>(r.items||[]).forEach(x=>arr.push({...x,branch:r.branch,date:r.date})));
-  return arr;
-}
-
-function branchStats(){
-  return branches.map(b=>{
-    const rs=reports.filter(r=>r.branch===b), items=rs.flatMap(r=>r.items||[]);
-    return {branch:b,reports:rs.length,qty:items.reduce((a,x)=>a+Number(x.qty||0),0),sales:items.reduce((a,x)=>a+Number(x.sales||0),0)};
-  }).sort((a,b)=>b.sales-a.sales);
-}
-
-
-function renderSmartAlerts(){
-  const grid=$('smartAlertsGrid');if(!grid)return;
-  const scoped=reportsInRange(),items=allItemsInRange();
-  if(!scoped.length){
-    grid.innerHTML='<div class="smart-alert warning"><div class="smart-alert-icon">!</div><div><b>لا توجد بيانات في الفترة</b><small>غيّر الفترة أو ارفع تقارير جديدة لعرض التنبيهات الذكية.</small></div></div>';
-    return;
-  }
-  const branchTotals=Object.create(null),productTotals=Object.create(null);
-  scoped.forEach(r=>(r.items||[]).forEach(x=>{
-    const q=Number(x.qty||0);
-    branchTotals[r.branch]=(branchTotals[r.branch]||0)+q;
-    const key=(x.code||'')+'|'+(x.name||'بدون اسم');
-    productTotals[key]=(productTotals[key]||0)+q;
-  }));
-  const noReports=branches.filter(b=>!scoped.some(r=>r.branch===b));
-  const zeroProducts=Object.entries(productTotals).filter(([,qty])=>qty<=0).length;
-  const ranked=Object.entries(branchTotals).filter(([,qty])=>qty>0).sort((a,b)=>b[1]-a[1]);
-  const latest=[...scoped].map(r=>r.date).filter(Boolean).sort().at(-1);
-  const alerts=[];
-  if(noReports.length){
-    alerts.push({
-      type:'warning',icon:'!',title:`${noReports.length} فرع بدون تقرير`,
-      text:`خلال الفترة المختارة. اضغط لعرض أسماء الفروع.`,
-      action:'missing',actionText:'عرض الفروع'
+function loadPdf(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const version = sessionVersion;
+        const status = $('uploadStatus');
+        status.textContent = 'جاري تحميل مكتبة قراءة PDF...';
+        try {
+            requireEmployee();
+            validateFile(file);
+            yield ensurePdfJs();
+            status.textContent = 'جاري قراءة الملف...';
+            const buf = yield file.arrayBuffer();
+            const pdfTask = window.pdfjsLib.getDocument({ data: buf, isEvalSupported: false, stopAtErrors: true });
+            const pdf = yield pdfTask.promise;
+            if (pdf.numPages > 100) {
+                yield pdfTask.destroy();
+                throw new Error('الحد الأقصى 100 صفحة PDF.');
+            }
+            let lines = [];
+            for (let p = 1; p <= pdf.numPages; p++) {
+                const page = yield pdf.getPage(p);
+                const content = yield page.getTextContent();
+                let currentLine = [], lastY = null;
+                content.items.forEach(item => {
+                    if (lastY !== null && Math.abs(item.transform[5] - lastY) > 2) {
+                        lines.push(currentLine.join(' ').trim());
+                        currentLine = [];
+                    }
+                    currentLine.push(item.str);
+                    lastY = item.transform[5];
+                });
+                if (currentLine.length)
+                    lines.push(currentLine.join(' ').trim());
+            }
+            yield pdfTask.destroy();
+            lines = lines.filter(l => l.trim() !== '');
+            // نمط أودو الشائع: [كود] اسم الصنف .... كمية
+            const bracketPattern = /^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
+            const bracketRows = [];
+            lines.forEach(line => { const m = line.match(bracketPattern); if (m)
+                bracketRows.push([m[1], m[2].trim(), m[3].replace(/,/g, '')]); });
+            let headers, dataRows;
+            if (bracketRows.length >= Math.max(3, lines.length * 0.3)) {
+                headers = ['الكود', 'اسم الصنف', 'الكمية'];
+                dataRows = bracketRows;
+            }
+            else {
+                dataRows = lines.map(l => l.split(/\s{2,}/).map(c => c.trim()).filter(c => c !== '')).filter(r => r.length > 1);
+                const maxCols = Math.max(...dataRows.map(r => r.length), 1);
+                headers = Array.from({ length: maxCols }, (_, i) => 'عمود ' + (i + 1));
+            }
+            if (!dataRows.length)
+                throw new Error('لم يتم العثور على بيانات في الملف');
+            if (version !== sessionVersion || !canUpload)
+                return;
+            uploadRows = [headers, ...dataRows];
+            const find = (patterns) => headers.findIndex(h => patterns.some(p => String(h).toLowerCase().includes(p)));
+            map.name = Math.max(0, find(['اسم', 'صنف', 'product', 'item', 'name']));
+            map.code = Math.max(0, find(['كود', 'code', 'sku']));
+            map.qty = Math.max(0, find(['كمية', 'qty', 'quantity']));
+            map.sales = find(['مبيعات', 'sales', 'value', 'قيمة']);
+            const opts = headers.map((h, i) => `<option value="${i}">${escapeHTML(h || 'عمود ' + (i + 1))}</option>`).join('');
+            ['mapName', 'mapCode', 'mapQty', 'mapSales'].forEach(id => $(id).innerHTML = '<option value="-1">— بدون تحديد —</option>' + opts);
+            $('mapName').value = map.name;
+            $('mapCode').value = map.code;
+            $('mapQty').value = map.qty;
+            $('mapSales').value = map.sales;
+            $('previewTable').innerHTML = '<thead><tr>' + headers.map(h => `<th>${escapeHTML(h)}</th>`).join('') + '</tr></thead><tbody>' + dataRows.slice(0, 8).map(r => '<tr>' + headers.map((_, i) => { var _a; return `<td>${escapeHTML((_a = r[i]) !== null && _a !== void 0 ? _a : '')}</td>`; }).join('') + '</tr>').join('') + '</tbody>';
+            status.textContent = (bracketRows.length >= Math.max(3, lines.length * 0.3))
+                ? `✅ تم التعرف تلقائياً على نمط تقرير أودو — ${dataRows.length} صف`
+                : `تمت قراءة ${dataRows.length} صف من الملف`;
+            setStep(2);
+        }
+        catch (err) {
+            status.textContent = 'تعذر قراءة ملف PDF: ' + err.message;
+        }
     });
-  }else{
-    alerts.push({type:'success',icon:'✓',title:'تغطية الفروع مكتملة',text:'كل الفروع لديها تقارير ضمن الفترة المختارة.'});
-  }
-  if(zeroProducts){
-    alerts.push({type:'danger',icon:'0',title:`${zeroProducts} صنف بدون حركة`,text:'أصناف مجموع كميتها المسجلة صفر خلال الفترة وتحتاج مراجعة.'});
-  }else{
-    alerts.push({type:'success',icon:'↗',title:'لا توجد أصناف بصفر حركة',text:'كل الأصناف المسجلة لديها حركة موجبة ضمن الفترة.'});
-  }
-  if(ranked.length){
-    alerts.push({
-      type:'info',icon:'★',title:`أعلى حركة: ${ranked[0][0]}`,
-      text:`إجمالي الكمية ${fmt(ranked[0][1])} ضمن الفترة المختارة.`,
-      action:'top-branch',actionText:'فتح الفرع',branch:ranked[0][0]
+}
+function refreshAll() {
+    return __awaiter(this, void 0, void 0, function* () {
+        setDashboardLoading(true);
+        try {
+            yield loadReports();
+            renderOverview();
+            updateWelcomeHeader(true);
+        }
+        finally {
+            setDashboardLoading(false);
+        }
     });
-  }
-  if(latest){
-    const age=Math.floor((Date.now()-new Date(latest+'T00:00:00').getTime())/86400000);
-    alerts.push({type:age>7?'warning':'info',icon:'↻',title:'آخر تاريخ تقرير: '+latest,text:age>7?`آخر تقرير أقدم من ${age} يومًا؛ راجع تحديث التقارير.`:'بيانات التقارير حديثة نسبيًا.'});
-  }
-  grid.innerHTML=alerts.slice(0,4).map(a=>`<div class="smart-alert ${a.type}${a.action?' actionable':''}" ${a.action?`data-alert-action="${escapeHTML(a.action)}" tabindex="0" role="button"`:''}${a.branch?` data-branch="${escapeHTML(a.branch)}"`:''}><div class="smart-alert-icon">${escapeHTML(a.icon)}</div><div><b>${escapeHTML(a.title)}</b><small>${escapeHTML(a.text)}</small></div>${a.action?`<span class="smart-alert-action">${escapeHTML(a.actionText||'عرض التفاصيل')}</span>`:''}</div>`).join('');
-  grid.querySelectorAll('[data-alert-action]').forEach(card=>{
-    const activate=()=>{
-      if(card.dataset.alertAction==='missing')showMissingBranches(noReports);
-      if(card.dataset.alertAction==='top-branch')openBranchDetails(card.dataset.branch,{notify:true});
-    };
-    card.addEventListener('click',activate);
-    card.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();activate();}});
-  });
 }
-
-function renderOverview(){
-  updateWelcomeHeader();renderSmartAlerts();
-  const items=allItemsInRange(), productMap=Object.create(null), branchMap=Object.create(null);
-  items.forEach(x=>{const name=(x.name||'بدون اسم').trim(),branch=x.branch||'غير محدد',qty=Number(x.qty||0);productMap[name]=(productMap[name]||0)+qty;branchMap[branch]=(branchMap[branch]||0)+qty;});
-  const products=Object.entries(productMap).map(([name,qty])=>({name,qty})).sort((a,b)=>b.qty-a.qty), branchQty=Object.entries(branchMap).map(([branch,qty])=>({branch,qty})).sort((a,b)=>b.qty-a.qty), totalQty=products.reduce((a,x)=>a+x.qty,0);
-  $('kpiTotalSales').textContent=fmt(products.length);$('kpiBestBranch').textContent=fmt(totalQty);$('kpiTopProduct').textContent=fmt(branchQty.filter(x=>x.qty>0).length);$('kpiDeadCount').textContent=fmt(reports.length);$('salesShareCenter').textContent=fmt(products.length);$('reportsShareCenter').textContent=fmt(totalQty);
-  const rows=[];reportsInRange().forEach(r=>(r.items||[]).forEach(x=>rows.push({name:x.name||'بدون اسم',branch:r.branch||'غير محدد',qty:Number(x.qty||0)})));rows.sort((a,b)=>b.qty-a.qty);
-  const q1Idx=Math.ceil(rows.length*0.25), q3Idx=Math.ceil(rows.length*0.75);
-  rows.forEach((x,i)=>{x.perf = i<q1Idx ? 'high' : (i<q3Idx ? 'mid' : 'low');});
-  $('branchTableCount').textContent = rows.length>80 ? `(أعلى 80 من ${rows.length})` : `(${rows.length})`;
-  const perfLabel={high:'أعلى الأداء',mid:'متوسط',low:'ضعيف'}, perfClass={high:'perf-high',mid:'perf-mid',low:'perf-low'};
-  const renderRows=(q='')=>{const f=rows.filter(x=>!q||x.name.includes(q)||x.branch.includes(q)).slice(0,80);$('branchTable').innerHTML=f.map(x=>{const pct=totalQty?x.qty/totalQty*100:0;return `<tr><td><b>${escapeHTML(x.name)}</b></td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${pct.toLocaleString('en-US',{maximumFractionDigits:1})}%</td><td><div class="metric-bar"><div class="metric-bar-track"><div class="metric-bar-fill" style="width:${Math.min(100,Math.max(4,pct*4))}%"></div></div><span class="status-pill ${perfClass[x.perf]}">${perfLabel[x.perf]}</span></div></td></tr>`}).join('')};renderRows();$('branchSearch').oninput=e=>renderRows(e.target.value.trim());drawCharts(products,branchQty,totalQty);
+function withTimeout(promise, ms, message) {
+    let timer;
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(message)), ms); })
+    ]).finally(() => clearTimeout(timer));
 }
-function drawCharts(products,branchQty,totalQty){
-  if(!window.Chart)return;[chartTop,chartSalesShare,chartReportsShare].forEach(c=>{if(c)c.destroy()});const palette=['#8b5cf6','#16d9bd','#ff3e91','#ffc234','#4d7cff','#5fe1ff','#ff6b75','#a3ff6b'];const common={responsive:true,maintainAspectRatio:false,rtl:false,animation:{duration:950,easing:'easeOutQuart'},plugins:{legend:{display:false},tooltip:{rtl:false,textDirection:'ltr',backgroundColor:'#0b132b',titleColor:'#fff',bodyColor:'#e9edff',borderColor:'#2a3960',borderWidth:1,padding:9,displayColors:true}},layout:{padding:4}};const top=products.slice(0,6);
-  chartTop=new Chart($('chartTopBranches'),{type:'bar',data:{labels:top.map(x=>x.name.length>18?x.name.slice(0,18)+'…':x.name),datasets:[{data:top.map(x=>x.qty),backgroundColor:top.map((_,i)=>palette[i%palette.length]),borderRadius:4,borderSkipped:false,barPercentage:.56,categoryPercentage:.72}]},options:{...common,indexAxis:'y',scales:{x:{grid:{color:'rgba(117,137,184,.10)',drawBorder:false},ticks:{color:'#7f8bad',font:{size:11}}},y:{grid:{display:false},ticks:{color:'#dbe1f5',font:{size:11}}}}}});
-  const dp=products.slice(0,5),otherP=products.slice(5).reduce((a,x)=>a+x.qty,0),donutOpts={...common,cutout:'66%',plugins:{...common.plugins,legend:{display:true,position:'bottom',labels:{color:'#8a96b9',usePointStyle:true,pointStyle:'circle',boxWidth:6,boxHeight:6,padding:7,font:{size:10}}}}};
-  chartSalesShare=new Chart($('chartSalesShare'),{type:'doughnut',data:{labels:dp.map(x=>x.name.length>10?x.name.slice(0,10)+'…':x.name).concat(otherP>0?['أخرى']:[]),datasets:[{data:dp.map(x=>x.qty).concat(otherP>0?[otherP]:[]),backgroundColor:palette,borderColor:'#111a35',borderWidth:2,hoverOffset:6}]},options:donutOpts});
-  const db=branchQty.slice(0,5),otherB=branchQty.slice(5).reduce((a,x)=>a+x.qty,0);chartReportsShare=new Chart($('chartReportsShare'),{type:'doughnut',data:{labels:db.map(x=>x.branch).concat(otherB>0?['أخرى']:[]),datasets:[{data:db.map(x=>x.qty).concat(otherB>0?[otherB]:[]),backgroundColor:['#16d9bd','#ff3e91','#ffc234','#8b5cf6','#4d7cff','#5fe1ff'],borderColor:'#111a35',borderWidth:2,hoverOffset:6}]},options:donutOpts});
-}
-function focusOverviewBranch(branch){}
-
-function renderBranches(){
-  const q=($('branchListSearch').value||'').trim();
-  const list=branches.filter(b=>b.includes(q));
-  $('branchCountLabel').textContent=`(${list.length})`;
-  $('branchListPanel').innerHTML=list.map(b=>`<div class="branch-item ${b===selectedBranch?'active':''}" data-b="${b}"><b>${b}</b><div style="color:var(--muted);font-size:12.5px;margin-top:4px">${reports.filter(r=>r.branch===b).length} تقرير</div></div>`).join('');
-  document.querySelectorAll('[data-b]').forEach(e=>e.onclick=()=>{selectedBranch=e.dataset.b;renderBranches();});
-
-  const rs=reports.filter(r=>r.branch===selectedBranch).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-  const items=rs.flatMap(r=>r.items||[]);
-  $('branchDetailTitle').textContent=`تفاصيل فرع ${selectedBranch}`;
-  $('branchReportsCount').textContent=`(${rs.length})`;
-  $('branchReportsTable').innerHTML=rs.map(r=>`<tr><td>${escapeHTML(r.date||'')}</td><td>${(r.items||[]).length}</td><td>${fmt((r.items||[]).reduce((a,x)=>a+Number(x.qty||0),0))}</td><td>${money((r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0))}</td><td>${canDelete?`<button class="btn-sm" data-del="${escapeHTML(r.id||'')}">حذف</button>`:''}</td></tr>`).join('');
-
-  document.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=async()=>{
-    if(!btn.dataset.del) return;
-    if(!await confirmAction('سيتم حذف التقرير نهائيًا من النظام. هل تريد المتابعة؟',{title:'حذف التقرير',confirmText:'حذف نهائيًا'})) return;
-    try{
-      await removeReport(btn.dataset.del);
-      await refreshAll();
-      renderBranches();
-    }catch(e){ alert(firebaseErrorMessage(e)); }
-  });
-
-  if(window.Chart){
-    if(chartTrend) chartTrend.destroy();
-    const byDate=rs.slice().reverse();
-    chartTrend=new Chart($('chartBranchTrend'),{type:'line',data:{labels:byDate.map(r=>r.date),datasets:[{label:'المبيعات',data:byDate.map(r=>(r.items||[]).reduce((a,x)=>a+Number(x.sales||0),0)),tension:.35,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
-  }
-  const top=Object.create(null); items.forEach(x=>top[x.name]=(top[x.name]||0)+Number(x.qty||0));
-  $('branchTopProductsList').innerHTML='<b style="color:var(--text)">أعلى الأصناف</b><br>'+Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,6).map((x,i)=>`<span dir="ltr" style="unicode-bidi:isolate;display:block;text-align:right">${i+1}. ${escapeHTML(x[0])} — ${fmt(x[1])}</span>`).join('');
-}
-
-function renderDead(){
-  const q=($('deadSearch').value||'').toLowerCase(), bf=$('deadBranchFilter').value;
-  const activeBtn=document.querySelector('[data-dead].active');
-  const statusFilter=activeBtn?activeBtn.dataset.dead:'all';
-
-  const cutoff=rangeCutoffDate() || (()=>{ const d=new Date(); d.setDate(d.getDate()-30); return d.toISOString().slice(0,10); })();
-  const byBranch=Object.create(null);
-  reports.forEach(r=>{ (byBranch[r.branch]=byBranch[r.branch]||[]).push(r); });
-
-  const rows=[];
-  Object.entries(byBranch).forEach(([branch,rs])=>{
-    if(bf && branch!==bf) return;
-    const oldR=rs.filter(r=>String(r.date||'')<cutoff), newR=rs.filter(r=>String(r.date||'')>=cutoff);
-    if(!oldR.length) return; // مفيش تاريخ كافي للمقارنة في الفرع ده
-    const oldSum=Object.create(null), newSum=Object.create(null);
-    oldR.forEach(r=>(r.items||[]).forEach(x=>{const k=(x.code||'')+'|'+x.name;oldSum[k]=(oldSum[k]||0)+Number(x.qty||0);}));
-    newR.forEach(r=>(r.items||[]).forEach(x=>{const k=(x.code||'')+'|'+x.name;newSum[k]=(newSum[k]||0)+Number(x.qty||0);}));
-    Object.entries(oldSum).forEach(([k,oldQty])=>{
-      const oldAvg=oldQty/oldR.length; if(oldAvg<=0) return;
-      const newQty=newSum[k]||0, newAvg=newR.length?newQty/newR.length:0;
-      let status=null;
-      if(newQty===0) status='out';
-      else if(newAvg<oldAvg*0.3) status='low';
-      if(status){ const [code,name]=k.split('|'); rows.push({code,name,branch,qty:newQty,status}); }
-    });
-  });
-
-  let filtered=rows;
-  if(statusFilter!=='all') filtered=filtered.filter(x=>x.status===statusFilter);
-  filtered=filtered.filter(x=>(x.name+' '+x.code).toLowerCase().includes(q));
-
-  $('deadCountLabel').textContent=`(${filtered.length})`;
-  $('deadStockTable').innerHTML=filtered.sort((a,b)=>a.qty-b.qty).map(x=>`<tr><td>${escapeHTML(x.code)}</td><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.branch)}</td><td>${fmt(x.qty)}</td><td>${x.status==='out'?'راكد تماماً':'بطيء الحركة'}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">لا توجد أصناف راكدة ضمن هذا الفلتر</td></tr>';
-}
-
-function populateBranchSelect(){
-  $('uploadBranchSelect').innerHTML=branches.map(b=>`<option>${b}</option>`).join('');
-  $('deadBranchFilter').innerHTML='<option value="">كل الفروع</option>'+branches.map(b=>`<option>${b}</option>`).join('');
-}
-
-function setStep(n){ [1,2,3].forEach(i=>$('uploadStep'+i).classList.toggle('active',i===n)); }
-
-function loadWorkbook(file){
-  try{requireEmployee();validateFile(file);}catch(e){$('uploadStatus').textContent=e.message;return;}
-  const status=$('uploadStatus'); status.textContent='جاري قراءة الملف...';
-  const version=sessionVersion;
-  const reader=new FileReader();
-  reader.onerror=()=>{status.textContent='تعذر قراءة الملف.';};
-  reader.onload=e=>{
-    if(version!==sessionVersion || !canUpload) return;
-    try{
-      const wb=XLSX.read(e.target.result,{type:'array',sheetRows:5002,cellHTML:false,cellFormula:false}), ws=wb.Sheets[wb.SheetNames[0]];
-      uploadRows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
-      if(uploadRows.length<2) throw new Error('الملف لا يحتوي بيانات كافية');
-      const headers=uploadRows[0].map(String);
-      const find=(patterns)=>headers.findIndex(h=>patterns.some(p=>h.toLowerCase().includes(p)));
-      map.name=Math.max(0,find(['اسم','صنف','product','item','name']));
-      map.code=find(['كود','code','sku']);
-      map.qty=Math.max(0,find(['كمية','qty','quantity']));
-      map.sales=find(['مبيعات','sales','value','قيمة']);
-      const opts=headers.map((h,i)=>`<option value="${i}">${escapeHTML(h||'عمود '+(i+1))}</option>`).join('');
-      ['mapName','mapCode','mapQty','mapSales'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts);
-      $('mapName').value=map.name; $('mapCode').value=map.code; $('mapQty').value=map.qty; $('mapSales').value=map.sales;
-      $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')+'</tr></thead><tbody>'+uploadRows.slice(1,9).map(r=>'<tr>'+headers.map((_,i)=>`<td>${escapeHTML(r[i]??'')}</td>`).join('')+'</tr>').join('')+'</tbody>';
-      status.textContent=`تمت قراءة ${uploadRows.length-1} صف من ${wb.SheetNames[0]}`;
-      setStep(2);
-    }catch(err){status.textContent='تعذر قراءة الملف: '+err.message}
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-let pdfjsReady=null;
-function ensurePdfJs(){
-  if(!pdfjsReady) pdfjsReady=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.min.mjs').then(lib=>{
-    window.pdfjsLib=lib;
-    lib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.worker.min.mjs';
-  }).catch(error=>{pdfjsReady=null;throw error;});
-  return pdfjsReady;
-}
-
-async function loadPdf(file){
-  const version=sessionVersion;
-  const status=$('uploadStatus'); status.textContent='جاري تحميل مكتبة قراءة PDF...';
-  try{
-    requireEmployee();validateFile(file);
-    await ensurePdfJs();
-    status.textContent='جاري قراءة الملف...';
-    const buf=await file.arrayBuffer();
-    const pdfTask=window.pdfjsLib.getDocument({data:buf,isEvalSupported:false,stopAtErrors:true});
-    const pdf=await pdfTask.promise;
-    if(pdf.numPages>100) {await pdfTask.destroy();throw new Error('الحد الأقصى 100 صفحة PDF.');}
-    let lines=[];
-    for(let p=1;p<=pdf.numPages;p++){
-      const page=await pdf.getPage(p);
-      const content=await page.getTextContent();
-      let currentLine=[], lastY=null;
-      content.items.forEach(item=>{
-        if(lastY!==null && Math.abs(item.transform[5]-lastY)>2){ lines.push(currentLine.join(' ').trim()); currentLine=[]; }
-        currentLine.push(item.str); lastY=item.transform[5];
-      });
-      if(currentLine.length) lines.push(currentLine.join(' ').trim());
+let loginFeedbackTimer = null;
+let loginLongFeedbackTimer = null;
+function setLoginLoading(active, label = 'جاري الدخول...') {
+    const button = $('loginBtn');
+    const text = $('loginBtnText');
+    const status = $('loginStatus');
+    clearTimeout(loginFeedbackTimer);
+    clearTimeout(loginLongFeedbackTimer);
+    if (active) {
+        button.disabled = true;
+        button.classList.add('is-loading');
+        $('view-login').classList.add('is-authenticating');
+        text.textContent = label;
+        status.textContent = '';
+        loginFeedbackTimer = setTimeout(() => {
+            if (button.classList.contains('is-loading'))
+                status.textContent = 'جاري الدخول والتحقق من الصلاحيات...';
+        }, 650);
+        loginLongFeedbackTimer = setTimeout(() => {
+            if (button.classList.contains('is-loading'))
+                status.textContent = 'الاتصال يستغرق وقتًا أطول من المعتاد، جاري المحاولة...';
+        }, 3200);
     }
-    await pdfTask.destroy();
-    lines=lines.filter(l=>l.trim()!=='');
-
-    // نمط أودو الشائع: [كود] اسم الصنف .... كمية
-    const bracketPattern=/^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
-    const bracketRows=[];
-    lines.forEach(line=>{ const m=line.match(bracketPattern); if(m) bracketRows.push([m[1],m[2].trim(),m[3].replace(/,/g,'')]); });
-
-    let headers, dataRows;
-    if(bracketRows.length>=Math.max(3,lines.length*0.3)){
-      headers=['الكود','اسم الصنف','الكمية'];
-      dataRows=bracketRows;
-    } else {
-      dataRows=lines.map(l=>l.split(/\s{2,}/).map(c=>c.trim()).filter(c=>c!=='')).filter(r=>r.length>1);
-      const maxCols=Math.max(...dataRows.map(r=>r.length),1);
-      headers=Array.from({length:maxCols},(_,i)=>'عمود '+(i+1));
+    else {
+        button.disabled = false;
+        button.classList.remove('is-loading');
+        $('view-login').classList.remove('is-authenticating');
+        text.textContent = 'تسجيل الدخول';
+        status.textContent = '';
     }
-    if(!dataRows.length) throw new Error('لم يتم العثور على بيانات في الملف');
-
-    if(version!==sessionVersion || !canUpload)return;
-    uploadRows=[headers,...dataRows];
-    const find=(patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
-    map.name=Math.max(0,find(['اسم','صنف','product','item','name']));
-    map.code=Math.max(0,find(['كود','code','sku']));
-    map.qty=Math.max(0,find(['كمية','qty','quantity']));
-    map.sales=find(['مبيعات','sales','value','قيمة']);
-    const opts=headers.map((h,i)=>`<option value="${i}">${escapeHTML(h||'عمود '+(i+1))}</option>`).join('');
-    ['mapName','mapCode','mapQty','mapSales'].forEach(id=>$(id).innerHTML='<option value="-1">— بدون تحديد —</option>'+opts);
-    $('mapName').value=map.name; $('mapCode').value=map.code; $('mapQty').value=map.qty; $('mapSales').value=map.sales;
-    $('previewTable').innerHTML='<thead><tr>'+headers.map(h=>`<th>${escapeHTML(h)}</th>`).join('')+'</tr></thead><tbody>'+dataRows.slice(0,8).map(r=>'<tr>'+headers.map((_,i)=>`<td>${escapeHTML(r[i]??'')}</td>`).join('')+'</tr>').join('')+'</tbody>';
-    status.textContent=(bracketRows.length>=Math.max(3,lines.length*0.3))
-      ? `✅ تم التعرف تلقائياً على نمط تقرير أودو — ${dataRows.length} صف`
-      : `تمت قراءة ${dataRows.length} صف من الملف`;
-    setStep(2);
-  }catch(err){ status.textContent='تعذر قراءة ملف PDF: '+err.message; }
 }
-
-async function refreshAll(){
-  setDashboardLoading(true);
-  try{
-    await loadReports();
-    renderOverview();
-    updateWelcomeHeader(true);
-  }finally{
-    setDashboardLoading(false);
-  }
+function animateAppEntrance() {
+    const app = $('view-app');
+    app.classList.remove('motion-enter');
+    void app.offsetWidth;
+    app.classList.add('motion-enter');
+    setTimeout(() => app.classList.remove('motion-enter'), 850);
 }
-
-
-function withTimeout(promise,ms,message){
-  let timer;
-  return Promise.race([
-    promise,
-    new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(message)),ms);})
-  ]).finally(()=>clearTimeout(timer));
-}
-
-let loginFeedbackTimer=null;
-let loginLongFeedbackTimer=null;
-function setLoginLoading(active,label='جاري الدخول...'){
-  const button=$('loginBtn');
-  const text=$('loginBtnText');
-  const status=$('loginStatus');
-  clearTimeout(loginFeedbackTimer);clearTimeout(loginLongFeedbackTimer);
-  if(active){
-    button.disabled=true;
-    button.classList.add('is-loading');
-    $('view-login').classList.add('is-authenticating');
-    text.textContent=label;
-    status.textContent='';
-    loginFeedbackTimer=setTimeout(()=>{
-      if(button.classList.contains('is-loading')) status.textContent='جاري الدخول والتحقق من الصلاحيات...';
-    },650);
-    loginLongFeedbackTimer=setTimeout(()=>{
-      if(button.classList.contains('is-loading')) status.textContent='الاتصال يستغرق وقتًا أطول من المعتاد، جاري المحاولة...';
-    },3200);
-  }else{
-    button.disabled=false;
-    button.classList.remove('is-loading');
-    $('view-login').classList.remove('is-authenticating');
-    text.textContent='تسجيل الدخول';
-    status.textContent='';
-  }
-}
-function animateAppEntrance(){
-  const app=$('view-app');
-  app.classList.remove('motion-enter');
-  void app.offsetWidth;
-  app.classList.add('motion-enter');
-  setTimeout(()=>app.classList.remove('motion-enter'),850);
-}
-
-$('loginForm').onsubmit=async(event)=>{
-  event.preventDefault();
-  $('loginError').textContent='';
-  $('loginStatus').textContent='';
-  if(!firebaseReady){
-    $('loginError').textContent='خدمة النظام غير مهيأة حاليًا. تواصل مع مسؤول النظام.';
-    return;
-  }
-  const email=$('loginEmail').value.trim(), password=$('loginPassword').value;
-  if(!email || !password){ $('loginError').textContent='اكتب البريد الإلكتروني وكلمة المرور.'; return; }
-  setLoginLoading(true);
-  try{
-    // لا نوقف تسجيل الدخول لو المتصفح رفض Session Persistence؛ الدخول نفسه يظل يعمل.
-    await Promise.race([authPersistenceReady,new Promise(resolve=>setTimeout(resolve,1800))]);
-    if(persistenceError){
-      $('loginStatus').textContent='جاري الدخول...';
+$('loginForm').onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
+    event.preventDefault();
+    $('loginError').textContent = '';
+    $('loginStatus').textContent = '';
+    if (!firebaseReady) {
+        $('loginError').textContent = 'خدمة النظام غير مهيأة حاليًا. تواصل مع مسؤول النظام.';
+        return;
     }
-    await withTimeout(
-      signInWithEmailAndPassword(auth,email,password),
-      20000,
-      'استغرق تسجيل الدخول وقتًا أطول من المعتاد. تحقق من الإنترنت ثم حاول مرة أخرى.'
-    );
-    $('loginPassword').value='';
-    // Keep the loading state until access permissions and reports finish loading.
-  }catch(e){
-    setLoginLoading(false);
-    $('loginError').textContent=firebaseErrorMessage(e);
-  }
-};
-window.__APP_BOOTED__=true;
-
+    const email = $('loginEmail').value.trim(), password = $('loginPassword').value;
+    if (!email || !password) {
+        $('loginError').textContent = 'اكتب البريد الإلكتروني وكلمة المرور.';
+        return;
+    }
+    setLoginLoading(true);
+    try {
+        // لا نوقف تسجيل الدخول لو المتصفح رفض Session Persistence؛ الدخول نفسه يظل يعمل.
+        yield Promise.race([authPersistenceReady, new Promise(resolve => setTimeout(resolve, 1800))]);
+        if (persistenceError) {
+            $('loginStatus').textContent = 'جاري الدخول...';
+        }
+        yield withTimeout(signInWithEmailAndPassword(auth, email, password), 20000, 'استغرق تسجيل الدخول وقتًا أطول من المعتاد. تحقق من الإنترنت ثم حاول مرة أخرى.');
+        $('loginPassword').value = '';
+        // Keep the loading state until access permissions and reports finish loading.
+    }
+    catch (e) {
+        setLoginLoading(false);
+        $('loginError').textContent = firebaseErrorMessage(e);
+    }
+});
+window.__APP_BOOTED__ = true;
 // Password recovery uses Firebase's hosted password-reset page.
 let resetPasswordPending = false;
 let resetPasswordNextAllowed = 0;
-$('resetPasswordBtn').onclick=async()=>{
-  if(resetPasswordPending || Date.now()<resetPasswordNextAllowed) return;
-  const button=$('resetPasswordBtn');
-  const status=$('resetPasswordStatus');
-  const emailInput=$('loginEmail');
-  emailInput.value=emailInput.value.trim();
-  status.dataset.state='error';
-  if(!emailInput.value || !emailInput.checkValidity()){
-    status.textContent='اكتب بريدًا إلكترونيًا صحيحًا في خانة البريد بالأعلى، ثم اضغط «نسيت كلمة المرور؟».';
-    emailInput.focus();
-    return;
-  }
-  if(!firebaseReady){
-    status.textContent='خدمة استعادة كلمة المرور غير متاحة الآن. حاول لاحقًا أو تواصل مع مسؤول النظام.';
-    return;
-  }
-  resetPasswordPending=true;
-  button.disabled=true;
-  button.textContent='جارٍ إرسال الرابط…';
-  status.dataset.state='';
-  status.textContent='';
-  let sent=false;
-  try{
-    auth.languageCode='ar';
-    await sendPasswordResetEmail(auth,emailInput.value);
-    sent=true;
-  }catch(error){
-    if(error?.code==='auth/user-not-found'){
-      sent=true;
-    }else{
-      status.dataset.state='error';
-      const messages={
-        'auth/invalid-email':'البريد الإلكتروني غير صحيح. راجعه وحاول مرة أخرى.',
-        'auth/too-many-requests':'تم إرسال طلبات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.',
-        'auth/network-request-failed':'تعذر الاتصال بالإنترنت. تأكد من الاتصال وحاول مرة أخرى.'
-      };
-      status.textContent=messages[error?.code] || 'تعذر إرسال رابط إعادة التعيين. حاول لاحقًا أو تواصل مع مسؤول النظام.';
+$('resetPasswordBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
+    if (resetPasswordPending || Date.now() < resetPasswordNextAllowed)
+        return;
+    const button = $('resetPasswordBtn');
+    const status = $('resetPasswordStatus');
+    const emailInput = $('loginEmail');
+    emailInput.value = emailInput.value.trim();
+    status.dataset.state = 'error';
+    if (!emailInput.value || !emailInput.checkValidity()) {
+        status.textContent = 'اكتب بريدًا إلكترونيًا صحيحًا في خانة البريد بالأعلى، ثم اضغط «نسيت كلمة المرور؟».';
+        emailInput.focus();
+        return;
     }
-  }finally{
-    resetPasswordPending=false;
-    if(sent){
-      status.dataset.state='success';
-      status.textContent='إذا كان البريد مرتبطًا بحساب، فستصلك رسالة تحتوي على رابط تعيين كلمة مرور جديدة. راجع الوارد والرسائل غير المرغوب فيها (Spam). يمكنك طلب رابط آخر بعد دقيقة.';
-      resetPasswordNextAllowed=Date.now()+60000;
-      button.textContent='يمكنك إعادة الإرسال بعد دقيقة';
-      setTimeout(()=>{button.disabled=false;button.textContent='إعادة إرسال رابط التعيين';},60000);
-    }else{
-      button.disabled=false;
-      button.textContent='نسيت كلمة المرور؟';
+    if (!firebaseReady) {
+        status.textContent = 'خدمة استعادة كلمة المرور غير متاحة الآن. حاول لاحقًا أو تواصل مع مسؤول النظام.';
+        return;
     }
-  }
-};
-
-function clearSession(preserveLoginLoading=false){
-  sessionVersion++;
-  if(stopAccessWatch){stopAccessWatch();stopAccessWatch=null;}
-  isOwner=false;currentRole='employee';canUpload=false;canDelete=false;canManageUsers=false;canViewActivity=false;reports=[];employees=[];uploadRows=[];window._finalData=[];bulkFiles=[];
-  ['branchTable','branchReportsTable','branchTopProductsList','deadStockTable','compareTable','activityTable','adminsTable','previewTable','bulkFileList'].forEach(id=>$(id).replaceChildren());
-  document.querySelectorAll('#view-app input').forEach(input=>{if(input.type==='file'||input.type==='text'||input.type==='email'||input.type==='search')input.value='';});
-  $('loginPassword').value='';
-  [chartTop,chartProducts,chartTrend,chartSalesShare,chartReportsShare,chartCompare].forEach(chart=>{if(chart)chart.destroy();});
-  chartTop=chartProducts=chartTrend=chartSalesShare=chartReportsShare=chartCompare=null;
-  $('view-app').style.display='none';$('view-login').style.display='flex';
-  applyPermissionsUI();
-  if(!preserveLoginLoading) setLoginLoading(false);
-}
-$('logoutBtn').onclick=async()=>{clearSession();if(firebaseReady)await signOut(auth);};
-$('verifyOwnerBtn').onclick=async()=>{
-  const button=$('verifyOwnerBtn');button.disabled=true;
-  try{
-    const user=auth.currentUser;
-    if(!user || user.email!==OWNER_EMAIL) throw new Error('سجّل الدخول بحساب المالك أولًا.');
-    auth.languageCode='ar';
-    await sendEmailVerification(user);
-    await signOut(auth);
-    $('loginError').textContent='أرسلنا رابط التحقق إلى بريدك. افتحه ثم سجّل الدخول مرة أخرى.';
-    button.hidden=true;
-  }catch(error){$('loginError').textContent=firebaseErrorMessage(error);}
-  finally{button.disabled=false;}
-};
-if(firebaseReady){
-  onAuthStateChanged(auth,async user=>{
-    clearSession(true);
-    $('verifyOwnerBtn').hidden=true;
-    const version=sessionVersion;
-    if(!user){setLoginLoading(false);return;}
-    setLoginLoading(true);
-    if(user.email===OWNER_EMAIL && !user.emailVerified){
-      setLoginLoading(false);
-      $('loginError').textContent='يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.';
-      $('verifyOwnerBtn').hidden=false;return;
+    resetPasswordPending = true;
+    button.disabled = true;
+    button.textContent = 'جارٍ إرسال الرابط…';
+    status.dataset.state = '';
+    status.textContent = '';
+    let sent = false;
+    try {
+        auth.languageCode = 'ar';
+        yield sendPasswordResetEmail(auth, emailInput.value);
+        sent = true;
     }
-    try{
-      const access=await withTimeout(
-        initializeAccess(user),
-        20000,
-        'تأخر التحقق من صلاحيات الحساب. تحقق من الاتصال ثم حاول تسجيل الدخول مرة أخرى.'
-      );
-      if(version!==sessionVersion)return;
-      applyRoleCapabilities(access.owner,access.role);
-      applyPermissionsUI();populateBranchSelect();
-      setLoginLoading(false);
-      $('view-login').style.display='none';$('view-app').style.display='block';
-      animateAppEntrance();
-      $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
-      updateWelcomeHeader();
-      setDashboardLoading(true);
-      show('overview');
-      await refreshAll();
-      if(version!==sessionVersion)return;
-      showToast('تم تحميل بيانات المنصة ومزامنتها بنجاح.','success',3000);
-      if(!isOwner)stopAccessWatch=onSnapshot(doc(db,'employees',user.uid),snap=>{
-        if(version!==sessionVersion)return;
-        if(!snap.exists() || snap.data().active!==true || snap.data().email!==user.email){
-          clearSession();$('loginError').textContent='تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
-          signOut(auth).catch(()=>{});return;
+    catch (error) {
+        if ((error === null || error === void 0 ? void 0 : error.code) === 'auth/user-not-found') {
+            sent = true;
         }
-        const nextRole=normalizeRole(snap.data().role);
-        if(nextRole!==currentRole){
-          applyRoleCapabilities(false,nextRole);
-          applyPermissionsUI();
-          $('demoBanner').textContent='المستخدم: '+user.email+' — '+currentAccessLabel();
-          updateWelcomeHeader();
-          showToast('تم تحديث مستوى صلاحية حسابك إلى: '+currentAccessLabel(),'info',5000);
-          const activeView=document.querySelector('.view.active')?.id?.replace('view-','')||'overview';
-          if((activeView==='permissions'&&!canManageUsers)||(activeView==='activity'&&!canViewActivity))show('overview');
+        else {
+            status.dataset.state = 'error';
+            const messages = {
+                'auth/invalid-email': 'البريد الإلكتروني غير صحيح. راجعه وحاول مرة أخرى.',
+                'auth/too-many-requests': 'تم إرسال طلبات كثيرة. انتظر قليلًا ثم حاول مرة أخرى.',
+                'auth/network-request-failed': 'تعذر الاتصال بالإنترنت. تأكد من الاتصال وحاول مرة أخرى.'
+            };
+            status.textContent = messages[error === null || error === void 0 ? void 0 : error.code] || 'تعذر إرسال رابط إعادة التعيين. حاول لاحقًا أو تواصل مع مسؤول النظام.';
         }
-      },()=>{if(version!==sessionVersion)return;clearSession();$('loginError').textContent='تعذر التحقق من صلاحية الحساب. سجّل الدخول مرة أخرى.';signOut(auth).catch(()=>{});});
-    }catch(error){
-      if(version!==sessionVersion)return;
-      clearSession();setLoginLoading(false);$('loginError').textContent=firebaseErrorMessage(error);
     }
-  });
-}
-
-document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));
-$('rangeSelect').onchange=renderOverview;
-
-$('exportExcelBtn').onclick=()=>{
-  if(!window.XLSX){ alert('مكتبة Excel لسه بتتحمل، حاول تاني بعد ثانية'); return; }
-  const items=allItemsInRange();
-  if(!items.length){ alert('لا توجد بيانات للتصدير ضمن الفترة المختارة'); return; }
-  const sheetRows=items.map(x=>({
-    'التاريخ': x.date||'', 'الفرع': x.branch||'', 'الكود': x.code||'',
-    'اسم الصنف': x.name||'', 'الكمية': Number(x.qty||0), 'المبيعات': Number(x.sales||0)
-  }));
-  const ws=XLSX.utils.json_to_sheet(sheetRows);
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'تفاصيل الحركة');
-
-  const branchTotals=Object.create(null);
-  items.forEach(x=>{ const b=x.branch||'غير محدد'; branchTotals[b]=(branchTotals[b]||0)+Number(x.qty||0); });
-  const branchSheet=Object.entries(branchTotals).sort((a,b)=>b[1]-a[1]).map(([branch,qty])=>({'الفرع':branch,'إجمالي الكمية':qty}));
-  const ws2=XLSX.utils.json_to_sheet(branchSheet);
-  XLSX.utils.book_append_sheet(wb,ws2,'ملخص الفروع');
-
-  XLSX.writeFile(wb, 'تقرير_الفروع_'+new Date().toISOString().slice(0,10)+'.xlsx');
-};
-
-$('printReportBtn').onclick=()=>window.print();
-$('branchSearch').oninput=()=>{const q=$('branchSearch').value.toLowerCase();document.querySelectorAll('#branchTable tr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(q)?'':'none')};
-$('branchListSearch').oninput=renderBranches;
-$('deadSearch').oninput=renderDead;
-$('deadBranchFilter').onchange=renderDead;
-document.querySelectorAll('[data-dead]').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('[data-dead]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  renderDead();
+    finally {
+        resetPasswordPending = false;
+        if (sent) {
+            status.dataset.state = 'success';
+            status.textContent = 'إذا كان البريد مرتبطًا بحساب، فستصلك رسالة تحتوي على رابط تعيين كلمة مرور جديدة. راجع الوارد والرسائل غير المرغوب فيها (Spam). يمكنك طلب رابط آخر بعد دقيقة.';
+            resetPasswordNextAllowed = Date.now() + 60000;
+            button.textContent = 'يمكنك إعادة الإرسال بعد دقيقة';
+            setTimeout(() => { button.disabled = false; button.textContent = 'إعادة إرسال رابط التعيين'; }, 60000);
+        }
+        else {
+            button.disabled = false;
+            button.textContent = 'نسيت كلمة المرور؟';
+        }
+    }
 });
-$('dropzone').onclick=()=>$('fileInput').click();
-$('fileInput').onchange=e=>{
-  const file=e.target.files[0];
-  if(!file) return;
-  const ext=file.name.split('.').pop().toLowerCase();
-  if(ext==='pdf') loadPdf(file);
-  else loadWorkbook(file);
+function clearSession(preserveLoginLoading = false) {
+    sessionVersion++;
+    if (stopAccessWatch) {
+        stopAccessWatch();
+        stopAccessWatch = null;
+    }
+    isOwner = false;
+    currentRole = 'employee';
+    canUpload = false;
+    canDelete = false;
+    canManageUsers = false;
+    canViewActivity = false;
+    reports = [];
+    employees = [];
+    uploadRows = [];
+    window._finalData = [];
+    bulkFiles = [];
+    ['branchTable', 'branchReportsTable', 'branchTopProductsList', 'deadStockTable', 'compareTable', 'activityTable', 'adminsTable', 'previewTable', 'bulkFileList'].forEach(id => $(id).replaceChildren());
+    document.querySelectorAll('#view-app input').forEach(input => { if (input.type === 'file' || input.type === 'text' || input.type === 'email' || input.type === 'search')
+        input.value = ''; });
+    $('loginPassword').value = '';
+    [chartTop, chartProducts, chartTrend, chartSalesShare, chartReportsShare, chartCompare].forEach(chart => { if (chart)
+        chart.destroy(); });
+    chartTop = chartProducts = chartTrend = chartSalesShare = chartReportsShare = chartCompare = null;
+    $('view-app').style.display = 'none';
+    $('view-login').style.display = 'flex';
+    applyPermissionsUI();
+    if (!preserveLoginLoading)
+        setLoginLoading(false);
+}
+$('logoutBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () { clearSession(); if (firebaseReady)
+    yield signOut(auth); });
+$('verifyOwnerBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
+    const button = $('verifyOwnerBtn');
+    button.disabled = true;
+    try {
+        const user = auth.currentUser;
+        if (!user || user.email !== OWNER_EMAIL)
+            throw new Error('سجّل الدخول بحساب المالك أولًا.');
+        auth.languageCode = 'ar';
+        yield sendEmailVerification(user);
+        yield signOut(auth);
+        $('loginError').textContent = 'أرسلنا رابط التحقق إلى بريدك. افتحه ثم سجّل الدخول مرة أخرى.';
+        button.hidden = true;
+    }
+    catch (error) {
+        $('loginError').textContent = firebaseErrorMessage(error);
+    }
+    finally {
+        button.disabled = false;
+    }
+});
+if (firebaseReady) {
+    onAuthStateChanged(auth, (user) => __awaiter(void 0, void 0, void 0, function* () {
+        clearSession(true);
+        $('verifyOwnerBtn').hidden = true;
+        const version = sessionVersion;
+        if (!user) {
+            setLoginLoading(false);
+            return;
+        }
+        setLoginLoading(true);
+        if (user.email === OWNER_EMAIL && !user.emailVerified) {
+            setLoginLoading(false);
+            $('loginError').textContent = 'يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.';
+            $('verifyOwnerBtn').hidden = false;
+            return;
+        }
+        try {
+            const access = yield withTimeout(initializeAccess(user), 20000, 'تأخر التحقق من صلاحيات الحساب. تحقق من الاتصال ثم حاول تسجيل الدخول مرة أخرى.');
+            if (version !== sessionVersion)
+                return;
+            applyRoleCapabilities(access.owner, access.role);
+            applyPermissionsUI();
+            populateBranchSelect();
+            setLoginLoading(false);
+            $('view-login').style.display = 'none';
+            $('view-app').style.display = 'block';
+            animateAppEntrance();
+            $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
+            updateWelcomeHeader();
+            setDashboardLoading(true);
+            show('overview');
+            yield refreshAll();
+            if (version !== sessionVersion)
+                return;
+            showToast('تم تحميل بيانات المنصة ومزامنتها بنجاح.', 'success', 3000);
+            if (!isOwner)
+                stopAccessWatch = onSnapshot(doc(db, 'employees', user.uid), snap => {
+                    var _a, _b;
+                    if (version !== sessionVersion)
+                        return;
+                    if (!snap.exists() || snap.data().active !== true || snap.data().email !== user.email) {
+                        clearSession();
+                        $('loginError').textContent = 'تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
+                        signOut(auth).catch(() => { });
+                        return;
+                    }
+                    const nextRole = normalizeRole(snap.data().role);
+                    if (nextRole !== currentRole) {
+                        applyRoleCapabilities(false, nextRole);
+                        applyPermissionsUI();
+                        $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
+                        updateWelcomeHeader();
+                        showToast('تم تحديث مستوى صلاحية حسابك إلى: ' + currentAccessLabel(), 'info', 5000);
+                        const activeView = ((_b = (_a = document.querySelector('.view.active')) === null || _a === void 0 ? void 0 : _a.id) === null || _b === void 0 ? void 0 : _b.replace('view-', '')) || 'overview';
+                        if ((activeView === 'permissions' && !canManageUsers) || (activeView === 'activity' && !canViewActivity))
+                            show('overview');
+                    }
+                }, () => { if (version !== sessionVersion)
+                    return; clearSession(); $('loginError').textContent = 'تعذر التحقق من صلاحية الحساب. سجّل الدخول مرة أخرى.'; signOut(auth).catch(() => { }); });
+        }
+        catch (error) {
+            if (version !== sessionVersion)
+                return;
+            clearSession();
+            setLoginLoading(false);
+            $('loginError').textContent = firebaseErrorMessage(error);
+        }
+    }));
+}
+document.querySelectorAll('.nav-item[data-view]').forEach(b => b.onclick = () => show(b.dataset.view));
+$('rangeSelect').onchange = renderOverview;
+$('exportExcelBtn').onclick = () => {
+    if (!window.XLSX) {
+        alert('مكتبة Excel لسه بتتحمل، حاول تاني بعد ثانية');
+        return;
+    }
+    const items = allItemsInRange();
+    if (!items.length) {
+        alert('لا توجد بيانات للتصدير ضمن الفترة المختارة');
+        return;
+    }
+    const sheetRows = items.map(x => ({
+        'التاريخ': x.date || '', 'الفرع': x.branch || '', 'الكود': x.code || '',
+        'اسم الصنف': x.name || '', 'الكمية': Number(x.qty || 0), 'المبيعات': Number(x.sales || 0)
+    }));
+    const ws = XLSX.utils.json_to_sheet(sheetRows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'تفاصيل الحركة');
+    const branchTotals = Object.create(null);
+    items.forEach(x => { const b = x.branch || 'غير محدد'; branchTotals[b] = (branchTotals[b] || 0) + Number(x.qty || 0); });
+    const branchSheet = Object.entries(branchTotals).sort((a, b) => b[1] - a[1]).map(([branch, qty]) => ({ 'الفرع': branch, 'إجمالي الكمية': qty }));
+    const ws2 = XLSX.utils.json_to_sheet(branchSheet);
+    XLSX.utils.book_append_sheet(wb, ws2, 'ملخص الفروع');
+    XLSX.writeFile(wb, 'تقرير_الفروع_' + new Date().toISOString().slice(0, 10) + '.xlsx');
 };
-
+$('printReportBtn').onclick = () => window.print();
+$('branchSearch').oninput = () => { const q = $('branchSearch').value.toLowerCase(); document.querySelectorAll('#branchTable tr').forEach(r => r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'); };
+$('branchListSearch').oninput = renderBranches;
+$('deadSearch').oninput = renderDead;
+$('deadBranchFilter').onchange = renderDead;
+document.querySelectorAll('[data-dead]').forEach(b => b.onclick = () => {
+    document.querySelectorAll('[data-dead]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderDead();
+});
+$('dropzone').onclick = () => $('fileInput').click();
+$('fileInput').onchange = e => {
+    const file = e.target.files[0];
+    if (!file)
+        return;
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'pdf')
+        loadPdf(file);
+    else
+        loadWorkbook(file);
+};
 // ===== وضع الرفع بالجملة (أكتر من فرع مرة واحدة) =====
-$('bulkModeToggle').onchange=e=>{
-  const bulk = e.target.checked;
-  $('singleUploadFields').style.display = bulk ? 'none' : '';
-  $('bulkUploadFields').style.display = bulk ? '' : 'none';
+$('bulkModeToggle').onchange = e => {
+    const bulk = e.target.checked;
+    $('singleUploadFields').style.display = bulk ? 'none' : '';
+    $('bulkUploadFields').style.display = bulk ? '' : 'none';
 };
-$('bulkDropzone').onclick=()=>$('bulkFileInput').click();
+$('bulkDropzone').onclick = () => $('bulkFileInput').click();
 let bulkFiles = []; // [{file, branch, status}]
-
-$('bulkFileInput').onchange=e=>{
-  if(e.target.files.length>27){alert('الحد الأقصى 27 ملفًا في المرة الواحدة.');e.target.value='';return;}
-  bulkFiles = Array.from(e.target.files).map(file=>{
-    const guess = branches.find(b=>file.name.includes(b)) || '';
-    return { file, branch: guess, status: 'جاهز' };
-  });
-  renderBulkFileList();
+$('bulkFileInput').onchange = e => {
+    if (e.target.files.length > 27) {
+        alert('الحد الأقصى 27 ملفًا في المرة الواحدة.');
+        e.target.value = '';
+        return;
+    }
+    bulkFiles = Array.from(e.target.files).map(file => {
+        const guess = branches.find(b => file.name.includes(b)) || '';
+        return { file, branch: guess, status: 'جاهز' };
+    });
+    renderBulkFileList();
 };
-
-function renderBulkFileList(){
-  const branchOptions = branches.map(b=>`<option value="${b}">${b}</option>`).join('');
-  $('bulkFileList').innerHTML = bulkFiles.map((bf,i)=>`
+function renderBulkFileList() {
+    const branchOptions = branches.map(b => `<option value="${b}">${b}</option>`).join('');
+    $('bulkFileList').innerHTML = bulkFiles.map((bf, i) => `
     <div class="field-row" style="align-items:center;background:#0e1424;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;">
       <div style="flex:2;font-size:13.5px;" dir="ltr" text-align:right;>${escapeHTML(bf.file.name)}</div>
       <div class="field" style="flex:1;margin:0;">
@@ -1986,162 +2256,232 @@ function renderBulkFileList(){
       <div style="flex:1;font-size:12.5px;color:var(--muted);" class="bulk-status" data-idx="${i}">${escapeHTML(bf.status)}</div>
     </div>
   `).join('');
-  document.querySelectorAll('.bulk-branch-select').forEach(sel=>{
-    const idx = +sel.dataset.idx;
-    sel.value = bulkFiles[idx].branch;
-    sel.onchange = ()=>{ bulkFiles[idx].branch = sel.value; };
-  });
-  $('bulkActions').style.display = bulkFiles.length ? 'flex' : 'none';
+    document.querySelectorAll('.bulk-branch-select').forEach(sel => {
+        const idx = +sel.dataset.idx;
+        sel.value = bulkFiles[idx].branch;
+        sel.onchange = () => { bulkFiles[idx].branch = sel.value; };
+    });
+    $('bulkActions').style.display = bulkFiles.length ? 'flex' : 'none';
 }
-
 // نسخة "صامتة" من قراءة الملف: بترجع الأصناف مباشرة بدون التفاعل مع واجهة خطوة 2
-async function parseFileHeadless(file){
-  requireEmployee();validateFile(file);
-  const ext = file.name.split('.').pop().toLowerCase();
-  const find=(headers,patterns)=>headers.findIndex(h=>patterns.some(p=>String(h).toLowerCase().includes(p)));
-
-  if(ext==='pdf'){
-    await ensurePdfJs();
-    const buf=await file.arrayBuffer();
-    const pdfTask=window.pdfjsLib.getDocument({data:buf,isEvalSupported:false,stopAtErrors:true});
-    const pdf=await pdfTask.promise;
-    if(pdf.numPages>100) {await pdfTask.destroy();throw new Error('الحد الأقصى 100 صفحة PDF.');}
-    let lines=[];
-    for(let p=1;p<=pdf.numPages;p++){
-      const page=await pdf.getPage(p);
-      const content=await page.getTextContent();
-      let currentLine=[], lastY=null;
-      content.items.forEach(item=>{
-        if(lastY!==null && Math.abs(item.transform[5]-lastY)>2){ lines.push(currentLine.join(' ').trim()); currentLine=[]; }
-        currentLine.push(item.str); lastY=item.transform[5];
-      });
-      if(currentLine.length) lines.push(currentLine.join(' ').trim());
-    }
-    await pdfTask.destroy();
-    lines=lines.filter(l=>l.trim()!=='');
-    const bracketPattern=/^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
-    const bracketRows=[];
-    lines.forEach(line=>{ const m=line.match(bracketPattern); if(m) bracketRows.push([m[1],m[2].trim(),m[3].replace(/,/g,'')]); });
-    let headers, dataRows;
-    if(bracketRows.length>=Math.max(3,lines.length*0.3)){
-      headers=['كود','اسم','كمية']; dataRows=bracketRows;
-    }else{
-      dataRows=lines.map(l=>l.split(/\s{2,}/).map(c=>c.trim()).filter(c=>c!=='')).filter(r=>r.length>1);
-      const maxCols=Math.max(...dataRows.map(r=>r.length),1);
-      headers=Array.from({length:maxCols},(_,i)=>'عمود '+(i+1));
-    }
-    if(!dataRows.length) throw new Error('لم يتم العثور على بيانات');
-    const nameIdx=Math.max(0,find(headers,['اسم','صنف','product','item','name']));
-    const codeIdx=Math.max(0,find(headers,['كود','code','sku']));
-    const qtyIdx=Math.max(0,find(headers,['كمية','qty','quantity']));
-    const salesIdx=find(headers,['مبيعات','sales','value','قيمة']);
-    return dataRows.map(r=>({
-      name:(r[nameIdx]||'').toString().trim(), code:(r[codeIdx]||'').toString().trim(),
-      qty:parseFloat(String(r[qtyIdx]||'0').replace(/,/g,''))||0,
-      sales: salesIdx>=0 ? (parseFloat(String(r[salesIdx]||'0').replace(/,/g,''))||0) : 0
-    })).filter(x=>x.name);
-  }
-
-  // Excel
-  const buf = await file.arrayBuffer();
-  const wb = XLSX.read(buf,{type:'array',sheetRows:5002,cellHTML:false,cellFormula:false}), ws = wb.Sheets[wb.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(ws,{header:1,defval:''}).filter(r=>r.some(v=>String(v).trim()!==''));
-  if(rows.length<2) throw new Error('الملف لا يحتوي بيانات كافية');
-  const headers = rows[0].map(String);
-  const nameIdx=Math.max(0,find(headers,['اسم','صنف','product','item','name']));
-  const codeIdx=find(headers,['كود','code','sku']);
-  const qtyIdx=Math.max(0,find(headers,['كمية','qty','quantity']));
-  const salesIdx=find(headers,['مبيعات','sales','value','قيمة']);
-  return rows.slice(1).map(r=>({
-    name:(r[nameIdx]||'').toString().trim(), code: codeIdx>=0 ? (r[codeIdx]||'').toString().trim() : '',
-    qty: Number(r[qtyIdx]||0), sales: salesIdx>=0 ? Number(r[salesIdx]||0) : 0
-  })).filter(x=>x.name);
+function parseFileHeadless(file) {
+    return __awaiter(this, void 0, void 0, function* () {
+        requireEmployee();
+        validateFile(file);
+        const ext = file.name.split('.').pop().toLowerCase();
+        const find = (headers, patterns) => headers.findIndex(h => patterns.some(p => String(h).toLowerCase().includes(p)));
+        if (ext === 'pdf') {
+            yield ensurePdfJs();
+            const buf = yield file.arrayBuffer();
+            const pdfTask = window.pdfjsLib.getDocument({ data: buf, isEvalSupported: false, stopAtErrors: true });
+            const pdf = yield pdfTask.promise;
+            if (pdf.numPages > 100) {
+                yield pdfTask.destroy();
+                throw new Error('الحد الأقصى 100 صفحة PDF.');
+            }
+            let lines = [];
+            for (let p = 1; p <= pdf.numPages; p++) {
+                const page = yield pdf.getPage(p);
+                const content = yield page.getTextContent();
+                let currentLine = [], lastY = null;
+                content.items.forEach(item => {
+                    if (lastY !== null && Math.abs(item.transform[5] - lastY) > 2) {
+                        lines.push(currentLine.join(' ').trim());
+                        currentLine = [];
+                    }
+                    currentLine.push(item.str);
+                    lastY = item.transform[5];
+                });
+                if (currentLine.length)
+                    lines.push(currentLine.join(' ').trim());
+            }
+            yield pdfTask.destroy();
+            lines = lines.filter(l => l.trim() !== '');
+            const bracketPattern = /^\[([\w-]+)\]\s*(.+?)\s+([\d,]+\.\d{2})$/;
+            const bracketRows = [];
+            lines.forEach(line => { const m = line.match(bracketPattern); if (m)
+                bracketRows.push([m[1], m[2].trim(), m[3].replace(/,/g, '')]); });
+            let headers, dataRows;
+            if (bracketRows.length >= Math.max(3, lines.length * 0.3)) {
+                headers = ['كود', 'اسم', 'كمية'];
+                dataRows = bracketRows;
+            }
+            else {
+                dataRows = lines.map(l => l.split(/\s{2,}/).map(c => c.trim()).filter(c => c !== '')).filter(r => r.length > 1);
+                const maxCols = Math.max(...dataRows.map(r => r.length), 1);
+                headers = Array.from({ length: maxCols }, (_, i) => 'عمود ' + (i + 1));
+            }
+            if (!dataRows.length)
+                throw new Error('لم يتم العثور على بيانات');
+            const nameIdx = Math.max(0, find(headers, ['اسم', 'صنف', 'product', 'item', 'name']));
+            const codeIdx = Math.max(0, find(headers, ['كود', 'code', 'sku']));
+            const qtyIdx = Math.max(0, find(headers, ['كمية', 'qty', 'quantity']));
+            const salesIdx = find(headers, ['مبيعات', 'sales', 'value', 'قيمة']);
+            return dataRows.map(r => ({
+                name: (r[nameIdx] || '').toString().trim(), code: (r[codeIdx] || '').toString().trim(),
+                qty: parseFloat(String(r[qtyIdx] || '0').replace(/,/g, '')) || 0,
+                sales: salesIdx >= 0 ? (parseFloat(String(r[salesIdx] || '0').replace(/,/g, '')) || 0) : 0
+            })).filter(x => x.name);
+        }
+        // Excel
+        const buf = yield file.arrayBuffer();
+        const wb = XLSX.read(buf, { type: 'array', sheetRows: 5002, cellHTML: false, cellFormula: false }), ws = wb.Sheets[wb.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' }).filter(r => r.some(v => String(v).trim() !== ''));
+        if (rows.length < 2)
+            throw new Error('الملف لا يحتوي بيانات كافية');
+        const headers = rows[0].map(String);
+        const nameIdx = Math.max(0, find(headers, ['اسم', 'صنف', 'product', 'item', 'name']));
+        const codeIdx = find(headers, ['كود', 'code', 'sku']);
+        const qtyIdx = Math.max(0, find(headers, ['كمية', 'qty', 'quantity']));
+        const salesIdx = find(headers, ['مبيعات', 'sales', 'value', 'قيمة']);
+        return rows.slice(1).map(r => ({
+            name: (r[nameIdx] || '').toString().trim(), code: codeIdx >= 0 ? (r[codeIdx] || '').toString().trim() : '',
+            qty: Number(r[qtyIdx] || 0), sales: salesIdx >= 0 ? Number(r[salesIdx] || 0) : 0
+        })).filter(x => x.name);
+    });
 }
-
-$('bulkSaveBtn').onclick=async()=>{
-  if($('bulkSaveBtn').disabled) return;
-  try{requireEmployee();}catch(e){alert(e.message);return;}
-  const uploadVersion=sessionVersion;
-  const batchFiles=bulkFiles.slice();
-  const date = $('bulkReportDate').value;
-  const statusEl = $('bulkStatus');
-  if(!date){ statusEl.style.color='var(--pink)'; statusEl.textContent='اختر تاريخ التقرير الأول'; return; }
-  if(bulkFiles.some(bf=>!bf.branch)){ statusEl.style.color='var(--pink)'; statusEl.textContent='لازم تحدد الفرع لكل ملف قبل الحفظ'; return; }
-
-  $('bulkSaveBtn').disabled = true;
-  let done=0, failed=0;
-  for(let i=0;i<batchFiles.length;i++){
-    if(uploadVersion!==sessionVersion || !canUpload)break;
-    const bf = batchFiles[i];
-    const statusCell = document.querySelector(`.bulk-status[data-idx="${i}"]`);
-    if(statusCell) statusCell.textContent='⏳ جاري الرفع...';
-    try{
-      const items = await parseFileHeadless(bf.file);
-      if(uploadVersion!==sessionVersion || !canUpload)break;
-      if(!items.length) throw new Error('مفيش بيانات في الملف');
-      await saveReport({ branch: bf.branch, date, items });
-      done++;
-      if(statusCell){ statusCell.textContent='✅ تم الحفظ'; statusCell.style.color='var(--teal)'; }
-    }catch(err){
-      failed++;
-      if(statusCell){ statusCell.textContent='⚠️ '+err.message; statusCell.style.color='var(--pink)'; }
+$('bulkSaveBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
+    if ($('bulkSaveBtn').disabled)
+        return;
+    try {
+        requireEmployee();
     }
-  }
-  $('bulkSaveBtn').disabled = false;
-  if(uploadVersion!==sessionVersion || !canUpload)return;
-  statusEl.style.color = failed ? 'var(--amber)' : 'var(--teal)';
-  statusEl.textContent = `تم حفظ ${done} فرع${failed?` — فشل ${failed}`:''} بنجاح`;
-  try{await refreshAll();}catch(error){statusEl.textContent+=' — '+firebaseErrorMessage(error);}
-  if(!failed){
-    setTimeout(()=>{
-      if(uploadVersion!==sessionVersion)return;
-      bulkFiles=[]; $('bulkFileList').innerHTML=''; $('bulkActions').style.display='none';
-      $('bulkFileInput').value=''; statusEl.textContent=''; show('overview');
-    }, 1500);
-  }
+    catch (e) {
+        alert(e.message);
+        return;
+    }
+    const uploadVersion = sessionVersion;
+    const batchFiles = bulkFiles.slice();
+    const date = $('bulkReportDate').value;
+    const statusEl = $('bulkStatus');
+    if (!date) {
+        statusEl.style.color = 'var(--pink)';
+        statusEl.textContent = 'اختر تاريخ التقرير الأول';
+        return;
+    }
+    if (bulkFiles.some(bf => !bf.branch)) {
+        statusEl.style.color = 'var(--pink)';
+        statusEl.textContent = 'لازم تحدد الفرع لكل ملف قبل الحفظ';
+        return;
+    }
+    $('bulkSaveBtn').disabled = true;
+    let done = 0, failed = 0;
+    for (let i = 0; i < batchFiles.length; i++) {
+        if (uploadVersion !== sessionVersion || !canUpload)
+            break;
+        const bf = batchFiles[i];
+        const statusCell = document.querySelector(`.bulk-status[data-idx="${i}"]`);
+        if (statusCell)
+            statusCell.textContent = '⏳ جاري الرفع...';
+        try {
+            const items = yield parseFileHeadless(bf.file);
+            if (uploadVersion !== sessionVersion || !canUpload)
+                break;
+            if (!items.length)
+                throw new Error('مفيش بيانات في الملف');
+            yield saveReport({ branch: bf.branch, date, items });
+            done++;
+            if (statusCell) {
+                statusCell.textContent = '✅ تم الحفظ';
+                statusCell.style.color = 'var(--teal)';
+            }
+        }
+        catch (err) {
+            failed++;
+            if (statusCell) {
+                statusCell.textContent = '⚠️ ' + err.message;
+                statusCell.style.color = 'var(--pink)';
+            }
+        }
+    }
+    $('bulkSaveBtn').disabled = false;
+    if (uploadVersion !== sessionVersion || !canUpload)
+        return;
+    statusEl.style.color = failed ? 'var(--amber)' : 'var(--teal)';
+    statusEl.textContent = `تم حفظ ${done} فرع${failed ? ` — فشل ${failed}` : ''} بنجاح`;
+    try {
+        yield refreshAll();
+    }
+    catch (error) {
+        statusEl.textContent += ' — ' + firebaseErrorMessage(error);
+    }
+    if (!failed) {
+        setTimeout(() => {
+            if (uploadVersion !== sessionVersion)
+                return;
+            bulkFiles = [];
+            $('bulkFileList').innerHTML = '';
+            $('bulkActions').style.display = 'none';
+            $('bulkFileInput').value = '';
+            statusEl.textContent = '';
+            show('overview');
+        }, 1500);
+    }
+});
+$('backToStep1').onclick = () => setStep(1);
+$('backToStep2').onclick = () => setStep(2);
+$('confirmMapping').onclick = () => {
+    map = { name: +$('mapName').value, code: +$('mapCode').value, qty: +$('mapQty').value, sales: +$('mapSales').value };
+    if (map.name < 0 || map.qty < 0) {
+        alert('يجب تحديد اسم الصنف والكمية');
+        return;
+    }
+    const data = uploadRows.slice(1).map(r => ({
+        name: String(r[map.name] || '').trim(),
+        code: map.code >= 0 ? String(r[map.code] || '').trim() : '',
+        qty: Number(String(r[map.qty] || 0).replace(/,/g, '')),
+        sales: map.sales >= 0 ? Number(String(r[map.sales] || 0).replace(/,/g, '')) : 0
+    })).filter(x => x.name);
+    window._finalData = data;
+    $('finalItemCount').textContent = data.length;
+    $('finalQty').textContent = fmt(data.reduce((a, x) => a + x.qty, 0));
+    $('finalSales').textContent = money(data.reduce((a, x) => a + x.sales, 0));
+    setStep(3);
 };
-$('backToStep1').onclick=()=>setStep(1);
-$('backToStep2').onclick=()=>setStep(2);
+$('saveReportBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    if ($('saveReportBtn').disabled)
+        return;
+    try {
+        requireEmployee();
+    }
+    catch (e) {
+        alert(e.message);
+        return;
+    }
+    const branch = $('newBranchName').value.trim() || $('uploadBranchSelect').value;
+    const date = $('reportDate').value || new Date().toISOString().slice(0, 10);
+    if (!((_a = window._finalData) === null || _a === void 0 ? void 0 : _a.length)) {
+        alert('لا توجد بيانات للحفظ');
+        return;
+    }
+    $('saveReportBtn').disabled = true;
+    $('saveStatus').textContent = 'جاري حفظ التقرير...';
+    try {
+        yield saveReport({ branch, date, items: window._finalData });
+        $('saveStatus').textContent = '✓ تم حفظ التقرير بنجاح';
+        window._finalData = [];
+        $('fileInput').value = '';
+        setStep(1);
+        yield refreshAll();
+    }
+    catch (e) {
+        $('saveStatus').textContent = 'تعذر الحفظ: ' + firebaseErrorMessage(e);
+    }
+    finally {
+        $('saveReportBtn').disabled = false;
+    }
+});
+$('reportDate').value = new Date().toISOString().slice(0, 10);
 
-$('confirmMapping').onclick=()=>{
-  map={name:+$('mapName').value,code:+$('mapCode').value,qty:+$('mapQty').value,sales:+$('mapSales').value};
-  if(map.name<0||map.qty<0){alert('يجب تحديد اسم الصنف والكمية');return}
-  const data=uploadRows.slice(1).map(r=>({
-    name:String(r[map.name]||'').trim(),
-    code:map.code>=0?String(r[map.code]||'').trim():'',
-    qty:Number(String(r[map.qty]||0).replace(/,/g,'')),
-    sales:map.sales>=0?Number(String(r[map.sales]||0).replace(/,/g,'')):0
-  })).filter(x=>x.name);
-  window._finalData=data;
-  $('finalItemCount').textContent=data.length;
-  $('finalQty').textContent=fmt(data.reduce((a,x)=>a+x.qty,0));
-  $('finalSales').textContent=money(data.reduce((a,x)=>a+x.sales,0));
-  setStep(3);
-};
-
-$('saveReportBtn').onclick=async()=>{
-  if($('saveReportBtn').disabled) return;
-  try{requireEmployee();}catch(e){alert(e.message);return;}
-  const branch=$('newBranchName').value.trim()||$('uploadBranchSelect').value;
-  const date=$('reportDate').value||new Date().toISOString().slice(0,10);
-  if(!window._finalData?.length){alert('لا توجد بيانات للحفظ');return}
-  $('saveReportBtn').disabled=true;
-  $('saveStatus').textContent='جاري حفظ التقرير...';
-  try{
-    await saveReport({branch,date,items:window._finalData});
-    $('saveStatus').textContent='✓ تم حفظ التقرير بنجاح';
-    window._finalData=[];
-    $('fileInput').value='';
-    setStep(1);
-    await refreshAll();
-  }catch(e){
-    $('saveStatus').textContent='تعذر الحفظ: '+firebaseErrorMessage(e);
-  }finally{
-    $('saveReportBtn').disabled=false;
+</script>
+<script>
+setTimeout(function(){
+  if(!window.__APP_BOOTED__){
+    var e=document.getElementById('loginError');
+    if(e)e.textContent='تعذر تشغيل نظام تسجيل الدخول على هذا المتصفح. حدّث المتصفح أو جرّب Chrome / Edge / Safari حديث.';
   }
-};
-
-$('reportDate').value=new Date().toISOString().slice(0,10);
+},5000);
 </script>
 </body>
 </html>

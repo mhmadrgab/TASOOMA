@@ -643,6 +643,10 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
         <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
         مقارنة الفروع
       </button>
+      <button class="nav-item" data-view="distribution" id="navDistribution">
+        <svg viewBox="0 0 24 24"><path d="M7 7h12M15 3l4 4-4 4"/><path d="M17 17H5M9 21l-4-4 4-4"/></svg>
+        توزيع ذكي
+      </button>
       <button class="nav-item" data-view="activity" id="navActivity" style="display:none;">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
         سجل النشاط
@@ -858,6 +862,69 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
               <thead><tr><th>الفرع</th><th>إجمالي الكمية</th><th>إجمالي المبيعات</th><th>أكثر صنف مبيعاً</th></tr></thead>
               <tbody id="compareTable"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-distribution">
+        <div class="panel">
+          <h3>التوزيع الذكي للمخزون بين الفروع</h3>
+          <p style="color:var(--muted);font-size:12.5px;line-height:1.9;margin-bottom:14px;">
+            ارفع تقرير الأرصدة الشامل من الباور بي آي (فيه كل الفروع والأصناف مع بعض في ملف واحد)، وهيطلعلك اقتراحات نقل بضاعة من الفروع اللي عندها فائض للفروع اللي ناقصها الصنف — تحرك بذكاء من غير ما تستنى الفرع يطلب.
+          </p>
+
+          <div class="step active" id="distStep1">
+            <div class="dropzone" id="distDropzone">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg>
+              <div>اسحب ملف أرصدة كل الفروع (Excel) هنا، أو اضغط للاختيار</div>
+              <div style="font-size:10.5px;margin-top:6px;">لازم يحتوي عمود للفرع، عمود لاسم الصنف، وعمود للكمية بالمخزون</div>
+              <input type="file" id="distFileInput" accept=".xlsx,.xls,.csv" style="display:none;">
+            </div>
+            <div id="distUploadStatus" style="font-size:12px;color:var(--muted);margin-top:10px;"></div>
+          </div>
+
+          <div class="step" id="distStep2">
+            <p style="font-size:12.5px;color:var(--muted);">حدد عمود كل قيمة (الكود اختياري، الباقي مطلوب):</p>
+            <div class="mapping-row"><div class="label">الفرع</div><select class="select-box" id="distMapBranch" style="width:100%;"></select></div>
+            <div class="mapping-row"><div class="label">اسم الصنف</div><select class="select-box" id="distMapName" style="width:100%;"></select></div>
+            <div class="mapping-row"><div class="label">الكود (اختياري)</div><select class="select-box" id="distMapCode" style="width:100%;"></select></div>
+            <div class="mapping-row"><div class="label">الكمية بالمخزون</div><select class="select-box" id="distMapQty" style="width:100%;"></select></div>
+            <div class="preview-scroll"><table id="distPreviewTable"></table></div>
+            <div class="step-actions">
+              <button class="btn-sm" id="distBackToStep1">رجوع</button>
+              <button class="btn-primary" style="width:auto;padding:10px 22px;" id="distConfirmMapping">تحليل التوزيع ✓</button>
+            </div>
+          </div>
+
+          <div class="step" id="distStep3">
+            <div class="kpi-row" style="grid-template-columns:repeat(4,1fr);">
+              <div class="kpi" style="--accent:#8b6cf9"><div class="label">عدد الأصناف</div><div class="value mono" id="distKpiItems">—</div></div>
+              <div class="kpi" style="--accent:#2fd6c4"><div class="label">عدد الفروع</div><div class="value mono" id="distKpiBranches">—</div></div>
+              <div class="kpi" style="--accent:#ff8bd0"><div class="label">فرص نقل مقترحة</div><div class="value mono" id="distKpiSuggestions">—</div></div>
+              <div class="kpi" style="--accent:#f0a63a"><div class="label">فروع فيها نقص حرج</div><div class="value mono" id="distKpiCritical">—</div></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 8px;flex-wrap:wrap;gap:8px;">
+              <h3 style="margin:0;">اقتراحات نقل البضاعة بين الفروع</h3>
+              <button class="btn-sm" id="distNewUploadBtn">رفع ملف جديد</button>
+            </div>
+            <div class="controls">
+              <input type="text" class="search-box" id="distSearch" placeholder="ابحث بالكود أو اسم الصنف أو الفرع...">
+            </div>
+            <div class="preview-scroll" style="max-height:460px;">
+              <table>
+                <thead><tr><th>الصنف</th><th>من فرع (المتاح)</th><th>إلى فروع ناقصة</th><th>الكمية المقترح نقلها</th></tr></thead>
+                <tbody id="distSuggestTable"></tbody>
+              </table>
+            </div>
+
+            <h3 style="margin:22px 0 8px;">ملخص حالة كل فرع</h3>
+            <div class="preview-scroll" style="max-height:420px;">
+              <table>
+                <thead><tr><th>الفرع</th><th>عدد الأصناف المتوفرة</th><th>إجمالي الكمية</th><th>أصناف ناقصة (متوفرة بمعظم الفروع)</th><th>الحالة</th></tr></thead>
+                <tbody id="distBranchTable"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -1563,7 +1630,7 @@ function show(view) {
     if (el)
         el.classList.add('active');
     document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-    const titles = { overview: 'نظرة عامة على كل الفروع', branches: 'الفروع', upload: 'رفع تقرير مبيعات فرع', deadstock: 'الأصناف الراكدة', permissions: 'إدارة الصلاحيات', compare: 'مقارنة الفروع', activity: 'سجل النشاط' };
+    const titles = { overview: 'نظرة عامة على كل الفروع', branches: 'الفروع', upload: 'رفع تقرير مبيعات فرع', deadstock: 'الأصناف الراكدة', permissions: 'إدارة الصلاحيات', compare: 'مقارنة الفروع', activity: 'سجل النشاط', distribution: 'التوزيع الذكي للمخزون' };
     $('pageTitle').textContent = titles[view] || 'منصة تقارير الفروع';
     $('pageSub').textContent = 'آخر تحديث: ' + new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     if (view === 'overview')
@@ -2473,6 +2540,150 @@ $('saveReportBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 $('reportDate').value = new Date().toISOString().slice(0, 10);
+
+// ===== التوزيع الذكي للمخزون بين الفروع =====
+let distRows = [], distMap = { branch: -1, name: -1, code: -1, qty: -1 }, distItems = [], distComputed = null;
+function setDistStep(n) { [1, 2, 3].forEach(i => $('distStep' + i).classList.toggle('active', i === n)); }
+$('distDropzone').onclick = () => $('distFileInput').click();
+$('distFileInput').onchange = e => { const file = e.target.files[0]; if (file) loadDistWorkbook(file); };
+function loadDistWorkbook(file) {
+    try {
+        requireEmployee();
+        validateFile(file);
+    }
+    catch (e) {
+        $('distUploadStatus').textContent = e.message;
+        return;
+    }
+    const status = $('distUploadStatus');
+    status.textContent = 'جاري قراءة الملف...';
+    const version = sessionVersion;
+    const reader = new FileReader();
+    reader.onerror = () => { status.textContent = 'تعذر قراءة الملف.'; };
+    reader.onload = e => {
+        if (version !== sessionVersion || !canUpload)
+            return;
+        try {
+            const wb = XLSX.read(e.target.result, { type: 'array', sheetRows: 20002, cellHTML: false, cellFormula: false }), ws = wb.Sheets[wb.SheetNames[0]];
+            distRows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' }).filter(r => r.some(v => String(v).trim() !== ''));
+            if (distRows.length < 2)
+                throw new Error('الملف لا يحتوي بيانات كافية');
+            const headers = distRows[0].map(String);
+            const find = patterns => headers.findIndex(h => patterns.some(p => h.toLowerCase().includes(p)));
+            distMap.branch = Math.max(0, find(['فرع', 'branch']));
+            distMap.name = Math.max(0, find(['اسم', 'صنف', 'product', 'item', 'name']));
+            distMap.code = find(['كود', 'code', 'sku']);
+            distMap.qty = Math.max(0, find(['كمية', 'رصيد', 'مخزون', 'qty', 'quantity', 'stock']));
+            const opts = headers.map((h, i) => `<option value="${i}">${escapeHTML(h || 'عمود ' + (i + 1))}</option>`).join('');
+            ['distMapBranch', 'distMapName', 'distMapCode', 'distMapQty'].forEach(id => $(id).innerHTML = '<option value="-1">— بدون تحديد —</option>' + opts);
+            $('distMapBranch').value = distMap.branch;
+            $('distMapName').value = distMap.name;
+            $('distMapCode').value = distMap.code;
+            $('distMapQty').value = distMap.qty;
+            $('distPreviewTable').innerHTML = '<thead><tr>' + headers.map(h => `<th>${escapeHTML(h)}</th>`).join('') + '</tr></thead><tbody>' + distRows.slice(1, 9).map(r => '<tr>' + headers.map((_, i) => { var _a; return `<td>${escapeHTML((_a = r[i]) !== null && _a !== void 0 ? _a : '')}</td>`; }).join('') + '</tr>').join('') + '</tbody>';
+            status.textContent = `تمت قراءة ${distRows.length - 1} صف من ${wb.SheetNames[0]}`;
+            setDistStep(2);
+        }
+        catch (err) {
+            status.textContent = 'تعذر قراءة الملف: ' + err.message;
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+$('distBackToStep1').onclick = () => setDistStep(1);
+$('distConfirmMapping').onclick = () => {
+    const b = +$('distMapBranch').value, n = +$('distMapName').value, c = +$('distMapCode').value, q = +$('distMapQty').value;
+    if (b < 0 || n < 0 || q < 0) {
+        alert('لازم تحدد عمود الفرع واسم الصنف والكمية');
+        return;
+    }
+    distItems = distRows.slice(1).map(r => ({
+        branch: String(r[b] || '').trim(),
+        name: String(r[n] || '').trim(),
+        code: c >= 0 ? String(r[c] || '').trim() : '',
+        qty: Number(String(r[q] || 0).replace(/,/g, '')) || 0
+    })).filter(x => x.name && x.branch);
+    if (!distItems.length) {
+        alert('مفيش صفوف صالحة بعد التحديد ده — تأكد إن عمود الفرع وعمود اسم الصنف مليانين');
+        return;
+    }
+    computeDistribution();
+    renderDistribution();
+    setDistStep(3);
+};
+$('distNewUploadBtn').onclick = () => { distRows = []; distItems = []; distComputed = null; $('distFileInput').value = ''; $('distUploadStatus').textContent = ''; setDistStep(1); };
+$('distSearch').oninput = () => renderDistSuggestTable();
+// تحليل: مقارنة رصيد كل صنف بين الفروع، واقتراح نقل من فرع الفائض لفرع النقص
+function computeDistribution() {
+    const byItem = new Map(), branchSet = new Set();
+    distItems.forEach(x => {
+        branchSet.add(x.branch);
+        const key = (x.code && x.code.trim()) ? 'c:' + x.code.trim().toLowerCase() : 'n:' + x.name.trim().toLowerCase();
+        if (!byItem.has(key))
+            byItem.set(key, { name: x.name, code: x.code, branchQty: Object.create(null) });
+        const it = byItem.get(key);
+        it.branchQty[x.branch] = (it.branchQty[x.branch] || 0) + x.qty;
+    });
+    const allBranches = Array.from(branchSet), nBranches = allBranches.length;
+    const suggestions = [], branchStatsMap = Object.create(null);
+    allBranches.forEach(b => branchStatsMap[b] = { branch: b, itemsCount: 0, totalQty: 0, missingCount: 0, surplusCount: 0 });
+    const MIN_SURPLUS_QTY = 6;
+    byItem.forEach(it => {
+        allBranches.forEach(b => { if (!(b in it.branchQty))
+            it.branchQty[b] = 0; });
+        const entries = allBranches.map(b => ({ branch: b, qty: it.branchQty[b] }));
+        const withStock = entries.filter(e => e.qty > 0), zero = entries.filter(e => e.qty === 0);
+        withStock.forEach(e => { branchStatsMap[e.branch].itemsCount++; branchStatsMap[e.branch].totalQty += e.qty; });
+        if (!withStock.length || !zero.length)
+            return; // مفيش رصيد خالص، أو الصنف موجود في كل الفروع أصلاً
+        const total = withStock.reduce((a, e) => a + e.qty, 0), avg = total / withStock.length;
+        const surplusBranches = withStock.filter(e => e.qty >= Math.max(MIN_SURPLUS_QTY, avg * 1.4)).sort((a, b) => b.qty - a.qty);
+        if (!surplusBranches.length)
+            return;
+        surplusBranches.forEach(e => branchStatsMap[e.branch].surplusCount++);
+        zero.forEach(e => branchStatsMap[e.branch].missingCount++);
+        const top = surplusBranches[0], targets = zero.slice(0, 6);
+        const suggestedQty = Math.max(1, Math.round((top.qty - avg) / 2));
+        suggestions.push({ name: it.name, code: it.code, fromBranch: top.branch, fromQty: top.qty, toBranches: targets.map(t => t.branch), toCount: zero.length, suggestedQty });
+    });
+    suggestions.sort((a, b) => b.suggestedQty - a.suggestedQty);
+    const branchSummary = allBranches.map(b => {
+        const s = branchStatsMap[b];
+        let status = 'ok', statusText = '🟢 متوازن';
+        if (s.missingCount >= 5 && s.missingCount > s.itemsCount * 0.3) {
+            status = 'out';
+            statusText = '🔴 ناقصه أصناف كتير';
+        }
+        else if (s.surplusCount >= 5 && s.missingCount < 3) {
+            status = 'low';
+            statusText = '🟡 فيها تكديس/فائض';
+        }
+        return Object.assign({}, s, { status, statusText });
+    }).sort((a, b) => b.missingCount - a.missingCount);
+    distComputed = { suggestions, branchSummary, itemsCount: byItem.size, branchesCount: nBranches };
+}
+function renderDistribution() {
+    if (!distComputed)
+        return;
+    $('distKpiItems').textContent = fmt(distComputed.itemsCount);
+    $('distKpiBranches').textContent = fmt(distComputed.branchesCount);
+    $('distKpiSuggestions').textContent = fmt(distComputed.suggestions.length);
+    $('distKpiCritical').textContent = fmt(distComputed.branchSummary.filter(b => b.status === 'out').length);
+    renderDistSuggestTable();
+    renderDistBranchTable();
+}
+function renderDistSuggestTable() {
+    if (!distComputed)
+        return;
+    const q = ($('distSearch').value || '').trim().toLowerCase();
+    const rows = distComputed.suggestions.filter(s => !q || s.name.toLowerCase().includes(q) || (s.code || '').toLowerCase().includes(q) || s.fromBranch.toLowerCase().includes(q) || s.toBranches.some(b => b.toLowerCase().includes(q))).slice(0, 150);
+    $('distSuggestTable').innerHTML = rows.map(s => `<tr><td><b>${escapeHTML(s.name)}</b>${s.code ? `<div style="font-size:10.5px;color:var(--muted);">${escapeHTML(s.code)}</div>` : ''}</td><td>${escapeHTML(s.fromBranch)} <span style="color:var(--muted);">(${fmt(s.fromQty)})</span></td><td>${escapeHTML(s.toBranches.join('، '))}${s.toCount > s.toBranches.length ? ` <span style="color:var(--muted);">+${s.toCount - s.toBranches.length}</span>` : ''}</td><td class="mono"><b>${fmt(s.suggestedQty)}</b></td></tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px;">مفيش اقتراحات نقل ضمن البيانات دي</td></tr>';
+}
+function renderDistBranchTable() {
+    if (!distComputed)
+        return;
+    $('distBranchTable').innerHTML = distComputed.branchSummary.map(b => `<tr><td><b>${escapeHTML(b.branch)}</b></td><td>${fmt(b.itemsCount)}</td><td>${fmt(b.totalQty)}</td><td>${fmt(b.missingCount)}</td><td><span class="tag ${b.status}">${b.statusText}</span></td></tr>`).join('');
+}
 
 </script>
 <script>

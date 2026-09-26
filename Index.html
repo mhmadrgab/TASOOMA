@@ -226,7 +226,7 @@
   }
 
 
-/* ===== توافق صفحات منصة تقارير الفروع مع نفس التصميم ===== */
+/* ===== توافق صفحات منصة التوزيع الذكي مع نفس التصميم ===== */
 html{min-height:100%;background:var(--bg);}
 body{min-height:100vh;}
 button,input,select{font-family:'Tajawal',sans-serif;}
@@ -582,12 +582,12 @@ table,#view-overview table{font-size:13.5px!important;line-height:1.55}thead th,
 
 <!-- ============ شاشة الدخول ============ -->
 <div id="view-login">
-  <header class="login-top"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%228%22%20y1%3D%226%22%20x2%3D%2256%22%20y2%3D%2260%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%235B8CFF%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%237C5CFA%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318D5BD%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2216%22%20fill%3D%22%230E1730%22%2F%3E%0A%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%2252%22%20height%3D%2252%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22%20opacity%3D%22.16%22%2F%3E%0A%3Cpath%20d%3D%22M16%2044V31h7v13h-7Zm12%200V21h7v23h-7Zm12%200V27h7v17h-7Z%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M17%2022.5%2028%2015l10%205.2%209-8.2%22%20fill%3D%22none%22%20stroke%3D%22%2366F1DC%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Ccircle%20cx%3D%2217%22%20cy%3D%2222.5%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2215%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2238%22%20cy%3D%2220.2%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2212%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%0A%3C%2Fsvg%3E" alt="شعار المنصة" width="345" height="324"><span>منصة تقارير الفروع</span></header>
+  <header class="login-top"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%228%22%20y1%3D%226%22%20x2%3D%2256%22%20y2%3D%2260%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%235B8CFF%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%237C5CFA%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318D5BD%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2216%22%20fill%3D%22%230E1730%22%2F%3E%0A%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%2252%22%20height%3D%2252%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22%20opacity%3D%22.16%22%2F%3E%0A%3Cpath%20d%3D%22M16%2044V31h7v13h-7Zm12%200V21h7v23h-7Zm12%200V27h7v17h-7Z%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M17%2022.5%2028%2015l10%205.2%209-8.2%22%20fill%3D%22none%22%20stroke%3D%22%2366F1DC%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Ccircle%20cx%3D%2217%22%20cy%3D%2222.5%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2215%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2238%22%20cy%3D%2220.2%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2212%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%0A%3C%2Fsvg%3E" alt="شعار المنصة" width="345" height="324"><span>منصة التوزيع الذكي</span></header>
   <main class="login-card" aria-labelledby="loginTitle">
     <div class="login-symbol"><img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%228%22%20y1%3D%226%22%20x2%3D%2256%22%20y2%3D%2260%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%235B8CFF%22%2F%3E%3Cstop%20offset%3D%22.52%22%20stop-color%3D%22%237C5CFA%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318D5BD%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2216%22%20fill%3D%22%230E1730%22%2F%3E%0A%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%2252%22%20height%3D%2252%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22%20opacity%3D%22.16%22%2F%3E%0A%3Cpath%20d%3D%22M16%2044V31h7v13h-7Zm12%200V21h7v23h-7Zm12%200V27h7v17h-7Z%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M17%2022.5%2028%2015l10%205.2%209-8.2%22%20fill%3D%22none%22%20stroke%3D%22%2366F1DC%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3Ccircle%20cx%3D%2217%22%20cy%3D%2222.5%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2215%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2238%22%20cy%3D%2220.2%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2247%22%20cy%3D%2212%22%20r%3D%223%22%20fill%3D%22%23fff%22%2F%3E%0A%3C%2Fsvg%3E" alt="شعار المنصة" width="345" height="324"></div>
     <p class="login-eyebrow">كل فروعك، في مكان واحد</p>
     <h1 id="loginTitle">أهلًا بعودتك</h1>
-    <p class="login-intro">سجّل دخولك لمتابعة أداء الفروع<br>والاطّلاع على أحدث التقارير.</p>
+    <p class="login-intro">سجّل دخولك إلى مركز التوزيع الذكي<br>لموازنة المخزون واتخاذ قرارات النقل.</p>
     <form id="loginForm">
       <div class="login-fields">
         <div class="login-field"><label for="loginEmail">البريد الإلكتروني</label><input type="email" id="loginEmail" placeholder="name@company.com" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
@@ -603,7 +603,7 @@ table,#view-overview table{font-size:13.5px!important;line-height:1.55}thead th,
       <p id="resetPasswordStatus" role="status" aria-live="polite">اكتب بريدك الإلكتروني بالأعلى لاستلام رابط إعادة تعيين كلمة المرور.</p>
     </div>
   </main>
-  <footer class="login-bottom">منصة تقارير الفروع<span>رؤية أوضح. قرارات أفضل.</span></footer>
+  <footer class="login-bottom">منصة التوزيع الذكي<span>مخزون متوازن. قرار أسرع.</span></footer>
 </div>
 <script>
 document.getElementById('togglePassword').addEventListener('click',function(){
@@ -694,11 +694,11 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
           <div class="welcome-copy"><div class="eyebrow">مركز قيادة التوزيع</div><h2 id="welcomeGreeting">أهلاً بك</h2><p id="welcomeUser">جاري تجهيز بيانات الحساب...</p></div>
           <div class="welcome-status"><span class="system-chip" id="systemStatusChip"><i class="live-dot"></i><span id="systemStatusText">النظام متصل</span></span><span class="system-chip">↻ <span id="lastSyncText">آخر مزامنة: —</span></span><span class="system-chip" id="roleStatusChip">الصلاحية: —</span></div>
         </section>
-        <section class="panel smart-alerts-panel" aria-label="التنبيهات الذكية"><div class="smart-alerts-head"><h3>التنبيهات الذكية</h3><span>تُحسب تلقائياً من التقارير والفترة المختارة</span></div><div class="smart-alerts-grid" id="smartAlertsGrid"></div></section>
+        <section class="panel smart-alerts-panel" aria-label="التنبيهات الذكية"><div class="smart-alerts-head"><h3>التنبيهات الذكية</h3><span>تُحسب تلقائياً من بيانات الطلب والأرصدة</span></div><div class="smart-alerts-grid" id="smartAlertsGrid"></div></section>
         <section class="panel smart-distribution-hub" id="smartDistributionHub" aria-label="ملخص التوزيع الذكي">
           <div class="smart-hub-head">
-            <div><h3>قرار التوزيع الآن</h3><p id="smartHubSubtitle">ارفع ملف أرصدة الفروع ليظهر لك قرار التوزيع المقترح فوراً.</p></div>
-            <button class="btn-primary" id="openDistributionEngine" style="width:auto;padding:9px 16px;">فتح محرك التوزيع</button>
+            <div><h3>قرار التوزيع الآن</h3><p id="smartHubSubtitle">ارفع ملف الأرصدة الشامل ليظهر قرار التوزيع المقترح فوراً داخل الداشبورد.</p></div>
+            <button class="btn-primary" id="openDistributionEngine" style="width:auto;padding:9px 16px;">ابدأ تحليل الأرصدة</button>
           </div>
           <div class="smart-hub-grid">
             <div class="smart-hub-card"><span>توازن الشبكة</span><b id="hubBalanceScore">—</b><small>كلما ارتفعت النسبة كان التوزيع أفضل</small></div>
@@ -719,7 +719,7 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
           <div class="panel"><h3>أعلى الأصناف حركة <span>ترتيب حسب الكمية</span></h3><div class="video-bar-wrap"><canvas id="chartTopBranches"></canvas></div></div>
           <div class="panel"><h3>توزيع الفروع <span>مساهمة كل فرع في الحركة</span></h3><div class="donut-wrap"><canvas id="chartReportsShare"></canvas><div class="chart-center"><b id="reportsShareCenter">—</b><small>إجمالي الكمية</small></div></div></div>
         </div>
-        <div class="panel dashboard-table-panel"><h3>تفاصيل حركة الأصناف <span id="branchTableCount"></span></h3><div class="controls"><input type="text" class="search-box" id="branchSearch" placeholder="ابحث باسم الصنف أو الفرع..."><span class="mini-share"><i></i> تتحدث تلقائياً من التقارير المرفوعة</span></div><div class="preview-scroll" style="max-height:320px;"><table><thead><tr><th>الصنف</th><th>الفرع</th><th>الكمية</th><th>الحصة</th><th>الحركة</th></tr></thead><tbody id="branchTable"></tbody></table></div></div>
+        <div class="panel dashboard-table-panel"><h3>تفاصيل حركة الأصناف <span id="branchTableCount"></span></h3><div class="controls"><input type="text" class="search-box" id="branchSearch" placeholder="ابحث باسم الصنف أو الفرع..."><span class="mini-share"><i></i> تتحدث تلقائياً من بيانات الطلب التاريخية</span></div><div class="preview-scroll" style="max-height:320px;"><table><thead><tr><th>الصنف</th><th>الفرع</th><th>الكمية</th><th>الحصة</th><th>الحركة</th></tr></thead><tbody id="branchTable"></tbody></table></div></div>
       </div>
 
       <!-- ===== الفروع ===== -->
@@ -1268,7 +1268,7 @@ function updateWelcomeHeader(syncNow = false) {
     if ($('welcomeGreeting'))
         $('welcomeGreeting').textContent = greetingForNow() + ' 👋';
     if ($('welcomeUser'))
-        $('welcomeUser').textContent = user ? `${user.email} — ${currentAccessLabel()}` : 'منصة تقارير الفروع';
+        $('welcomeUser').textContent = user ? `${user.email} — ${currentAccessLabel()}` : 'منصة التوزيع الذكي';
     if ($('roleStatusChip'))
         $('roleStatusChip').textContent = 'الصلاحية: ' + currentAccessLabel();
     if (syncNow && $('lastSyncText'))
@@ -1652,7 +1652,7 @@ function show(view) {
         el.classList.add('active');
     document.querySelectorAll('.nav-item[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
     const titles = { overview: 'لوحة قرار التوزيع الذكي', branches: 'صحة الفروع', upload: 'بيانات حركة الأصناف', deadstock: 'الأصناف الراكدة', permissions: 'إدارة الصلاحيات', compare: 'مقارنة الفروع', activity: 'سجل النشاط', distribution: 'محرك التوزيع الذكي' };
-    $('pageTitle').textContent = titles[view] || 'منصة تقارير الفروع';
+    $('pageTitle').textContent = titles[view] || 'منصة التوزيع الذكي';
     $('pageSub').textContent = 'آخر تحديث: ' + new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     if (view === 'overview')
         renderOverview();
@@ -2813,6 +2813,79 @@ setTimeout(function(){
 
 .dist-policy-panel{margin:12px 0 4px;padding:11px 12px;border:1px solid #2a385d;border-radius:11px;background:#0d1730;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.dist-policy-panel>div{margin-left:auto;min-width:210px}.dist-policy-panel b{display:block;font-size:10.5px}.dist-policy-panel small{display:block;color:var(--muted);font-size:8.5px;margin-top:3px}.dist-policy-panel label{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:6px}.dist-policy-panel input{width:58px;height:29px;border-radius:8px;border:1px solid #304066;background:#0b142a;color:#fff;padding:0 7px;font-family:inherit}.online-priority{font-size:8.5px;color:#67ead7;margin-top:3px;font-weight:700}.cover-danger{color:#ff789d}.cover-good{color:#68e6d2}@media(max-width:720px){.dist-policy-panel>div{width:100%;margin-left:0}.dist-policy-panel{align-items:flex-start}}
 </style>
+
+
+<style id="one-page-smart-distribution">
+/* ===== One-page Smart Distribution Command Center ===== */
+.app{grid-template-columns:1fr!important;max-width:1320px!important}
+.sidebar{display:none!important}
+.main{width:100%;min-width:0}
+.top-bar{position:sticky;top:0;z-index:35;background:rgba(9,15,34,.90);backdrop-filter:blur(14px);border:1px solid rgba(52,68,108,.72);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+#view-overview{display:block!important}
+#view-branches,#view-upload,#view-deadstock,#view-compare,#view-activity,#view-permissions{display:none!important}
+#smart-distribution-workspace{display:block!important;margin-top:10px;scroll-margin-top:90px}
+#smart-distribution-workspace>.panel{border:1px solid #30406a;background:linear-gradient(150deg,#141f40,#0d1730);box-shadow:0 16px 40px rgba(0,0,0,.18)}
+#smart-distribution-workspace>.panel>h3:first-child{font-size:16px;margin-bottom:6px}
+#smart-distribution-workspace>.panel>p{max-width:980px}
+#smartDistributionHub{scroll-margin-top:90px}
+#openDistributionEngine{white-space:nowrap}
+.command-tag{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid rgba(22,217,189,.24);background:rgba(22,217,189,.08);color:#68e6d2;border-radius:999px;font-size:10px;font-weight:700}
+.command-tag:before{content:"";width:6px;height:6px;border-radius:50%;background:#20dfc4;box-shadow:0 0 9px #20dfc4}
+#logoutBtn{margin:0!important;min-height:auto!important;display:inline-flex!important;flex-direction:row!important;gap:6px!important;width:auto!important;padding:8px 11px!important;border-radius:9px!important;background:#111b36!important;border:1px solid #2b385e!important;color:#dfe6ff!important;font-size:10px!important}
+#logoutBtn svg{width:15px;height:15px}
+@media(max-width:900px){.top-bar{top:0;border-radius:0 0 14px 14px}.top-bar .controls{gap:6px}.top-bar .controls .select-box{max-width:130px}.app{padding-top:0!important}}
+@media(max-width:620px){.top-bar{align-items:flex-start;gap:9px}.top-bar .controls{width:100%;justify-content:flex-start;flex-wrap:wrap}.command-tag{display:none}}
+</style>
+<script id="one-page-smart-distribution-script">
+(function(){
+  const overview=document.getElementById('view-overview');
+  const dist=document.getElementById('view-distribution');
+  const hub=document.getElementById('smartDistributionHub');
+  if(overview && dist){
+    dist.classList.remove('view');
+    dist.classList.remove('active');
+    dist.id='smart-distribution-workspace';
+    if(hub && hub.parentNode===overview){ hub.insertAdjacentElement('afterend', dist); }
+    else { overview.appendChild(dist); }
+  }
+  const controls=document.querySelector('.top-bar .controls');
+  const logout=document.getElementById('logoutBtn');
+  if(controls && logout){
+    logout.className='btn-sm';
+    controls.appendChild(logout);
+  }
+  const tag=document.createElement('span');
+  tag.className='command-tag';
+  tag.textContent='مركز توزيع موحّد';
+  if(controls) controls.insertBefore(tag, controls.firstChild);
+
+  const legacyShow=window.show;
+  window.show=function(view){
+    // المنصة الجديدة صفحة قرار واحدة؛ أي مسار قديم يرجع للداشبورد.
+    if(typeof legacyShow==='function') legacyShow('overview');
+    const target = (view==='distribution') ? document.getElementById('smart-distribution-workspace') : document.getElementById('view-overview');
+    if(target && view!=='overview') setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'start'}),30);
+  };
+
+  const smartBtn=document.getElementById('openDistributionEngine');
+  if(smartBtn) smartBtn.onclick=()=>window.show('distribution');
+
+  // بطاقات الاقتراحات أصبحت تقود لنفس منطقة التحليل داخل الداشبورد.
+  document.addEventListener('click',function(e){
+    const action=e.target.closest('.smart-hub-action');
+    if(action){
+      e.preventDefault();
+      const target=document.getElementById('smart-distribution-workspace');
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+
+  const title=document.getElementById('pageTitle');
+  const sub=document.getElementById('pageSub');
+  if(title) title.textContent='مركز قيادة التوزيع الذكي';
+  if(sub) sub.textContent='لوحة واحدة لمراقبة التوازن، تحليل الأرصدة، وتوليد قرارات النقل بين الفروع';
+})();
+</script>
 
 </body>
 </html>

@@ -605,7 +605,7 @@ table,#view-overview table{font-size:13.5px!important;line-height:1.55}thead th,
 <p aria-live="polite" id="resetPasswordStatus" role="status">اكتب بريدك الإلكتروني بالأعلى لاستلام رابط إعادة تعيين كلمة المرور.</p>
 </div>
 </main>
-<footer class="login-bottom">منصة التوزيع الذكي<span>مخزون متوازن. قرار أسرع.</span><span style="margin-top:8px;font-size:10px;color:#0071e3;font-weight:700;">BUILD: LOGIN-DIRECT-FIX</span></footer>
+<footer class="login-bottom">منصة التوزيع الذكي<span>مخزون متوازن. قرار أسرع.</span><span style="margin-top:8px;font-size:10px;color:#0071e3;font-weight:700;">BUILD: UPLOAD-FIX-2026-09-27</span></footer>
 </div>
 <script>
 document.getElementById('togglePassword').addEventListener('click',function(){
@@ -691,6 +691,7 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
 <div>اسحب ملف أرصدة كل الفروع (Excel) هنا، أو اضغط للاختيار</div>
 <div style="font-size:10.5px;margin-top:6px;">لازم يحتوي عمود للفرع، عمود لاسم الصنف، وعمود للكمية بالمخزون</div>
 <input accept=".xlsx,.xls,.csv" id="distFileInput" style="display:none;" type="file"/>
+<button type="button" id="distChooseFileBtn" class="btn-primary" style="margin-top:10px;">اختيار ملف Excel</button>
 </div>
 <div id="distUploadStatus" style="font-size:12px;color:var(--muted);margin-top:10px;"></div>
 </div>
@@ -2168,7 +2169,8 @@ function clearSession(preserveLoginLoading = false) {
     if (!preserveLoginLoading)
         setLoginLoading(false);
 }
-$('logoutBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () { clearSession(); if (firebaseReady)
+const __legacyLogoutBtn = $('logoutBtn');
+if (__legacyLogoutBtn) __legacyLogoutBtn.onclick = () => __awaiter(void 0, void 0, void 0, function* () { clearSession(); if (firebaseReady)
     yield signOut(auth); });
 $('verifyOwnerBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* () {
     const button = $('verifyOwnerBtn');
@@ -2510,8 +2512,19 @@ $('reportDate').value = new Date().toISOString().slice(0, 10);
 // ===== التوزيع الذكي للمخزون بين الفروع =====
 let distRows = [], distMap = { branch: -1, name: -1, code: -1, qty: -1 }, distItems = [], distComputed = null;
 function setDistStep(n) { [1, 2, 3].forEach(i => $('distStep' + i).classList.toggle('active', i === n)); }
-$('distDropzone').onclick = () => $('distFileInput').click();
-$('distFileInput').onchange = e => { const file = e.target.files[0]; if (file) loadDistWorkbook(file); };
+const __distDropzone = $('distDropzone');
+const __distFileInput = $('distFileInput');
+const __distChooseFileBtn = $('distChooseFileBtn');
+function __openDistPicker(e){ if(e){ e.preventDefault(); e.stopPropagation(); } if(__distFileInput) __distFileInput.click(); }
+if (__distDropzone) {
+    __distDropzone.style.cursor = 'pointer';
+    __distDropzone.onclick = __openDistPicker;
+    __distDropzone.ondragover = e => { e.preventDefault(); __distDropzone.classList.add('dragover'); };
+    __distDropzone.ondragleave = () => __distDropzone.classList.remove('dragover');
+    __distDropzone.ondrop = e => { e.preventDefault(); __distDropzone.classList.remove('dragover'); const file = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files[0] : null; if (file) loadDistWorkbook(file); };
+}
+if (__distChooseFileBtn) __distChooseFileBtn.onclick = __openDistPicker;
+if (__distFileInput) __distFileInput.onchange = e => { const file = e.target.files && e.target.files[0]; if (file) loadDistWorkbook(file); };
 function loadDistWorkbook(file) {
     try {
         requireEmployee();

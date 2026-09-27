@@ -686,13 +686,14 @@ document.getElementById('loginForm').addEventListener('submit',function(event){e
             ارفع تقرير الأرصدة الشامل من الباور بي آي (فيه كل الفروع والأصناف مع بعض في ملف واحد)، وهيطلعلك اقتراحات نقل بضاعة من الفروع اللي عندها فائض للفروع اللي ناقصها الصنف، مع إعطاء أولوية للفروع الأعلى حركة من واقع التقارير المرفوعة — القرار يبقى مبني على الرصيد + الطلب.
           </p>
 <div class="step active" id="distStep1">
-<div class="dropzone" id="distDropzone">
+<label class="dropzone" id="distDropzone" for="distFileInput" style="cursor:pointer;display:block;">
 <svg fill="none" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 16V4"></path><path d="M7 9l5-5 5 5"></path><path d="M4 20h16"></path></svg>
 <div>اسحب ملف أرصدة كل الفروع (Excel) هنا، أو اضغط للاختيار</div>
 <div style="font-size:10.5px;margin-top:6px;">لازم يحتوي عمود للفرع، عمود لاسم الصنف، وعمود للكمية بالمخزون</div>
-<input accept=".xlsx,.xls,.csv" id="distFileInput" style="display:none;" type="file"/>
-<button type="button" id="distChooseFileBtn" class="btn-primary" style="margin-top:10px;">اختيار ملف Excel</button>
-</div>
+<input accept=".xlsx,.xls,.csv" id="distFileInput" style="position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;" type="file"/>
+<span id="distChooseFileBtn" class="btn-primary" style="display:inline-flex;margin-top:10px;width:auto;padding:10px 18px;pointer-events:none;">اختيار ملف Excel</span>
+<div style="font-size:10px;margin-top:8px;color:#16d9bd;">BUILD: NATIVE-UPLOAD-FINAL</div>
+</label>
 <div id="distUploadStatus" style="font-size:12px;color:var(--muted);margin-top:10px;"></div>
 </div>
 <div class="step" id="distStep2">
@@ -2514,17 +2515,19 @@ let distRows = [], distMap = { branch: -1, name: -1, code: -1, qty: -1 }, distIt
 function setDistStep(n) { [1, 2, 3].forEach(i => $('distStep' + i).classList.toggle('active', i === n)); }
 const __distDropzone = $('distDropzone');
 const __distFileInput = $('distFileInput');
-const __distChooseFileBtn = $('distChooseFileBtn');
-function __openDistPicker(e){ if(e){ e.preventDefault(); e.stopPropagation(); } if(__distFileInput) __distFileInput.click(); }
+// اختيار الملف Native عبر <label for="distFileInput"> ولا يعتمد على حدث click في JavaScript.
 if (__distDropzone) {
-    __distDropzone.style.cursor = 'pointer';
-    __distDropzone.onclick = __openDistPicker;
     __distDropzone.ondragover = e => { e.preventDefault(); __distDropzone.classList.add('dragover'); };
     __distDropzone.ondragleave = () => __distDropzone.classList.remove('dragover');
     __distDropzone.ondrop = e => { e.preventDefault(); __distDropzone.classList.remove('dragover'); const file = e.dataTransfer && e.dataTransfer.files ? e.dataTransfer.files[0] : null; if (file) loadDistWorkbook(file); };
 }
-if (__distChooseFileBtn) __distChooseFileBtn.onclick = __openDistPicker;
-if (__distFileInput) __distFileInput.onchange = e => { const file = e.target.files && e.target.files[0]; if (file) loadDistWorkbook(file); };
+if (__distFileInput) __distFileInput.onchange = e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const st = $('distUploadStatus');
+    if (st) st.textContent = 'تم اختيار: ' + file.name + ' — جاري القراءة...';
+    loadDistWorkbook(file);
+};
 function loadDistWorkbook(file) {
     try {
         requireEmployee();

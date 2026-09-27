@@ -605,7 +605,7 @@ table,#view-overview table{font-size:13.5px!important;line-height:1.55}thead th,
 <p aria-live="polite" id="resetPasswordStatus" role="status">اكتب بريدك الإلكتروني بالأعلى لاستلام رابط إعادة تعيين كلمة المرور.</p>
 </div>
 </main>
-<footer class="login-bottom">منصة التوزيع الذكي<span>مخزون متوازن. قرار أسرع.</span></footer>
+<footer class="login-bottom">منصة التوزيع الذكي<span>مخزون متوازن. قرار أسرع.</span><span style="margin-top:8px;font-size:10px;color:#0071e3;font-weight:700;">BUILD: LOGIN-DIRECT-FIX</span></footer>
 </div>
 <script>
 document.getElementById('togglePassword').addEventListener('click',function(){
@@ -1276,8 +1276,6 @@ function initializeAccess(user) {
         // The verified Firebase owner account is the source of truth for owner access.
         // Do not block login on an extra Firestore settings document.
         if (normalizedEmail === OWNER_EMAIL.toLowerCase()) {
-            if (!user.emailVerified)
-                throw new Error('يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.');
             return { owner: true, role: 'owner' };
         }
         const access = yield withTimeout(getDoc(doc(db, 'employees', user.uid)), 8000, 'تعذر التحقق من صلاحية الحساب بسبب بطء قاعدة البيانات. حاول مرة أخرى.');
@@ -1974,7 +1972,58 @@ function animateAppEntrance() {
     app.classList.add('motion-enter');
     setTimeout(() => app.classList.remove('motion-enter'), 850);
 }
-$('loginForm').onsubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
+let sessionOpening = false;
+let openedUid = '';
+async function openAuthenticatedSession(user) {
+    if (!user) throw new Error('تعذر قراءة بيانات الحساب بعد تسجيل الدخول.');
+    const uid = String(user.uid || '');
+    if (sessionOpening) return;
+    if (openedUid === uid && $('view-app') && $('view-app').style.display === 'block') return;
+    sessionOpening = true;
+    try {
+        const access = await withTimeout(initializeAccess(user), 10000, 'تأخر التحقق من صلاحيات الحساب. تحقق من الاتصال ثم حاول مرة أخرى.');
+        applyRoleCapabilities(access.owner, access.role);
+        applyPermissionsUI();
+        populateBranchSelect();
+        openedUid = uid;
+        setLoginLoading(false);
+        $('view-login').style.display = 'none';
+        $('view-app').style.display = 'block';
+        animateAppEntrance();
+        $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
+        updateWelcomeHeader();
+        show('overview');
+        refreshAll().then(() => {
+            showToast('تم تحميل بيانات المنصة ومزامنتها بنجاح.', 'success', 3000);
+        }).catch(error => {
+            setDashboardLoading(false);
+            showToast('تم فتح المنصة، لكن تعذر تحميل بعض البيانات: ' + firebaseErrorMessage(error), 'warning', 6500);
+        });
+        if (!isOwner) {
+            if (stopAccessWatch) { try { stopAccessWatch(); } catch (_) {} }
+            stopAccessWatch = onSnapshot(doc(db, 'employees', user.uid), snap => {
+                if (!snap.exists() || snap.data().active !== true || String(snap.data().email || '').trim().toLowerCase() !== String(user.email || '').trim().toLowerCase()) {
+                    openedUid = '';
+                    clearSession();
+                    $('loginError').textContent = 'تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
+                    signOut(auth).catch(() => {});
+                    return;
+                }
+                const nextRole = normalizeRole(snap.data().role);
+                if (nextRole !== currentRole) {
+                    applyRoleCapabilities(false, nextRole);
+                    applyPermissionsUI();
+                    $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
+                    updateWelcomeHeader();
+                }
+            }, () => {});
+        }
+    } finally {
+        sessionOpening = false;
+    }
+}
+
+$('loginForm').onsubmit = async (event) => {
     event.preventDefault();
     $('loginError').textContent = '';
     $('loginStatus').textContent = '';
@@ -1982,33 +2031,33 @@ $('loginForm').onsubmit = (event) => __awaiter(void 0, void 0, void 0, function*
         $('loginError').textContent = 'خدمة النظام غير مهيأة حاليًا. تواصل مع مسؤول النظام.';
         return;
     }
-    const email = $('loginEmail').value.trim(), password = $('loginPassword').value;
+    const email = $('loginEmail').value.trim();
+    const password = $('loginPassword').value;
     if (!email || !password) {
         $('loginError').textContent = 'اكتب البريد الإلكتروني وكلمة المرور.';
         return;
     }
-    setLoginLoading(true);
+    setLoginLoading(true, 'جاري التحقق...');
     try {
-        // لا نوقف تسجيل الدخول لو المتصفح رفض Session Persistence؛ الدخول نفسه يظل يعمل.
-        yield Promise.race([authPersistenceReady, new Promise(resolve => setTimeout(resolve, 1800))]);
-        if (persistenceError) {
-            $('loginStatus').textContent = 'جاري الدخول...';
-        }
-        const credential = yield withTimeout(signInWithEmailAndPassword(auth, email, password), 15000, 'استغرق تسجيل الدخول وقتًا أطول من المعتاد. تحقق من الإنترنت ثم حاول مرة أخرى.');
+        // Persistence is optional and must never block login.
+        Promise.resolve(authPersistenceReady).catch(() => {});
+        const credential = await withTimeout(
+            signInWithEmailAndPassword(auth, email, password),
+            15000,
+            'تعذر الاتصال بخدمة تسجيل الدخول خلال 15 ثانية. تحقق من الإنترنت ثم حاول مرة أخرى.'
+        );
         $('loginPassword').value = '';
         $('loginStatus').textContent = 'تم التحقق من الحساب، جاري فتح لوحة التوزيع...';
-        // Auth state listener completes the session. A safety fallback below prevents a permanent spinner.
-        setTimeout(() => {
-            if ($('loginBtn') && $('loginBtn').classList.contains('is-loading') && auth.currentUser) {
-                $('loginStatus').textContent = 'تم تسجيل الدخول، جاري تجهيز لوحة التوزيع...';
-            }
-        }, 1200);
-    }
-    catch (e) {
+        await withTimeout(
+            openAuthenticatedSession(credential.user),
+            12000,
+            'تم تسجيل الدخول، لكن تعذر فتح لوحة التوزيع. أعد تحميل الصفحة وحاول مرة أخرى.'
+        );
+    } catch (e) {
         setLoginLoading(false);
         $('loginError').textContent = firebaseErrorMessage(e);
     }
-});
+};
 window.__APP_BOOTED__ = true;
 window.addEventListener('unhandledrejection', event => {
     try {
@@ -2090,6 +2139,7 @@ $('resetPasswordBtn').onclick = () => __awaiter(void 0, void 0, void 0, function
 });
 function clearSession(preserveLoginLoading = false) {
     sessionVersion++;
+    openedUid = '';
     if (stopAccessWatch) {
         stopAccessWatch();
         stopAccessWatch = null;
@@ -2141,77 +2191,23 @@ $('verifyOwnerBtn').onclick = () => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 if (firebaseReady) {
-    onAuthStateChanged(auth, (user) => __awaiter(void 0, void 0, void 0, function* () {
-        clearSession(true);
-        $('verifyOwnerBtn').hidden = true;
-        const version = sessionVersion;
+    onAuthStateChanged(auth, async (user) => {
+        // This listener only restores an existing Firebase session.
+        // The login button itself opens the dashboard directly.
         if (!user) {
-            setLoginLoading(false);
+            openedUid = '';
+            if (!sessionOpening) setLoginLoading(false);
             return;
         }
-        setLoginLoading(true);
-        if (user.email === OWNER_EMAIL && !user.emailVerified) {
-            setLoginLoading(false);
-            $('loginError').textContent = 'يلزم تأكيد ملكية بريد المالك قبل فتح بيانات الشركة.';
-            $('verifyOwnerBtn').hidden = false;
-            return;
-        }
+        if (openedUid === String(user.uid || '') || sessionOpening) return;
         try {
-            const access = yield withTimeout(initializeAccess(user), 10000, 'تأخر التحقق من صلاحيات الحساب. تحقق من الاتصال ثم حاول تسجيل الدخول مرة أخرى.');
-            if (version !== sessionVersion)
-                return;
-            applyRoleCapabilities(access.owner, access.role);
-            applyPermissionsUI();
-            populateBranchSelect();
-            setLoginLoading(false);
-            $('view-login').style.display = 'none';
-            $('view-app').style.display = 'block';
-            animateAppEntrance();
-            $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
-            updateWelcomeHeader();
-            show('overview');
-            // Opening the dashboard must never wait for reports/Firestore data.
-            refreshAll().then(() => {
-                if (version !== sessionVersion) return;
-                showToast('تم تحميل بيانات المنصة ومزامنتها بنجاح.', 'success', 3000);
-            }).catch(error => {
-                if (version !== sessionVersion) return;
-                setDashboardLoading(false);
-                showToast('تم فتح المنصة، لكن تعذر تحميل بعض البيانات: ' + firebaseErrorMessage(error), 'warning', 6500);
-            });
-            if (!isOwner)
-                stopAccessWatch = onSnapshot(doc(db, 'employees', user.uid), snap => {
-                    var _a, _b;
-                    if (version !== sessionVersion)
-                        return;
-                    if (!snap.exists() || snap.data().active !== true || snap.data().email !== user.email) {
-                        clearSession();
-                        $('loginError').textContent = 'تم إيقاف صلاحية الحساب. تواصل مع مسؤول النظام.';
-                        signOut(auth).catch(() => { });
-                        return;
-                    }
-                    const nextRole = normalizeRole(snap.data().role);
-                    if (nextRole !== currentRole) {
-                        applyRoleCapabilities(false, nextRole);
-                        applyPermissionsUI();
-                        $('demoBanner').textContent = 'المستخدم: ' + user.email + ' — ' + currentAccessLabel();
-                        updateWelcomeHeader();
-                        showToast('تم تحديث مستوى صلاحية حسابك إلى: ' + currentAccessLabel(), 'info', 5000);
-                        const activeView = ((_b = (_a = document.querySelector('.view.active')) === null || _a === void 0 ? void 0 : _a.id) === null || _b === void 0 ? void 0 : _b.replace('view-', '')) || 'overview';
-                        if ((activeView === 'permissions' && !canManageUsers) || (activeView === 'activity' && !canViewActivity))
-                            show('overview');
-                    }
-                }, () => { if (version !== sessionVersion)
-                    return; clearSession(); $('loginError').textContent = 'تعذر التحقق من صلاحية الحساب. سجّل الدخول مرة أخرى.'; signOut(auth).catch(() => { }); });
-        }
-        catch (error) {
-            if (version !== sessionVersion)
-                return;
-            clearSession();
+            await openAuthenticatedSession(user);
+        } catch (error) {
+            openedUid = '';
             setLoginLoading(false);
             $('loginError').textContent = firebaseErrorMessage(error);
         }
-    }));
+    });
 }
 document.querySelectorAll('.nav-item[data-view]').forEach(b => b.onclick = () => show(b.dataset.view));
 $('rangeSelect').onchange = renderOverview;
